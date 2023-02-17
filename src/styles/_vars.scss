@@ -1,0 +1,22 @@
+/* stylelint-disable color-function-notation */
+/* stylelint-disable alpha-value-notation */
+
+:root {
+    // base
+    --font-family: "...", sans-serif;
+    --content-width: 1890px;
+    --content-fluid-width: 1890px;
+    --container-offset: 15px;
+    --container-width: calc(var(--content-width) + (var(--container-offset) * 2));
+    --container-fluid-width: calc(var(--content-fluid-width) + (var(--container-offset) * 2));
+
+    // colors
+    --white: #fff;
+
+    --main-bg-color: var(--white);
+
+    // scrollbar
+    --main-scrollbar-width: 6px;
+    --main-scrollbar-color: var(--light-color);
+    --main-scrollbar-thumb-color: var(--accent-color);
+  }
