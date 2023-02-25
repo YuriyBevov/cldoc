@@ -23,7 +23,9 @@ body {
   display: flex;
   flex-direction: column;
   font-family: var(--font-family, sans-serif);
+  font-size: 16px;
   font-weight: 400;
+  color: var(--dark);
   background-color: var(--main-bg-color);
 
   &.body-locked {
@@ -42,6 +44,7 @@ img {
 }
 
 a {
+  color: var(--dark);
   text-decoration: none;
 }
 

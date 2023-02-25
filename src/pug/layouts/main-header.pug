@@ -1,2 +1,24 @@
-header
-  p header
+header.header
+  .container.header__container
+    a(href="index.html" aria-label="Логотип").logo.header__logo
+      img(src="./assets/img/logo.svg" alt="" width="120" height="40")
+
+    .header__nav
+      include ../components/nav
+
+    .header__contacts
+      a(href="tel:+74997072130") +7 (499) 707-21-30
+      a(href="tel:+74959600253") +7 (495) 960-02-53
+
+    .header__action
+      button.main-btn.header__action-request-btn.request-form-opener Оставить заявку
+
+      .header__action-search
+        //input(type="text")
+        button(aria-label="Поиск")
+          svg(width="18" height="18")
+            use(xlink:href="./assets/sprite.svg#icon-search")
+
+    .header__burger
+      include ../components/burger
+

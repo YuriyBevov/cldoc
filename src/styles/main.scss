@@ -8,9 +8,12 @@
 @import "common";
 
 /* Компоненты */
-@import "./components/modal";
+@import "./components/header";
+@import "./components/nav";
+@import "./components/burger";
+
+@import "./components/footer";
+
 /* Секции */
-
-/* Модальные окна */
-
+@import "./sections/index-page/hero";
 

@@ -3,20 +3,29 @@
 
 :root {
     // base
-    --font-family: "...", sans-serif;
-    --content-width: 1890px;
-    --content-fluid-width: 1890px;
-    --container-offset: 15px;
+    --font-family: "Segoi UI", sans-serif;
+    --content-width: 1720px;
+    --content-fluid-width: 1920px;
+    --container-offset: 100px;
     --container-width: calc(var(--content-width) + (var(--container-offset) * 2));
-    --container-fluid-width: calc(var(--content-fluid-width) + (var(--container-offset) * 2));
+    --container-fluid-width: var(--content-fluid-width);
 
     // colors
-    --white: #fff;
+    --white: #ffffff;
+    --dark: #181818;
+    --accent: #e0545f;
+    --text: #78778e;
+    --info: #595857;
+    --gray: #4e4e4e;
+    --light: #d7d7d7;
+
 
     --main-bg-color: var(--white);
 
+    --main-transition: .25s ease-in;
+
     // scrollbar
     --main-scrollbar-width: 6px;
-    --main-scrollbar-color: var(--light-color);
-    --main-scrollbar-thumb-color: var(--accent-color);
+    --main-scrollbar-color: var(--white);
+    --main-scrollbar-thumb-color: var(--accent);
   }
