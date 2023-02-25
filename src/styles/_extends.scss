@@ -149,3 +149,25 @@
   border-radius: 170px;
   @extend .hover-opacity;
 }
+
+.outline-btn {
+  @extend .button-default;
+  @extend .flex-centered-content;
+
+  font-size: 14px;
+  font-weight: 400;
+
+  padding: 15px 30px;
+  width: fit-content;
+
+  color: var(--accent);
+  background-color: transparent;
+  border: 1px solid var(--light);
+  border-radius: 170px;
+  @extend .hover-opacity;
+
+  svg {
+    fill: var(--accent);
+    margin-left: 10px;
+  }
+}

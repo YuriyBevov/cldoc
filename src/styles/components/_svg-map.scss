@@ -1,0 +1,26 @@
+.svg-map {
+  width: 100%;
+  height: auto;
+  max-height: 720px;
+  margin: 0 auto;
+
+  &-container {
+    @extend .flex-column;
+    padding: 50px;
+  }
+
+  path {
+    transition:  opacity var(--main-transition);
+
+    &.active {
+      cursor: pointer;
+      opacity: .5;
+      fill: var(--accent);
+
+      &:hover,
+      &:focus {
+        opacity: 1;
+      }
+    }
+  }
+}

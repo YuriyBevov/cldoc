@@ -1,3 +1,27 @@
 .hero {
 
+  &__container {
+    position: relative;
+    overflow: hidden;
+  }
+
+  // ?!
+  &__map {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 100%;
+    height: auto;
+    outline: 1px solid red;
+    z-index: -1;
+    min-width: 768px;
+    transform: translateX(-50%);
+  }
+  //?!
+
+  &__content {
+    &-wrapper {
+      min-height: 790px;
+    }
+  }
 }
