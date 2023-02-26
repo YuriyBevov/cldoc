@@ -133,6 +133,17 @@
   }
 }
 
+.main-link {
+  color: var(--accent);
+  border-bottom: 1px solid transparent;
+  transition: border-color var(--main-transition);
+
+  &:hover,
+  &:focus {
+    border-color: var(--accent);
+  }
+}
+
 .main-btn {
   @extend .button-default;
   @extend .flex-centered-content;
