@@ -1,3 +1,5 @@
+include ../mixins/main-btn
+
 header.header
   .container.header__container
     a(href="index.html" aria-label="Логотип").logo.header__logo
@@ -11,7 +13,7 @@ header.header
       a(href="tel:+74959600253") +7 (495) 960-02-53
 
     .header__action
-      button.main-btn.header__action-request-btn.request-form-opener Оставить заявку
+      +main-btn('Оставить заявку', 'header__action-request-btn')
 
       .header__action-search
         //input(type="text")

@@ -4,6 +4,7 @@
 :root {
     // base
     --font-family: "Segoi UI", sans-serif;
+    --section-content-width: 1200px;
     --content-width: 1720px;
     --content-fluid-width: 1920px;
     --container-offset: 100px;
@@ -18,14 +19,14 @@
     --info: #595857;
     --gray: #4e4e4e;
     --light: #d7d7d7;
-
+    --brown: #5c3d3d;
 
     --main-bg-color: #f4f4f4;
 
     --main-transition: .25s ease-in;
 
     // scrollbar
-    --main-scrollbar-width: 6px;
+    --main-scrollbar-width: 8px;
     --main-scrollbar-color: var(--white);
     --main-scrollbar-thumb-color: var(--accent);
   }

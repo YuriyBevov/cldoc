@@ -1,0 +1,15 @@
+.swiper {
+  &-button-prev,
+  &-button-next {
+    position: static;
+    margin: 0;
+
+    &::after {
+      display: none;
+    }
+  }
+
+  &-button-lock {
+    display: none;
+  }
+}

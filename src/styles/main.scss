@@ -8,13 +8,19 @@
 @import "common";
 
 /* Компоненты */
+
+@import "./components/swiper";
 @import "./components/header";
 @import "./components/nav";
 @import "./components/burger";
+@import "./components/slider-section";
 @import "./components/svg-map";
 
 @import "./components/footer";
 
 /* Секции */
 @import "./sections/index-page/hero";
-
+@import "./sections/index-page/about";
+@import "./sections/index-page/client";
+@import "./sections/index-page/review";
+@import "./sections/index-page/request";

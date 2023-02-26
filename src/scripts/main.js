@@ -1,2 +1,1 @@
-//import './modules/module.js';
-
+import "./modules/swiper";
