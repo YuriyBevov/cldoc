@@ -1,3 +1,111 @@
 .footer {
-  @extend .section-inner-offset;
+  padding: 60px 0;
+  padding-bottom: 30px;
+
+  border-top: 6px solid var(--accent);
+
+  &__container {
+    @extend .flex-wrap;
+    align-items: baseline;
+  }
+
+  &__logo {
+    display: flex;
+  }
+
+  &__side {
+    margin-bottom: 30px;
+  }
+
+  &__side--left {
+    flex-grow: 1;
+    max-width: 470px;
+
+    @include m-b-down(1280px) {
+      margin-right: auto;
+      padding-right: 20px;
+    }
+
+    @include m-b-tablet-lg-down {
+      order: 3;
+      margin-right: 0;
+    }
+  }
+
+  &__nav {
+    padding: 0 50px;
+    margin: 0 auto;
+
+    @include m-b-down(1280px) {
+      padding: 0;
+      margin: 0;
+      margin-bottom: 30px;
+    }
+
+    @include m-b-tablet-lg-down {
+      order: 1;
+    }
+
+    .nav__list {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      grid-column-gap: 30px;
+      grid-row-gap: 20px;
+
+      @include m-b-down(1280px) {
+        grid-template-columns: repeat(2, auto);
+      }
+
+      &-item {
+        margin: 0;
+        a {
+          line-height: 22px;
+
+          @extend .hover-opacity;
+        }
+      }
+
+      @include m-b-down(480px) {
+        grid-template-columns: 1fr;
+      }
+    }
+  }
+
+  &__rights {
+    display: inline-block;
+    font-size: 14px;
+    margin-bottom: 20px;
+    color: var(--text);
+  }
+
+  .company-law-info {
+    font-size: 14px;
+    line-height: 20px;
+    color: var(--info);
+  }
+
+  &__side--right {
+    .social__list {
+      @extend .flex-wrap;
+      align-items: center;
+
+      &-item {
+        &:not(:last-child) {
+          margin-right: 12px;
+        }
+
+        @extend .hover-opacity;
+      }
+    }
+
+    @include m-b-down(1280px) {
+      width: 100%;
+    }
+
+    @include m-b-tablet-lg-down {
+      order: 2;
+      margin-bottom: 30px;
+    }
+  }
 }
+

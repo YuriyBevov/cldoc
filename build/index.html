@@ -12,7 +12,7 @@
   </head>
   <body>
     <header class="header">
-      <div class="container header__container"><a class="logo header__logo" href="index.html" aria-label="Логотип"><img src="./assets/img/logo.svg" alt="" width="120" height="40"></a>
+      <div class="container header__container"><a class="header__logo logo" href="index.html" aria-label="Логотип"><img src="./assets/img/logo.svg" alt="" width="120" height="40"></a>
         <div class="header__nav">
           <nav class="nav">
             <ul class="nav__list">
@@ -526,8 +526,45 @@
       </section>
     </main>
     <footer class="footer">
-      <div class="container">
-        <p>footer</p>
+      <div class="container footer__container">
+        <div class="footer__side footer__side--left"><a class="footer__logo logo" href="index.html" aria-label="Логотип"><img src="./assets/img/logo.svg" alt="" width="120" height="40"></a><span class="footer__rights">Все права защищены © 2023</span>
+          <div class="company-law-info">
+            Общество с ограниченной ответственностью «Импрешн»<br/>
+            ИНН/КПП 7721677539/773401001 ОГРН 1097746707662<br/>
+            109147, г. Москва, ул. Марксистская, дом 10, стр.1, офис 306<br/>
+            Расч. счет 40702810638000075695 в банке ПАО СБЕРБАНК, г. Москва.<br/>
+            к/с 30101810400000000225 БИК 044525225 ОКПО 63782765<br/>
+          </div>
+        </div>
+        <div class="footer__nav">
+          <nav class="nav">
+            <ul class="nav__list">
+              <li class="nav__list-item"><a class="active" href="#">Апостиль</a></li>
+              <li class="nav__list-item"><a href="#">Консульская легализация</a></li>
+              <li class="nav__list-item"><a href="#">Переводы</a></li>
+              <li class="nav__list-item"><a href="#">Цены</a></li>
+              <li class="nav__list-item"><a href="#">Контакты</a></li>
+            </ul>
+          </nav>
+        </div>
+        <div class="footer__side footer__side--right">
+          <div class="social">
+            <ul class="social__list">
+              <li class="social__list-item"><a href="https://vk.com/buroimpression" rel="noopener nofollow noreferrer" aria-label="vKontakte" target="_blank">
+                  <svg width="24" height="24">
+                    <use xlink:href="./assets/sprite.svg#icon-vk"></use>
+                  </svg></a></li>
+              <li class="social__list-item"><a href="https://www.facebook.com/buroimpression" rel="noopener nofollow noreferrer" aria-label="facebook" target="_blank">
+                  <svg width="24" height="24">
+                    <use xlink:href="./assets/sprite.svg#icon-fb"></use>
+                  </svg></a></li>
+              <li class="social__list-item"><a href="https://vk.com/buroimpression" rel="noopener nofollow noreferrer" aria-label="vKontakte" target="_blank">
+                  <svg width="24" height="24">
+                    <use xlink:href="./assets/sprite.svg#icon-twitter"></use>
+                  </svg></a></li>
+            </ul>
+          </div>
+        </div>
       </div>
     </footer>
     <!--include ./modals/...-->

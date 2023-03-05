@@ -1,9 +1,9 @@
 include ../mixins/main-btn
+include ../mixins/logo
 
 header.header
   .container.header__container
-    a(href="index.html" aria-label="Логотип").logo.header__logo
-      img(src="./assets/img/logo.svg" alt="" width="120" height="40")
+    +logo('header__logo')
 
     .header__nav
       include ../components/nav
