@@ -1,0 +1,66 @@
+.map-modal {
+  max-width: 1920px;
+  max-height: 960px;
+  padding: 0;
+  background-color: rgba(245,245,245,.9);
+
+  &-controls {
+    position: absolute;
+    right: 40px;
+    bottom: 40px;
+
+    @extend .flex-column;
+  }
+
+  &-zoom {
+    @extend .button-default;
+    @extend .flex-centered-content;
+    width: 40px;
+    height: 40px;
+
+    background-color: rgba(245,245,245,.7);
+
+    &:not(:last-child) {
+      margin-bottom: 10px;
+    }
+
+    &--in,
+    &--out {
+      position: relative;
+      &::before,
+      &::after {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        border-radius: 1px;
+
+        content: '';
+        background-color: var(--text);
+      }
+
+      &::before {
+        width: 2px;
+        height: 24px;
+      }
+
+      &::after {
+        width: 24px;
+        height: 2px;
+      }
+
+      @extend .hover-opacity;
+    }
+
+    &--out {
+      &::before {
+        display: none;
+      }
+    }
+  }
+
+  .svg-map {
+    max-height: 100%;
+    max-width: 100%;
+  }
+}
