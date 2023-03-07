@@ -17,8 +17,6 @@ if(sliders) {
 
     isAutoplayEnabled ? speed = 3000 : speed = 300;
 
-    console.log(btnPrev, btnNext)
-
     new Swiper(slider, {
       slidesPerView: 'auto',
       spaceBetween: 0,

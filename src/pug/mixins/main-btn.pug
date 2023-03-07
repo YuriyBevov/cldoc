@@ -1,2 +1,2 @@
-mixin main-btn(title, cl)
-  button.main-btn.request-form-opener(class= cl ? cl : null)!= title
+mixin main-btn(title, cl, id)
+  button.main-btn(class= cl ? cl : null data-modal= id ? id : null)!= title

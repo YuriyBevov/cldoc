@@ -4,9 +4,9 @@ const opener = document.querySelector('.svg-map-opener');
 
 if(opener) {
   const map = document.querySelector('.map-modal');
-  const closer = map.querySelector('.modal-close');
+  const closer = map.querySelector('.modal-closer');
 
-  const zoomContainer = svgPanZoom('.map-modal .svg-map');
+  let zoomContainer = null;
 
   const zoomIn = document.querySelector('.map-modal-zoom--in');
   const zoomOut = document.querySelector('.map-modal-zoom--out');
@@ -26,7 +26,10 @@ if(opener) {
 
     document.addEventListener('click', onOverlayClickCloseModal);
     document.addEventListener('keydown', onEscClickCloseModal);
-    closer.addEventListener('click', onBtnClickCloseModal);
+    closer.addEventListener('click', modalCloseHandler);
+    window.addEventListener('resize', modalCloseHandler);
+
+    zoomContainer = svgPanZoom('.map-modal .svg-map');
   }
 
   opener.addEventListener('click', onClickOpenMap);
@@ -37,7 +40,7 @@ if(opener) {
     }
   }
 
-  const onBtnClickCloseModal = () => {
+  const modalCloseHandler = () => {
     closeFunc();
   }
 
@@ -52,15 +55,11 @@ if(opener) {
 
     document.removeEventListener('click', onOverlayClickCloseModal);
     document.removeEventListener('keydown', onEscClickCloseModal);
-    closer.removeEventListener('click', onBtnClickCloseModal);
+    closer.removeEventListener('click', modalCloseHandler);
+    window.removeEventListener('resize', modalCloseHandler);
 
     opener.addEventListener('click', onClickOpenMap);
 
-    zoomContainer.resetZoom();
-    //zoomContainer.destroy()
+    zoomContainer.destroy();
   }
-
-  /*window.addEventListener('resize', () => {
-    closeFunc();
-  })*/
 }

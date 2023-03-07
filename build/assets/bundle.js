@@ -1,6 +1,188 @@
 /******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
+/***/ "./src/scripts/classes/Modal.js":
+/*!**************************************!*\
+  !*** ./src/scripts/classes/Modal.js ***!
+  \**************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "Modal": () => (/* binding */ Modal)
+/* harmony export */ });
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+var Modal = /*#__PURE__*/function () {
+  function Modal(modal) {
+    var _this = this;
+
+    var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
+    _classCallCheck(this, Modal);
+
+    _defineProperty(this, "bodyLocker", function (bool) {
+      var body = document.querySelector('body');
+      var paddingOffset = window.innerWidth - document.body.offsetWidth + 'px';
+
+      if (bool) {
+        body.style.overflow = 'hidden';
+        body.style.paddingRight = paddingOffset;
+      } else {
+        body.style.overflow = 'auto';
+        body.style.paddingRight = '0px';
+      }
+    });
+
+    _defineProperty(this, "focusTrap", function () {
+      var firstFocusableElement = _this.modal.querySelectorAll(_this.focusableElements)[0];
+
+      var focusableContent = _this.modal.querySelectorAll(_this.focusableElements);
+
+      var lastFocusableElement = focusableContent[focusableContent.length - 1];
+
+      var onBtnClickHandler = function onBtnClickHandler(evt) {
+        var isTabPressed = evt.key === 'Tab' || evt.key === 9;
+
+        if (evt.key === 'Escape') {
+          document.removeEventListener('keydown', onBtnClickHandler);
+        }
+
+        if (!isTabPressed) {
+          return;
+        }
+
+        if (evt.shiftKey) {
+          if (document.activeElement === firstFocusableElement) {
+            lastFocusableElement.focus();
+            evt.preventDefault();
+          }
+        } else {
+          if (document.activeElement === lastFocusableElement) {
+            firstFocusableElement.focus();
+            evt.preventDefault();
+          }
+        }
+      };
+
+      document.addEventListener('keydown', onBtnClickHandler);
+      firstFocusableElement.focus();
+    });
+
+    _defineProperty(this, "openModal", function (evt) {
+      evt.preventDefault();
+
+      _this.overlay.classList.add('active');
+
+      _this.addListeners();
+
+      _this.focusTrap();
+
+      _this.bodyLocker(true);
+    });
+
+    _defineProperty(this, "addListeners", function () {
+      _this.openers.forEach(function (opener) {
+        opener.removeEventListener('click', _this.openModal);
+      });
+
+      document.addEventListener('click', _this.closeByOverlayClick);
+      document.addEventListener('keydown', _this.closeByEscBtn);
+
+      _this.closer.addEventListener('click', _this.closeByBtnClick);
+    });
+
+    _defineProperty(this, "refresh", function () {
+      document.removeEventListener('click', _this.closeByOverlayClick);
+      document.removeEventListener('keydown', _this.closeByEscBtn);
+
+      _this.closer.removeEventListener('click', _this.closeByBtnClick);
+
+      _this.overlay.classList.remove('active');
+
+      _this.bodyLocker(false);
+
+      _this.openers.forEach(function (opener) {
+        opener.addEventListener('click', _this.openModal);
+      });
+    });
+
+    _defineProperty(this, "closeByOverlayClick", function (evt) {
+      if (evt.target === _this.overlay) {
+        _this.refresh();
+      }
+    });
+
+    _defineProperty(this, "closeByEscBtn", function (evt) {
+      if (evt.key === "Escape") {
+        _this.refresh();
+      }
+    });
+
+    _defineProperty(this, "closeByBtnClick", function () {
+      _this.refresh();
+    });
+
+    this.modal = modal;
+    this.id = this.modal.getAttribute('id');
+    this.openers = document.querySelectorAll('[data-modal="' + this.id + '"]');
+    this.overlay = this.modal.parentNode;
+    this.closer = this.modal.querySelector('.modal-closer');
+    this.isBodyLocked = options.isBodyLocked ? true : false, this.isInited = false;
+    this.focusableElements = ['a[href]', 'input', 'select', 'textarea', 'button', 'iframe', '[contenteditable]', '[tabindex]:not([tabindex^="-"])'];
+    this.init();
+  }
+
+  _createClass(Modal, [{
+    key: "init",
+    value: function init() {
+      var _this2 = this;
+
+      if (this.openers) {
+        this.isInited = true;
+        this.openers.forEach(function (opener) {
+          opener.addEventListener('click', _this2.openModal, _this2.modal, _this2.overlay);
+        });
+      } else {
+        console.error('Не добавлена кнопка открытия модального окна, либо в ней не прописан аттр-т: data-modal-anchor={modal-id} ');
+      }
+    }
+  }]);
+
+  return Modal;
+}();
+
+/***/ }),
+
+/***/ "./src/scripts/modules/modal.js":
+/*!**************************************!*\
+  !*** ./src/scripts/modules/modal.js ***!
+  \**************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _classes_Modal__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../classes/Modal */ "./src/scripts/classes/Modal.js");
+
+var modals = document.querySelectorAll('.modal');
+
+if (modals) {
+  modals.forEach(function (modal) {
+    new _classes_Modal__WEBPACK_IMPORTED_MODULE_0__.Modal(modal, true);
+  });
+}
+
+;
+
+/***/ }),
+
 /***/ "./src/scripts/modules/svg-map.js":
 /*!****************************************!*\
   !*** ./src/scripts/modules/svg-map.js ***!
@@ -16,8 +198,8 @@ var opener = document.querySelector('.svg-map-opener');
 
 if (opener) {
   var map = document.querySelector('.map-modal');
-  var closer = map.querySelector('.modal-close');
-  var zoomContainer = svg_pan_zoom__WEBPACK_IMPORTED_MODULE_0___default()('.map-modal .svg-map');
+  var closer = map.querySelector('.modal-closer');
+  var zoomContainer = null;
   var zoomIn = document.querySelector('.map-modal-zoom--in');
   var zoomOut = document.querySelector('.map-modal-zoom--out');
   zoomIn.addEventListener('click', function () {
@@ -32,7 +214,9 @@ if (opener) {
     opener.removeEventListener('click', onClickOpenMap);
     document.addEventListener('click', onOverlayClickCloseModal);
     document.addEventListener('keydown', onEscClickCloseModal);
-    closer.addEventListener('click', onBtnClickCloseModal);
+    closer.addEventListener('click', modalCloseHandler);
+    window.addEventListener('resize', modalCloseHandler);
+    zoomContainer = svg_pan_zoom__WEBPACK_IMPORTED_MODULE_0___default()('.map-modal .svg-map');
   };
 
   opener.addEventListener('click', onClickOpenMap);
@@ -43,7 +227,7 @@ if (opener) {
     }
   };
 
-  var onBtnClickCloseModal = function onBtnClickCloseModal() {
+  var modalCloseHandler = function modalCloseHandler() {
     closeFunc();
   };
 
@@ -57,14 +241,11 @@ if (opener) {
     map.parentNode.classList.remove('active');
     document.removeEventListener('click', onOverlayClickCloseModal);
     document.removeEventListener('keydown', onEscClickCloseModal);
-    closer.removeEventListener('click', onBtnClickCloseModal);
+    closer.removeEventListener('click', modalCloseHandler);
+    window.removeEventListener('resize', modalCloseHandler);
     opener.addEventListener('click', onClickOpenMap);
-    zoomContainer.resetZoom(); //zoomContainer.destroy()
+    zoomContainer.destroy();
   }
-  /*window.addEventListener('resize', () => {
-    closeFunc();
-  })*/
-
 }
 
 /***/ }),
@@ -92,7 +273,6 @@ if (sliders) {
     var btnPrev = slider.parentNode.querySelector('.slider-section-button-prev');
     var speed = 300;
     isAutoplayEnabled ? speed = 3000 : speed = 300;
-    console.log(btnPrev, btnNext);
     new swiper__WEBPACK_IMPORTED_MODULE_0__["default"](slider, _defineProperty({
       slidesPerView: 'auto',
       spaceBetween: 0,
@@ -12905,46 +13085,11 @@ var __webpack_exports__ = {};
   \*****************************/
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _modules_swiper__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./modules/swiper */ "./src/scripts/modules/swiper.js");
-/* harmony import */ var _modules_svg_map__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./modules/svg-map */ "./src/scripts/modules/svg-map.js");
+/* harmony import */ var _modules_modal__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./modules/modal */ "./src/scripts/modules/modal.js");
+/* harmony import */ var _modules_svg_map__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./modules/svg-map */ "./src/scripts/modules/svg-map.js");
 
 
-/*import svgPanZoom from "svg-pan-zoom";
 
-var panZoomTiger = svgPanZoom('#svg-map');
-
-
-const plus = document.querySelector('.plus');
-const minus = document.querySelector('.minus');*/
-
-/*
-
-document.getElementById('zoom-in').addEventListener('click', function(ev){
-  ev.preventDefault()
-
-  panZoom.zoomIn()
-});
-
-document.getElementById('zoom-out').addEventListener('click', function(ev){
-  ev.preventDefault()
-
-  panZoom.zoomOut()
-});
-
-document.getElementById('reset').addEventListener('click', function(ev){
-  ev.preventDefault()
-
-  panZoom.resetZoom()
-});
-
-*/
-
-/*plus.addEventListener('click', () => {
-  panZoomTiger.zoomIn();
-})
-
-minus.addEventListener('click', () => {
-  panZoomTiger.zoomOut();
-})*/
 })();
 
 /******/ })()

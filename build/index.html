@@ -26,7 +26,7 @@
         </div>
         <div class="header__contacts"><a href="tel:+74997072130">+7 (499) 707-21-30</a><a href="tel:+74959600253">+7 (495) 960-02-53</a></div>
         <div class="header__action">
-              <button class="main-btn request-form-opener header__action-request-btn">Оставить заявку</button>
+              <button class="main-btn header__action-request-btn" data-modal="quiz">Оставить заявку</button>
           <div class="header__action-search">
             <!--input(type="text")-->
             <button aria-label="Поиск">
@@ -400,7 +400,7 @@
             <p>Центр легализации в Москве принимает к работе документы, присланные из других городов России и других стран,       а также предлагает услуги курьерской доставки легализованных документов в любую точку мира и различные способы оплаты.</p>
             <p>Подробнее об услугах компании вы можете узнать в разделах Апостиль и Консульская легализация, а также по телефону и в офисе компании.</p>
           </div>
-          <button class="main-btn header__action-request-btn request-form-opener">Оставить заявку</button>
+              <button class="main-btn" data-modal="quiz">Оставить заявку</button>
         </div>
       </section>
       <section class="slider-section client">
@@ -519,8 +519,8 @@
           <form action="#">
             <input type="text" placeholder="Ваше имя">
             <input type="text" placeholder="Телефон">
-            <input type="text" placeholder="E-mail"><span>* Отправляя форму Вы автоматически соглашаетесь с условиями на обработку персональных данных.</span>
-                  <button class="main-btn request-form-opener request__submit">Отправить</button>
+            <input type="text" placeholder="E-mail"><span class="form-undertext">* Отправляя форму Вы автоматически соглашаетесь с условиями на обработку персональных данных.</span>
+                  <button class="main-btn request__submit">Отправить</button>
           </form>
         </div>
       </section>
@@ -568,8 +568,48 @@
       </div>
     </footer>
     <div class="modal-overlay">
+      <div class="modal quiz-modal" id="quiz">
+        <button class="modal-closer"><img src="./assets/img/icon-close.svg" alt="Закрыть" width="24" height="24"></button>
+        <div class="quiz-modal__header"><span class="quiz-modal__title">Оставить заявку</span>
+          <p class="quiz-modal__desc">Заполните необходимые поля формы и мы обязательно свяжемся c Вами!</p>
+        </div>
+        <form class="quiz" action="#">
+          <div class="quiz-modal__content">
+            <fieldset class="quiz__part active">
+              <input type="text" placeholder="Ваше имя">
+              <input class="invalid-control" type="text" placeholder="Телефон">
+              <input type="text" placeholder="E-mail">
+            </fieldset>
+            <fieldset class="quiz__part">
+              <input type="text" placeholder="Вид легализации документов">
+              <input type="text" placeholder="Страна, для которой легализуются документы">
+            </fieldset>
+            <fieldset class="quiz__part">
+              <input type="text" placeholder="Язык перевода">
+            </fieldset>
+          </div>
+          <div class="quiz-modal__footer">
+            <button class="disabled main-btn" type="button">Назад</button>
+            <button class="main-btn" type="button">Далее</button><span class="form-undertext">* Отправляя форму Вы автоматически соглашаетесь с условиями на обработку персональных данных.</span>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="modal-overlay">
+      <div class="modal status-modal success-modal">
+        <button class="modal-closer"><img src="./assets/img/icon-close.svg" alt="Закрыть" width="24" height="24"></button>
+        <div class="status-modal__content"></div>
+      </div>
+    </div>
+    <div class="modal-overlay">
+      <div class="modal status-modal error-modal">
+        <button class="modal-closer"><img src="./assets/img/icon-close.svg" alt="Закрыть" width="24" height="24"></button>
+        <div class="status-modal__content"></div>
+      </div>
+    </div>
+    <div class="modal-overlay">
       <div class="modal map-modal">
-        <button class="modal-close"><img src="./assets/img/icon-close.svg" alt="Закрыть" width="24" height="24"></button>
+        <button class="modal-closer"><img src="./assets/img/icon-close.svg" alt="Закрыть" width="24" height="24"></button>
         <div class="map-modal-controls">
           <button class="map-modal-zoom map-modal-zoom--in"></button>
           <button class="map-modal-zoom map-modal-zoom--out"></button>
