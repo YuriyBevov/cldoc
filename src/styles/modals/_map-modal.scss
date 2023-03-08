@@ -1,7 +1,7 @@
 .map-modal {
   max-width: 1920px;
   max-height: 960px;
-  padding: 20px;
+  padding: 20px 0;
   background-color: rgba(245,245,245,.9);
 
   &-controls {
@@ -11,6 +11,22 @@
 
     @extend .flex-column;
   }
+
+  &-logo {
+    position: absolute;
+    top: 30px;
+    left: 35px;
+  }
+
+  &-tooltip {
+    position: absolute;
+    left: 0;
+    top: 0;
+    //В зависимости от положения курсора
+
+    visibility: hidden;
+  }
+
 
   &-zoom {
     @extend .button-default;

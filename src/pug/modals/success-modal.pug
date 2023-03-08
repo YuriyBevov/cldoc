@@ -1,5 +1,11 @@
+include ../mixins/logo
+
 .modal-overlay
-  .modal.status-modal.success-modal
+  .modal.status-modal.error-modal
     include ./modal-components/modal-closer
 
     .status-modal__content
+      +logo('map-modal-logo')
+
+      span.status-modal__title Спасибо за заявку!
+      span.status-modal__desc Мы свяжемся с Вами в ближайшее время !
