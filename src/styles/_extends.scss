@@ -265,6 +265,7 @@
 
   &::-webkit-scrollbar-thumb {
       background-color: var(--main-scrollbar-thumb-color);
+      border-radius: 2px;
   }
 }
 
