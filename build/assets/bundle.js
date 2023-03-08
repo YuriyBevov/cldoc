@@ -183,6 +183,23 @@ if (modals) {
 
 /***/ }),
 
+/***/ "./src/scripts/modules/nav.js":
+/*!************************************!*\
+  !*** ./src/scripts/modules/nav.js ***!
+  \************************************/
+/***/ (() => {
+
+var nav = document.querySelector('.header__nav');
+
+if (nav) {
+  var burger = document.querySelector('.burger');
+  burger.addEventListener('click', function () {
+    nav.classList.toggle('active');
+  });
+}
+
+/***/ }),
+
 /***/ "./src/scripts/modules/svg-map.js":
 /*!****************************************!*\
   !*** ./src/scripts/modules/svg-map.js ***!
@@ -13084,9 +13101,12 @@ var __webpack_exports__ = {};
   !*** ./src/scripts/main.js ***!
   \*****************************/
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _modules_swiper__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./modules/swiper */ "./src/scripts/modules/swiper.js");
-/* harmony import */ var _modules_modal__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./modules/modal */ "./src/scripts/modules/modal.js");
-/* harmony import */ var _modules_svg_map__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./modules/svg-map */ "./src/scripts/modules/svg-map.js");
+/* harmony import */ var _modules_nav__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./modules/nav */ "./src/scripts/modules/nav.js");
+/* harmony import */ var _modules_nav__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_modules_nav__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _modules_swiper__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./modules/swiper */ "./src/scripts/modules/swiper.js");
+/* harmony import */ var _modules_modal__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./modules/modal */ "./src/scripts/modules/modal.js");
+/* harmony import */ var _modules_svg_map__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./modules/svg-map */ "./src/scripts/modules/svg-map.js");
+
 
 
 

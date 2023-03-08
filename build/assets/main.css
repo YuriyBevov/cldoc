@@ -1598,7 +1598,7 @@ h1, h2, h3, h4, h5, h6, p {
 }
 .main-scroll::-webkit-scrollbar-thumb, ::-webkit-scrollbar-thumb {
   background-color: var(--main-scrollbar-thumb-color);
-  border-radius: 2px;
+  border-radius: 4px;
 }
 
 /*containers*/
@@ -1753,7 +1753,10 @@ h1, h2, h3, h4, h5, h6, p {
 }
 
 .header {
-  position: relative;
+  position: sticky;
+  top: 0;
+  z-index: 101;
+  background-color: var(--main-bg-color);
   padding: 20px 0;
 }
 .header::after {
@@ -1797,6 +1800,72 @@ h1, h2, h3, h4, h5, h6, p {
 @media (max-width: 1440px) {
   .header__nav {
     display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(255, 255, 255, 0.2);
+    -webkit-box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    -webkit-backdrop-filter: blur(5px);
+    backdrop-filter: blur(5px);
+    z-index: 999;
+  }
+  .header__nav .nav {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 100vw;
+    max-width: 600px;
+    height: 100%;
+    padding: 30px;
+    background-color: var(--main-bg-color);
+    border-left: 4px solid var(--accent);
+  }
+}
+@media (max-width: 1440px) and (max-width: 1024px) {
+  .header__nav .nav {
+    max-width: 400px;
+  }
+}
+@media (max-width: 1440px) and (max-width: 534px) {
+  .header__nav .nav {
+    padding: 30px 10px;
+  }
+}
+@media (max-width: 1440px) {
+  .header__nav .nav__list {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    margin: auto;
+  }
+}
+@media (max-width: 1440px) {
+  .header__nav .nav__list-item {
+    padding: 10px;
+    margin-bottom: 10px;
+    text-align: center;
+  }
+  .header__nav .nav__list-item a {
+    font-size: 22px;
+  }
+}
+@media (max-width: 1440px) and (max-width: 534px) {
+  .header__nav .nav__list-item a {
+    font-size: 18px;
+  }
+}
+@media (max-width: 1440px) {
+  .header__nav.active {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
   }
 }
 .header__contacts {
@@ -1989,6 +2058,7 @@ h1, h2, h3, h4, h5, h6, p {
 }
 
 .burger {
+  position: relative;
   display: none;
   -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
@@ -1997,6 +2067,7 @@ h1, h2, h3, h4, h5, h6, p {
   width: 40px;
   height: 40px;
   cursor: pointer;
+  z-index: 1001;
 }
 @media (max-width: 1440px) {
   .burger {
@@ -2010,7 +2081,6 @@ h1, h2, h3, h4, h5, h6, p {
   width: 100%;
   margin: 5px 0;
   background-color: var(--gray);
-  cursor: pointer;
 }
 .burger__line--bottom {
   width: 75%;
