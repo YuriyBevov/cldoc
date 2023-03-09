@@ -1,6 +1,11 @@
 .nav {
   display: flex;
 
+  @include m-b-desktop-up {
+    opacity: 1 !important;
+    display: flex !important;
+  }
+
   &__list {
     @extend .flex-wrap;
     margin: 0 auto;

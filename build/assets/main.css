@@ -1792,6 +1792,12 @@ h1, h2, h3, h4, h5, h6, p {
   flex-grow: 1;
   margin-right: 30px;
 }
+@media (min-width: 1439px) {
+  .header__nav {
+    opacity: 1 !important;
+    display: block !important;
+  }
+}
 @media (max-width: 1720px) {
   .header__nav {
     margin-right: 15px;
@@ -2031,6 +2037,14 @@ h1, h2, h3, h4, h5, h6, p {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+}
+@media (min-width: 1439px) {
+  .nav {
+    opacity: 1 !important;
+    display: -webkit-box !important;
+    display: -ms-flexbox !important;
+    display: flex !important;
+  }
 }
 .nav__list {
   margin: 0 auto;
@@ -2881,6 +2895,7 @@ h1, h2, h3, h4, h5, h6, p {
 
 /*modals*/
 .modal {
+  border-radius: 2px;
   position: absolute;
   top: 50%;
   left: 50%;

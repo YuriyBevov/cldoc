@@ -57,6 +57,7 @@
   },
   "homepage": "https://github.com/YuriyBevov/cldoc#readme",
   "dependencies": {
+    "gsap": "file:gsap-bonus.tgz",
     "svg-pan-zoom": "^3.6.1",
     "swiper": "^9.0.5",
     "zoomist": "^1.1.1"

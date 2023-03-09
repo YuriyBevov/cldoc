@@ -44,6 +44,11 @@
     flex-grow: 1;
     margin-right: 30px;
 
+    @include m-b-desktop-up {
+      opacity: 1 !important;
+      display: block !important;
+    }
+
     @include m-b-desktop-md-down {
       margin-right: 15px;
     }

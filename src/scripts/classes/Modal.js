@@ -1,3 +1,5 @@
+import { gsap } from "gsap";
+
 export class Modal {
   constructor( modal, options = {} ) {
 
@@ -9,6 +11,7 @@ export class Modal {
 
       this.isBodyLocked = options.isBodyLocked ? true : false,
       this.isInited = false;
+      this.debounceTime = 1000;
 
       this.focusableElements = [
         'a[href]',
@@ -21,7 +24,36 @@ export class Modal {
         '[tabindex]:not([tabindex^="-"])'
       ];
 
+      this.tl = gsap.timeline().pause();
+
+      this.tl
+        .fromTo(this.overlay, {
+          display: 'none',
+          opacity: 0,
+          classList: 'modal-overlay'
+        }, {
+          display: 'block',
+          opacity: 1,
+          duration: .8,
+          classList: 'modal-overlay active'
+        })
+        .fromTo(this.modal,{
+          opacity: 0,
+        }, {
+          opacity: 1,
+          duration: .8,
+          ease: 'ease-in'
+        }, "-=.6");
       this.init();
+  }
+
+
+  timeline = (state) => {
+    if(state === 'play') {
+      this.tl.play();
+    } else {
+      this.tl.reverse();
+    }
   }
 
   bodyLocker = (bool) => {
@@ -72,11 +104,13 @@ export class Modal {
 
   openModal = (evt) => {
       evt.preventDefault();
-      this.overlay.classList.add('active');
+      //this.overlay.classList.add('active');
 
       this.addListeners();
       this.focusTrap();
       this.bodyLocker(true);
+
+      this.timeline('play');
   }
 
   addListeners = () => {
@@ -84,10 +118,12 @@ export class Modal {
         opener.removeEventListener('click', this.openModal);
     })
 
-    document.addEventListener('click', this.closeByOverlayClick);
-    document.addEventListener('keydown', this.closeByEscBtn);
+    setTimeout(() => {
+      document.addEventListener('click', this.closeByOverlayClick);
+      document.addEventListener('keydown', this.closeByEscBtn);
 
-    this.closer.addEventListener('click', this.closeByBtnClick);
+      this.closer.addEventListener('click', this.closeByBtnClick);
+    }, this.debounceTime);
   }
 
   refresh = () => {
@@ -95,12 +131,16 @@ export class Modal {
     document.removeEventListener('keydown', this.closeByEscBtn);
 
     this.closer.removeEventListener('click', this.closeByBtnClick);
-    this.overlay.classList.remove('active');
+    //this.overlay.classList.remove('active');
     this.bodyLocker(false);
 
-    this.openers.forEach(opener => {
+    this.timeline('reverse');
+
+    setTimeout(() => {
+      this.openers.forEach(opener => {
         opener.addEventListener('click', this.openModal);
-    })
+      });
+    }, this.debounceTime);
   }
 
   closeByOverlayClick = (evt) => {
