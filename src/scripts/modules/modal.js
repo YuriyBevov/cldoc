@@ -4,6 +4,8 @@ const modals = document.querySelectorAll('.modal');
 
 if(modals) {
   modals.forEach(modal => {
-    new Modal(modal, true);
+    if(!modal.classList.contains('map-modal')) {
+      new Modal(modal, {isBodyLocked: true} );
+    }
   });
 };

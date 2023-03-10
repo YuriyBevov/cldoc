@@ -2,51 +2,49 @@ import { gsap } from "gsap";
 
 export class Modal {
   constructor( modal, options = {} ) {
+    this.modal = modal;
+    this.id = this.modal.getAttribute('id');
+    this.openers = document.querySelectorAll('[data-modal="' + this.id + '"]');
+    this.overlay = this.modal.parentNode;
+    this.closer = this.modal.querySelector('.modal-closer');
 
-      this.modal = modal;
-      this.id = this.modal.getAttribute('id');
-      this.openers = document.querySelectorAll('[data-modal="' + this.id + '"]');
-      this.overlay = this.modal.parentNode;
-      this.closer = this.modal.querySelector('.modal-closer');
+    this.isBodyLocked = options.isBodyLocked ? true : false,
+    this.isInited = false;
+    this.debounceTime = 1000;
 
-      this.isBodyLocked = options.isBodyLocked ? true : false,
-      this.isInited = false;
-      this.debounceTime = 1000;
+    this.focusableElements = [
+      'a[href]',
+      'input',
+      'select',
+      'textarea',
+      'button',
+      'iframe',
+      '[contenteditable]',
+      '[tabindex]:not([tabindex^="-"])'
+    ];
 
-      this.focusableElements = [
-        'a[href]',
-        'input',
-        'select',
-        'textarea',
-        'button',
-        'iframe',
-        '[contenteditable]',
-        '[tabindex]:not([tabindex^="-"])'
-      ];
+    this.tl = gsap.timeline().pause();
+    this.tl
+      .fromTo(this.overlay, {
+        display: 'none',
+        opacity: 0,
+        classList: 'modal-overlay'
+      }, {
+        display: 'block',
+        opacity: 1,
+        duration: .8,
+        classList: 'modal-overlay active'
+      })
+      .fromTo(this.modal,{
+        opacity: 0,
+      }, {
+        opacity: 1,
+        duration: .8,
+        ease: 'ease-in'
+      }, "-=.6");
 
-      this.tl = gsap.timeline().pause();
-
-      this.tl
-        .fromTo(this.overlay, {
-          display: 'none',
-          opacity: 0,
-          classList: 'modal-overlay'
-        }, {
-          display: 'block',
-          opacity: 1,
-          duration: .8,
-          classList: 'modal-overlay active'
-        })
-        .fromTo(this.modal,{
-          opacity: 0,
-        }, {
-          opacity: 1,
-          duration: .8,
-          ease: 'ease-in'
-        }, "-=.6");
-      this.init();
+    this.init();
   }
-
 
   timeline = (state) => {
     if(state === 'play') {

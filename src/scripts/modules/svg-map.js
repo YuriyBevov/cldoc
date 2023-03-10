@@ -1,4 +1,4 @@
-/*import svgPanZoom from "svg-pan-zoom";
+import svgPanZoom from "svg-pan-zoom";
 
 const opener = document.querySelector('.svg-map-opener');
 
@@ -62,4 +62,4 @@ if(opener) {
 
     zoomContainer.destroy();
   }
-}*/
+}
