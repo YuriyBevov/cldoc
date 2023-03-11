@@ -22,9 +22,13 @@
     position: absolute;
     left: 0;
     top: 0;
-    //В зависимости от положения курсора
 
     visibility: hidden;
+    opacity: 0;
+
+    padding: 10px 20px;
+    font-size: 18px;
+    font-weight: 600;
   }
 
   &-zoom {

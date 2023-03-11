@@ -472,6 +472,63 @@ if (opener) {
 
 /***/ }),
 
+/***/ "./src/scripts/modules/svg-path.js":
+/*!*****************************************!*\
+  !*** ./src/scripts/modules/svg-path.js ***!
+  \*****************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var gsap__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! gsap */ "./node_modules/gsap/index.js");
+
+var paths = document.querySelectorAll('.map-modal .svg-map path.active');
+
+if (paths) {
+  var tooltip = document.querySelector('.map-modal-tooltip');
+  var currentPath = null;
+  var tl = gsap__WEBPACK_IMPORTED_MODULE_0__.gsap.timeline().pause();
+  tl.to(tooltip, {
+    visibility: 'visible',
+    duration: .6,
+    delay: .3,
+    opacity: 1,
+    ease: 'ease-in'
+  });
+
+  var setTooltipPos = function setTooltipPos(evt) {
+    gsap__WEBPACK_IMPORTED_MODULE_0__.gsap.to(tooltip, {
+      x: evt.clientX,
+      y: evt.clientY
+    });
+  };
+
+  var onMouseOverShowTooltip = function onMouseOverShowTooltip(evt) {
+    window.addEventListener('mousemove', setTooltipPos);
+    evt.target.removeEventListener('mouseover', onMouseOverShowTooltip);
+    var titleEN = evt.target.dataset.titleEn;
+    var titleRU = evt.target.dataset.titleRu;
+    currentPath = evt.target;
+    tooltip.innerHTML = titleRU;
+    tl.play();
+    currentPath.addEventListener('mouseout', onMouseOutHideTooltip);
+  };
+
+  var onMouseOutHideTooltip = function onMouseOutHideTooltip(evt) {
+    window.removeEventListener('mousemove', setTooltipPos);
+    tl.reverse();
+    currentPath.addEventListener('mouseover', onMouseOverShowTooltip);
+  };
+
+  paths.forEach(function (path) {
+    path.addEventListener('mouseover', onMouseOverShowTooltip);
+  });
+}
+
+;
+
+/***/ }),
+
 /***/ "./src/scripts/modules/swiper.js":
 /*!***************************************!*\
   !*** ./src/scripts/modules/swiper.js ***!
@@ -22482,7 +22539,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _modules_swiper__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./modules/swiper */ "./src/scripts/modules/swiper.js");
 /* harmony import */ var _modules_modal__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./modules/modal */ "./src/scripts/modules/modal.js");
 /* harmony import */ var _modules_svg_map__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./modules/svg-map */ "./src/scripts/modules/svg-map.js");
-/* harmony import */ var _modules_search__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./modules/search */ "./src/scripts/modules/search.js");
+/* harmony import */ var _modules_svg_path__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./modules/svg-path */ "./src/scripts/modules/svg-path.js");
+/* harmony import */ var _modules_search__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./modules/search */ "./src/scripts/modules/search.js");
+
 
 
 

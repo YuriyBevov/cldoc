@@ -2954,6 +2954,10 @@ h1, h2, h3, h4, h5, h6, p {
   left: 0;
   top: 0;
   visibility: hidden;
+  opacity: 0;
+  padding: 10px 20px;
+  font-size: 18px;
+  font-weight: 600;
 }
 .map-modal-zoom {
   width: 40px;
