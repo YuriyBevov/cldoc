@@ -8,19 +8,20 @@
 
     form(action="#").quiz
 
-      .quiz-modal__content
-        fieldset.quiz__part.active
+      .quiz-modal__content.quiz__content
+        fieldset.quiz__content-part.active
           input(type="text" placeholder="Ваше имя")
           input(type="text" placeholder="Телефон").invalid-control
           input(type="text" placeholder="E-mail")
-        fieldset.quiz__part
+        fieldset.quiz__content-part
           input(type="text" placeholder="Вид легализации документов")
           input(type="text" placeholder="Страна, для которой легализуются документы")
-        fieldset.quiz__part
+        fieldset.quiz__content-part
           input(type="text" placeholder="Язык перевода")
 
-      .quiz-modal__footer
-        button(type="button").disabled.main-btn Назад
-        button(type="button").main-btn Далее
-
-        span.form-undertext * Отправляя форму Вы автоматически соглашаетесь с условиями на обработку персональных данных.
+      .quiz-modal__footer.quiz__footer
+        .quiz__footer-container
+          button(type="button").disabled.main-btn.quiz__btn.quiz__btn--prev Назад
+          button(type="button").main-btn.quiz__btn.quiz__btn--next Далее
+          button(type="submit").disabled.main-btn.quiz__btn.quiz__btn--submit Отправить
+          span.form-undertext * Отправляя форму Вы автоматически соглашаетесь с условиями на обработку персональных данных.

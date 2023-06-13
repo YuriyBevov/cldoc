@@ -1,7 +1,7 @@
 import { gsap } from "gsap";
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-
 gsap.registerPlugin(ScrollTrigger);
+
 const search = document.querySelector('.search');
 
 if(search) {
@@ -18,7 +18,7 @@ if(search) {
     }, {
       opacity: 1,
       width: '446px',
-      duration: 1,
+      duration: .4,
       ease: 'ease-in',
       visibility: 'visible',
     });

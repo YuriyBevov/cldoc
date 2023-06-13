@@ -76,7 +76,7 @@
         max-width: 600px;
         height: 100%;
         padding: 30px;
-        background-color: var(--main-bg-color);
+        background-color: rgba(244,244,244, .8);
         border-left: 4px solid var(--accent);
 
         @include m-b-laptop-down {

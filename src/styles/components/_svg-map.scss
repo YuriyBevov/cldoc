@@ -16,10 +16,14 @@
       opacity: .5;
       fill: var(--accent);
 
-      &:hover,
-      &:focus {
+      &.infocus,
+      &.clicked {
         opacity: 1;
       }
+    }
+
+    &.transparented {
+      opacity: .3;
     }
   }
 }

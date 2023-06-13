@@ -31,6 +31,50 @@
     font-weight: 600;
   }
 
+  &-chooser {
+    @extend .flex-column;
+
+    position: absolute;
+    left: 0;
+    top: 0;
+
+    visibility: hidden;
+    opacity: 0;
+
+    padding: 15px;
+    font-size: 18px;
+    font-weight: 600;
+
+    border-radius: 4px;
+    padding: 15px;
+
+    background-color: var(--white);
+
+    span {
+      display: inline-block;
+      margin-bottom: 15px;
+      font-size: 16px;
+      padding-right: 45px;
+
+      color: var(--dark);
+    }
+
+    a {
+      font-size: 18px;
+      color: var(--accent);
+    }
+    .chooser-closer {
+      @extend .button-default;
+      @extend .flex-centered-content;
+
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      width: 30px;
+      height: 30px;
+    }
+  }
+
   &-zoom {
     @extend .button-default;
     @extend .flex-centered-content;

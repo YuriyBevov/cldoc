@@ -56,6 +56,10 @@
       @include m-b-desktop-down {
         font-size: 20px;
       }
+
+      @include m-b-mobile-lg-down {
+        margin-bottom: 20px;
+      }
     }
 
     &-title {
@@ -73,6 +77,10 @@
 
         @include m-b-desktop-down {
           font-size: 28px;
+        }
+
+        @include m-b-mobile-lg-down {
+          font-size: 24px;
         }
       }
 
@@ -122,6 +130,10 @@
         height: fit-content;
         min-height: fit-content;
         margin-bottom: 20px;
+      }
+
+      @include m-b-mobile-lg-down {
+        padding: 20px 15px;
       }
 
       .svg-map-opener {
@@ -183,6 +195,10 @@
         margin-bottom: 20px;
       }
 
+      @include m-b-mobile-lg-down {
+        padding: 20px 15px;
+      }
+
       svg {
         fill: var(--accent);
         margin-bottom: 15px;
@@ -239,6 +255,12 @@
       a {
         margin-top: auto;
       }
+    }
+  }
+
+  .svg-map-opener {
+    @include m-b-tablet-down {
+    display: none;
     }
   }
 }

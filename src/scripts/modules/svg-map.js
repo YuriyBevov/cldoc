@@ -1,3 +1,4 @@
+import gsap from "gsap";
 import svgPanZoom from "svg-pan-zoom";
 
 const opener = document.querySelector('.svg-map-opener');
@@ -5,6 +6,20 @@ const opener = document.querySelector('.svg-map-opener');
 if(opener) {
   const map = document.querySelector('.map-modal');
   const closer = map.querySelector('.modal-closer');
+
+  const tl = gsap.timeline().pause();
+
+  tl
+    .fromTo(map.parentNode, {
+      opacity: 0,
+      visibility: 'hidden'
+    }, {
+      opacity: 1,
+      duration: .8,
+      visibility: 'visible'
+    });
+
+  const debounceTime = 850;
 
   let zoomContainer = null;
 
@@ -20,16 +35,32 @@ if(opener) {
   });
 
   const onClickOpenMap = () => {
-    map.parentNode.classList.add('active');
+    zoomContainer =  svgPanZoom('.map-modal .svg-map', {
+      viewportSelector: '.svg-pan-zoom_viewport',
+      panEnabled: true,
+      controlIconsEnabled: false,
+      zoomEnabled: true,
+      dblClickZoomEnabled: true,
+      mouseWheelZoomEnabled: true,
+      preventMouseEventsDefault: true,
+      zoomScaleSensitivity: 0.2,
+      minZoom: 1,
+      maxZoom: 5,
+      fit: true,
+      contain: false,
+      center: true,
+      refreshRate: 'auto',
+    });
 
     opener.removeEventListener('click', onClickOpenMap);
 
-    document.addEventListener('click', onOverlayClickCloseModal);
-    document.addEventListener('keydown', onEscClickCloseModal);
-    closer.addEventListener('click', modalCloseHandler);
-    window.addEventListener('resize', modalCloseHandler);
-
-    zoomContainer = svgPanZoom('.map-modal .svg-map');
+    tl.play();
+    setTimeout(() => {
+      document.addEventListener('click', onOverlayClickCloseModal);
+      document.addEventListener('keydown', onEscClickCloseModal);
+      closer.addEventListener('click', modalCloseHandler);
+      window.addEventListener('resize', modalCloseHandler);
+    }, debounceTime);
   }
 
   opener.addEventListener('click', onClickOpenMap);
@@ -51,15 +82,16 @@ if(opener) {
   }
 
   function closeFunc() {
-    map.parentNode.classList.remove('active');
-
     document.removeEventListener('click', onOverlayClickCloseModal);
     document.removeEventListener('keydown', onEscClickCloseModal);
     closer.removeEventListener('click', modalCloseHandler);
     window.removeEventListener('resize', modalCloseHandler);
 
-    opener.addEventListener('click', onClickOpenMap);
+    tl.reverse();
 
-    zoomContainer.destroy();
+    setTimeout(() => {
+      zoomContainer.destroy();
+      opener.addEventListener('click', onClickOpenMap);
+    }, debounceTime);
   }
 }

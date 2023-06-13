@@ -154,23 +154,26 @@
           <p class="quiz-modal__desc">Заполните необходимые поля формы и мы обязательно свяжемся c Вами!</p>
         </div>
         <form class="quiz" action="#">
-          <div class="quiz-modal__content">
-            <fieldset class="quiz__part active">
+          <div class="quiz-modal__content quiz__content">
+            <fieldset class="quiz__content-part active">
               <input type="text" placeholder="Ваше имя">
               <input class="invalid-control" type="text" placeholder="Телефон">
               <input type="text" placeholder="E-mail">
             </fieldset>
-            <fieldset class="quiz__part">
+            <fieldset class="quiz__content-part">
               <input type="text" placeholder="Вид легализации документов">
               <input type="text" placeholder="Страна, для которой легализуются документы">
             </fieldset>
-            <fieldset class="quiz__part">
+            <fieldset class="quiz__content-part">
               <input type="text" placeholder="Язык перевода">
             </fieldset>
           </div>
-          <div class="quiz-modal__footer">
-            <button class="disabled main-btn" type="button">Назад</button>
-            <button class="main-btn" type="button">Далее</button><span class="form-undertext">* Отправляя форму Вы автоматически соглашаетесь с условиями на обработку персональных данных.</span>
+          <div class="quiz-modal__footer quiz__footer">
+            <div class="quiz__footer-container">
+              <button class="disabled main-btn quiz__btn quiz__btn--prev" type="button">Назад</button>
+              <button class="main-btn quiz__btn quiz__btn--next" type="button">Далее</button>
+              <button class="disabled main-btn quiz__btn quiz__btn--submit" type="submit">Отправить</button><span class="form-undertext">* Отправляя форму Вы автоматически соглашаетесь с условиями на обработку персональных данных.</span>
+            </div>
           </div>
         </form>
       </div>

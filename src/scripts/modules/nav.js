@@ -20,22 +20,22 @@ if(nav) {
     }, {
       display: 'flex',
       opacity: 1,
-      duration: .8,
+      duration: .4,
       classList: 'header__nav active'
     })
     .to(burger, {
       rotate: '45deg',
       duration: .3
-    }, "-=.8")
+    }, "-=.5")
     .fromTo('.header__nav .nav',{
       opacity: 0,
       right: '-100vw'
     }, {
       opacity: 1,
       right: '0',
-      duration: .4,
+      duration: .2,
       ease: 'ease-in'
-    }, "-=.3");
+    }, "-=.1");
 
   function openNav() {
     burger.removeEventListener('click', onClickHandler);
