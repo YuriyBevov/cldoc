@@ -92,8 +92,38 @@
     margin-bottom: 15px;
     padding: 10px;
   }
+}
 
+.main-input-file {
+  &-container {
+    display: flex;
 
+    input[type="file"] {
+      display: none;
+    }
+
+    label {
+      @extend .flex-wrap;
+      align-items: center;
+      margin-right: 10px;
+      color: var(--info);
+
+      svg {
+        margin-right: 5px;
+        fill: var(--info);
+      }
+    }
+  }
+
+  &-remove-btn {
+    @extend .button-default;
+    color: var(--accent);
+    text-decoration: underline;
+
+    &.disabled {
+      display: none;
+    }
+  }
 }
 
 .section-transition {

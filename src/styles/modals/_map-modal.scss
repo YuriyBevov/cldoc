@@ -32,11 +32,17 @@
   }
 
   &-chooser {
-    @extend .flex-column;
+    @extend .flex-centered-content;
+    flex-direction: column;
+    z-index: 102;
 
     position: absolute;
     left: 0;
     top: 0;
+    width: 100%;
+    height: 100%;
+    outline: 1px solid red;
+    //transform: translate(-50%, -50%);
 
     visibility: hidden;
     opacity: 0;
@@ -44,17 +50,18 @@
     padding: 15px;
     font-size: 18px;
     font-weight: 600;
+    width: 100%;
+    //max-width: 220px;
 
     border-radius: 4px;
     padding: 15px;
 
-    background-color: var(--white);
+    background-color: rgba(245,245,245,.7);
 
     span {
       display: inline-block;
       margin-bottom: 15px;
-      font-size: 16px;
-      padding-right: 45px;
+      font-size: 24px;
 
       color: var(--dark);
     }
@@ -63,15 +70,16 @@
       font-size: 18px;
       color: var(--accent);
     }
+
     .chooser-closer {
       @extend .button-default;
       @extend .flex-centered-content;
 
       position: absolute;
-      top: 10px;
-      right: 10px;
-      width: 30px;
-      height: 30px;
+      top: 40px;
+      right: 40px;
+      width: 40px;
+      height: 40px;
     }
   }
 

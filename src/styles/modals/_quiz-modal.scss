@@ -4,7 +4,7 @@ $inner-offset-mobile: 15px;
 .quiz-modal {
   height: fit-content;
   max-width: 680px;
-  max-height: 600px;
+  max-height: 90vh;
   overflow: hidden;
   overflow-y: auto;
   padding: 0;
@@ -63,7 +63,6 @@ $inner-offset-mobile: 15px;
   }
 
   &__content {
-    margin-bottom: 20px;
     overflow: hidden;
     overflow-y: auto;
   }
@@ -78,63 +77,9 @@ $inner-offset-mobile: 15px;
     }
 
     .form-undertext {
-      max-width: 440px;
-    }
-  }
-}
-
-.quiz {
-  @extend .flex-column;
-  height: calc(100% - 185px);
-
-  fieldset {
-    @extend .fieldset-default;
-  }
-
-  input[type="text"] {
-    @extend .main-form-control;
-  }
-
-  &__footer-container {
-    position: relative;
-    padding-top: 60px;
-  }
-
-  &__btn {
-    min-width: 200px;
-    margin-bottom: 15px;
-    border-radius: 0;
-
-    position: absolute;
-    top: 0;
-    left: 0;
-
-    &.disabled {
-      visibility: hidden;
-      opacity: 0;
-    }
-  }
-
-  &__content {
-    @extend .flex-centered-content;
-    align-items: flex-start;
-    flex-grow: 1;
-    width: 300%;
-
-    fieldset {
-      @extend .flex-column;
+      display: inline-block;
+      margin-top: 15px;
       width: 100%;
-      height: 100%;
-
-      padding: $inner-offset;
-
-      @include m-b-mobile-lg-down {
-        padding: $inner-offset-mobile;
-      }
-    }
-
-    input:last-child {
-      margin-bottom: 0;
     }
   }
 }

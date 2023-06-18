@@ -11,7 +11,7 @@
   path {
     transition:  opacity var(--main-transition);
 
-    &.active {
+    /*&.active {
       cursor: pointer;
       opacity: .5;
       fill: var(--accent);
@@ -24,6 +24,6 @@
 
     &.transparented {
       opacity: .3;
-    }
+    }*/
   }
 }

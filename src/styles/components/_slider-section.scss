@@ -2,6 +2,10 @@
   &-controls {
     display: flex;
     align-items: center;
+
+    @include m-b-tablet-down {
+      display: none;
+    }
   }
 
   &-button {

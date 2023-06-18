@@ -1,6 +1,6 @@
 import gsap from "gsap";
 import svgPanZoom from "svg-pan-zoom";
-
+import { chooserInit } from "./country-chooser";
 const opener = document.querySelector('.svg-map-opener');
 
 if(opener) {
@@ -35,6 +35,7 @@ if(opener) {
   });
 
   const onClickOpenMap = () => {
+    chooserInit('init');
     zoomContainer =  svgPanZoom('.map-modal .svg-map', {
       viewportSelector: '.svg-pan-zoom_viewport',
       panEnabled: true,
@@ -60,6 +61,7 @@ if(opener) {
       document.addEventListener('keydown', onEscClickCloseModal);
       closer.addEventListener('click', modalCloseHandler);
       window.addEventListener('resize', modalCloseHandler);
+
     }, debounceTime);
   }
 
@@ -91,6 +93,7 @@ if(opener) {
 
     setTimeout(() => {
       zoomContainer.destroy();
+      chooserInit('destroy');
       opener.addEventListener('click', onClickOpenMap);
     }, debounceTime);
   }

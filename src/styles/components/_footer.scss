@@ -107,6 +107,12 @@ $mobile-custom: 575px;
         }
       }
 
+      &--developer {
+        display: flex;
+        grid-column: 4/5;
+        grid-row: 2/3;
+      }
+
       @include m-b-down($tablet-custom) {
         grid-column: initial;
         grid-row: initial;

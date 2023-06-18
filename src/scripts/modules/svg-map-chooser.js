@@ -1,4 +1,5 @@
-import { gsap } from "gsap";
+/*import { gsap } from "gsap";
+
 
 const activePaths = document.querySelectorAll('.map-modal .svg-map path.active');
 
@@ -7,11 +8,14 @@ if(activePaths) {
   const tooltip  = document.querySelector('.map-modal-tooltip');
   const chooser  = document.querySelector('.map-modal-chooser');
   const chooserCloser = chooser.querySelector('.chooser-closer');
+
   let currentPath = null;
   let curPathId = null;
   let isChooserActive = false;
-  const tooltipTl = gsap.timeline().pause();
+  let activePathTitle = null;
+  let activePathUrl = null;
 
+  const tooltipTl = gsap.timeline().pause();
   tooltipTl
     .to(tooltip, {
       visibility: 'visible',
@@ -22,7 +26,6 @@ if(activePaths) {
     });
 
   const chooserTl = gsap.timeline().pause();
-
   chooserTl
     .to(chooser, {
       visibility: 'visible',
@@ -39,31 +42,14 @@ if(activePaths) {
     })
   };
 
-  const showDesktopChooserHandler = (evt) => {
-    initChooser(evt, 'desktop');
-  }
-
-  const showMobileChooserHandler = (evt) => {
-    initChooser(evt, 'mobile');
-  }
-
-
-
-  const initChooser = (evt, device) => {
+  const initChooser = () => {
     if(!isChooserActive) {
       isChooserActive = true;
 
-      if(device == 'desktop') {
-        gsap.to(chooser, {
-          x: evt.clientX,
-          y: evt.clientY
-        });
-      } else {
-        gsap.to(chooser, {
-          x: evt.touches[0].clientX,
-          y: evt.touches[0].clientY
-        });
-      }
+      let title = chooser.querySelector('span');
+      title.innerHTML = activePathTitle;
+      let link = chooser.querySelector('a');
+      link.setAttribute('href', activePathUrl);
 
       paths.forEach(item => {
         if(item.dataset.id === curPathId) {
@@ -75,7 +61,8 @@ if(activePaths) {
 
       tooltipTl.reverse();
       chooserTl.play();
-      chooserCloser.addEventListener('click', hideChooserHandler);
+
+      document.addEventListener('click', onOverlayClickHandler, true);
     }
   }
 
@@ -83,12 +70,21 @@ if(activePaths) {
     isChooserActive = false;
 
     chooserTl.reverse();
-    chooserCloser.removeEventListener('click', hideChooserHandler);
 
     paths.forEach(path => {
       path.classList.contains('transparented') ? path.classList.remove('transparented') : null;
       path.classList.contains('clicked') ? path.classList.remove('clicked') : null;
     });
+
+    document.removeEventListener('click', onOverlayClickHandler, true);
+  }
+
+  const onOverlayClickHandler = (evt) => {
+    evt.stopPropagation();
+
+    if(evt.target !== chooser && isChooserActive) {
+      hideChooserHandler();
+    }
   }
 
   const showTooltipHandler = (evt) => {
@@ -98,8 +94,9 @@ if(activePaths) {
       window.addEventListener('mousemove', setTooltipPos);
       currentPath.removeEventListener('mouseover', showTooltipHandler);
 
-      const titleRU = currentPath.dataset.titleRu;
-      tooltip.innerHTML = titleRU;
+      activePathTitle = currentPath.dataset.titleRu;
+      activePathUrl = currentPath.dataset.link;
+      tooltip.innerHTML = activePathTitle;
 
       curPathId = currentPath.dataset.id;
 
@@ -131,7 +128,9 @@ if(activePaths) {
 
   activePaths.forEach(path => {
     path.addEventListener('mouseover', showTooltipHandler);
-    path.addEventListener('click', showDesktopChooserHandler);
-    path.addEventListener('touchstart', showMobileChooserHandler);
+    path.addEventListener('click', initChooser);
+    path.addEventListener('touchstart', initChooser);
   });
-};
+
+  chooserCloser.addEventListener('click', hideChooserHandler);
+};*/

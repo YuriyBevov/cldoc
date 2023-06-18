@@ -7,10 +7,17 @@
 @import "extends";
 @import "common";
 
-/* Компоненты */
+/*modals*/
+@import "./modals/common";
+@import "./modals/map-modal";
+@import "./modals/quiz-modal";
+@import "./modals/status-modal";
 
+/* Компоненты */
+@import "./components/quiz";
 @import "./components/swiper";
 @import "./components/header";
+@import "./components/search";
 @import "./components/breadcrumbs";
 @import "./components/logo";
 @import "./components/nav";
@@ -21,7 +28,7 @@
 @import "./components/section-tabs";
 @import "./components/contact-card";
 @import "./components/accordeon";
-
+@import "./components/developer";
 @import "./components/footer";
 
 /* Секции */
@@ -34,10 +41,3 @@
 @import "./sections/prices-page/prices";
 
 @import "./sections/common/info-section";
-
-/*modals*/
-
-@import "./modals/common";
-@import "./modals/map-modal";
-@import "./modals/quiz-modal";
-@import "./modals/status-modal";
