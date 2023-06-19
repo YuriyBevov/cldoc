@@ -1,5 +1,8 @@
 import { gsap } from "gsap";
+import { loader } from "../../utils/nodes";
 import { quizValidation } from "./quizValidation.js";
+import { sendForm } from "../form/sendForm";
+console.log(loader)
 
 const quiz = document.querySelector('.quiz');
 
@@ -68,6 +71,10 @@ if(quiz) {
     evt.preventDefault();
     console.log('send form');
 
-    //sendForm(quiz);
+    gsap.to(loader, {
+      opacity: 1,
+      visibility: 'visible'
+    });
+    sendForm(quiz);
   });
 }

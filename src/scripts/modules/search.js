@@ -1,6 +1,4 @@
 import { gsap } from "gsap";
-/*import { ScrollTrigger } from 'gsap/ScrollTrigger';
-gsap.registerPlugin(ScrollTrigger);*/
 
 const search = document.querySelector('.search');
 
@@ -38,31 +36,3 @@ if(search) {
 
   opener.addEventListener('click', onClickOpenSearchField);
 }
-
-/*if(search) {
-  const btn = search.querySelector('.search-btn');
-  const field = search.querySelector('.search-field');
-
-  const tl = gsap.timeline().pause();
-
-  tl
-    .fromTo(field, {
-      opacity: 0,
-      width: 0,
-      visibility: 'hidden',
-    }, {
-      opacity: 1,
-      width: '446px',
-      duration: .4,
-      ease: 'ease-in',
-      visibility: 'visible',
-    });
-
-  const onClickOpenSearchField = () => {
-    search.classList.add('active');
-    tl.play();
-  }
-
-  btn.addEventListener('click', onClickOpenSearchField)
-}*/
-

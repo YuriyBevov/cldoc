@@ -2,13 +2,6 @@ $inner-offset: 30px;
 $inner-offset-mobile: 15px;
 
 .quiz-modal {
-  height: fit-content;
-  max-width: 680px;
-  max-height: 90vh;
-  overflow: hidden;
-  overflow-y: auto;
-  padding: 0;
-
   .modal-closer {
     top: 30px;
     right: 30px;

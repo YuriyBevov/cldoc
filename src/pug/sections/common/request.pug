@@ -8,11 +8,15 @@ section.request
       p.request__desc Оставьте свои контакты и мы обязательно свяжемся с Вами!
     form(action="#")
 
-      input(type="text" placeholder="Ваше имя")
-      input(type="text" placeholder="Телефон")
+      input(type="text" placeholder="Ваше имя" data-required="true")
+      input(type="tel" placeholder="Телефон" data-required="true")
       input(type="text" placeholder="E-mail")
 
       span.form-undertext * Отправляя форму Вы автоматически соглашаетесь с условиями на обработку персональных данных.
-      +main-btn('Отправить', 'request__submit')
+      +main-btn({
+        title: 'Отправить',
+        cls: 'request__submit',
+        type: 'submit'
+      })
 
 

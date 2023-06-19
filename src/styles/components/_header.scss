@@ -163,11 +163,7 @@
     align-items: center;
 
     @include m-b-desktop-md-down {
-      margin-right: 60px;
-    }
-
-    @include m-b-laptop-down {
-      margin-right: 40px;
+      margin-right: 30px;
     }
 
     &-request-btn {

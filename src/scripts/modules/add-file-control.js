@@ -16,7 +16,6 @@ if(container) {
       opener.querySelector('span').textContent = "Прикрепить документ";
       removeBtn.classList.add('disabled');
       removeBtn.removeEventListener('click', onClickRemoveFile);
-      console.log(evt.target.files)
     }
 
     if(files.length) {

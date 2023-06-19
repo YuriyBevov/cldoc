@@ -81,12 +81,12 @@ $mobile-custom: 575px;
         .social {
           @include m-b-down($laptop-custom) {
             position: absolute;
-            bottom: 0;
-            right: 100px;
+            bottom: 10px;
+            left: 30px;
           }
 
           @include m-b-laptop-down {
-            right: 30px;
+            left: 30px;
           }
 
           @include m-b-down($tablet-custom) {
@@ -111,6 +111,21 @@ $mobile-custom: 575px;
         display: flex;
         grid-column: 4/5;
         grid-row: 2/3;
+
+        @include m-b-down($laptop-custom) {
+          grid-column: 1/5;
+          grid-row: 3/4;
+        }
+
+        @include m-b-down($tablet-custom) {
+          padding-top: 30px;
+          margin-top: 25px;
+          border-top: 1px solid var(--accent);
+
+          a {
+            margin: 0;
+          }
+        }
       }
 
       @include m-b-down($tablet-custom) {

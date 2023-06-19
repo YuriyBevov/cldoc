@@ -1,8 +1,15 @@
 .status-modal {
   @extend .flex-column;
 
-  height: fit-content;
-  min-height: 250px;
+  .modal__content {
+    min-height: 250px;
+    padding: 25px;
+  }
+
+  .modal__body {
+    margin-top: auto;
+    padding-top: 60px;
+  }
 
   .modal-closer {
     top: 20px;

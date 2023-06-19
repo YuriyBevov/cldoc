@@ -1,2 +1,2 @@
-mixin main-btn(title, cl, id)
-  button.main-btn(class= cl ? cl : null data-modal= id ? id : null)!= title
+mixin main-btn(data)
+  button.main-btn(type= data.type ? data.type : 'button' class= data.cls ? data.cls : null data-modal-anchor= data.id ? data.id : null)!= data.title

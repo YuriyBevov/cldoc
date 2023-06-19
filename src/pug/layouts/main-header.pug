@@ -13,7 +13,11 @@ header.header
       a(href="tel:+74959600253") +7 (495) 960-02-53
 
     .header__action
-      +main-btn('Оставить заявку', 'header__action-request-btn', 'quiz')
+      +main-btn({
+        title: 'Оставить заявку',
+        cls: 'header__action-request-btn',
+        id: 'quiz'
+      })
 
       .header__action-search
         button(aria-label="Открыть поиск").search-opener
