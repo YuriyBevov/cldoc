@@ -35,7 +35,7 @@ if(nav) {
       right: '0',
       duration: .2,
       ease: 'ease-in'
-    }, "-=.1");
+    }, "-=.4");
 
   function openNav() {
     burger.removeEventListener('click', onClickHandler);

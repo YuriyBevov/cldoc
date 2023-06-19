@@ -577,7 +577,7 @@ if (_utils_nodes_js__WEBPACK_IMPORTED_MODULE_0__.nav) {
     right: '0',
     duration: .2,
     ease: 'ease-in'
-  }, "-=.1");
+  }, "-=.4");
 
   function openNav() {
     _utils_nodes_js__WEBPACK_IMPORTED_MODULE_0__.burger.removeEventListener('click', onClickHandler);
