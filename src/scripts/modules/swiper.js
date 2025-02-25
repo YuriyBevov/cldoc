@@ -1,39 +1,63 @@
-import Swiper, { Navigation, Thumbs, EffectFade, Pagination, Autoplay } from 'swiper';
+import Swiper, {
+	Navigation,
+	Thumbs,
+	EffectFade,
+	Pagination,
+	Autoplay,
+} from "swiper";
 Swiper.use([Thumbs, EffectFade, Navigation, Pagination, Autoplay]);
 
-const sliders = document.querySelectorAll('.main-slider');
+const topBannerSlider = document.querySelector(".top-banner .swiper");
 
-if(sliders) {
-  sliders.forEach(slider => {
+if (topBannerSlider) {
+	new Swiper(topBannerSlider, {
+		slidesPerView: 1,
+		spaceBetween: 40,
 
-    let isAutoplayEnabled = false;
-    slider.classList.contains('autoplay') ?
-    isAutoplayEnabled = true : isAutoplayEnabled = false;
+		pagination: {
+			el: ".top-banner .swiper-pagination",
+			clickable: true,
+		},
+	});
+}
 
-    let btnNext = slider.parentNode.querySelector('.slider-section-button-next');
-    let btnPrev = slider.parentNode.querySelector('.slider-section-button-prev');
+const sliders = document.querySelectorAll(".main-slider");
 
-    let speed = 300;
+if (sliders) {
+	sliders.forEach((slider) => {
+		let isAutoplayEnabled = false;
+		slider.classList.contains("autoplay")
+			? (isAutoplayEnabled = true)
+			: (isAutoplayEnabled = false);
 
-    isAutoplayEnabled ? speed = 3000 : speed = 300;
+		let btnNext = slider.parentNode.querySelector(
+			".slider-section-button-next",
+		);
+		let btnPrev = slider.parentNode.querySelector(
+			".slider-section-button-prev",
+		);
 
-    new Swiper(slider, {
-      slidesPerView: 'auto',
-      spaceBetween: 0,
-      centerInsufficientSlides: true,
-      speed,
+		let speed = 300;
 
-      navigation: {
-        nextEl: btnNext,
-        prevEl: btnPrev,
-      },
+		isAutoplayEnabled ? (speed = 3000) : (speed = 300);
 
-      autoplay: {
-        delay: 2000,
-        disableOnInteraction: false,
-      },
+		new Swiper(slider, {
+			slidesPerView: "auto",
+			spaceBetween: 0,
+			centerInsufficientSlides: true,
+			speed,
 
-      autoplay: isAutoplayEnabled,
-    });
-  });
-};
+			navigation: {
+				nextEl: btnNext,
+				prevEl: btnPrev,
+			},
+
+			autoplay: {
+				delay: 2000,
+				disableOnInteraction: false,
+			},
+
+			autoplay: isAutoplayEnabled,
+		});
+	});
+}

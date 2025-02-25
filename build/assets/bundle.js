@@ -1,1042 +1,6 @@
 /******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
-/***/ "./src/scripts/classes/Modal.js":
-/*!**************************************!*\
-  !*** ./src/scripts/classes/Modal.js ***!
-  \**************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "Modal": () => (/* binding */ Modal)
-/* harmony export */ });
-/* harmony import */ var gsap__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! gsap */ "./node_modules/gsap/index.js");
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-
-var Modal = /*#__PURE__*/function () {
-  function Modal(modal) {
-    var _this = this;
-
-    var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-
-    _classCallCheck(this, Modal);
-
-    _defineProperty(this, "bodyLocker", function (bool) {
-      var body = document.querySelector('body');
-
-      if (bool) {
-        body.style.overflow = 'hidden';
-      } else {
-        body.style.overflow = 'auto';
-      }
-    });
-
-    _defineProperty(this, "focusTrap", function () {
-      var firstFocusableElement = _this.modal.querySelectorAll(_this.focusableElements)[0];
-
-      var focusableContent = _this.modal.querySelectorAll(_this.focusableElements);
-
-      var lastFocusableElement = focusableContent[focusableContent.length - 1];
-
-      if (focusableContent.length) {
-        var onBtnClickHandler = function onBtnClickHandler(evt) {
-          var isTabPressed = evt.key === 'Tab' || evt.key === 9;
-
-          if (evt.key === 'Escape') {
-            document.removeEventListener('keydown', onBtnClickHandler);
-          }
-
-          if (!isTabPressed) {
-            return;
-          }
-
-          if (evt.shiftKey) {
-            if (document.activeElement === firstFocusableElement) {
-              lastFocusableElement.focus();
-              evt.preventDefault();
-            }
-          } else {
-            if (document.activeElement === lastFocusableElement) {
-              firstFocusableElement.focus();
-              evt.preventDefault();
-            }
-          }
-        };
-
-        document.addEventListener('keydown', onBtnClickHandler);
-        firstFocusableElement.focus();
-      }
-    });
-
-    _defineProperty(this, "addListeners", function () {
-      if (_this.openers) {
-        _this.openers.forEach(function (opener) {
-          opener.removeEventListener('click', _this.openModal);
-        });
-      }
-
-      document.addEventListener('click', _this.closeByOverlayClick);
-      document.addEventListener('keydown', _this.closeByEscBtn);
-
-      if (_this.close) {
-        _this.close.addEventListener('click', _this.closeByBtnClick);
-      }
-    });
-
-    _defineProperty(this, "refresh", function () {
-      document.removeEventListener('click', _this.closeByOverlayClick);
-      document.removeEventListener('keydown', _this.closeByEscBtn);
-
-      if (_this.close) {
-        _this.close.removeEventListener('click', _this.closeByBtnClick);
-      }
-
-      gsap__WEBPACK_IMPORTED_MODULE_0__.gsap.fromTo(_this.modal, {
-        display: 'flex'
-      }, {
-        opacity: 0,
-        duration: .6,
-        ease: 'ease-in',
-        onComplete: function onComplete() {
-          _this.modal.style.display = 'none'; //если в модалке есть форма, при закрытии обнуляю поля
-
-          _this.modal.querySelectorAll('form').forEach(function (f) {
-            return f.reset();
-          });
-        }
-      });
-      !_this.preventBodyLock ? _this.bodyLocker(false) : null;
-      _this.preventBodyLock = false;
-
-      if (_this.openers) {
-        _this.openers.forEach(function (opener) {
-          opener.addEventListener('click', _this.openModal);
-        });
-      }
-    });
-
-    _defineProperty(this, "closeByOverlayClick", function (evt) {
-      if (evt.target === _this.overlay) {
-        _this.refresh();
-      }
-    });
-
-    _defineProperty(this, "closeByEscBtn", function (evt) {
-      if (evt.key === "Escape") {
-        _this.refresh();
-      }
-    });
-
-    _defineProperty(this, "closeByBtnClick", function () {
-      _this.refresh();
-    });
-
-    _defineProperty(this, "openModal", function (evt) {
-      var title = _this.modal.querySelector('.lw-section-title');
-
-      var desc = _this.modal.querySelector('.modal__header-text');
-
-      var formName = _this.modal.querySelector('input[type="hidden"]');
-
-      if (title) {
-        if (evt.currentTarget.dataset.modalTitle) {
-          title.innerHTML = evt.currentTarget.dataset.modalTitle;
-          formName.value = title.innerText;
-        } else {
-          title.innerHTML = 'Связаться с менеджером';
-        }
-      }
-
-      if (desc) {
-        if (evt.currentTarget.dataset.modalText) {
-          desc.innerHTML = evt.currentTarget.dataset.modalText;
-        } else {
-          desc.innerHTML = 'Заполните форму, и мы перезвоним Вам';
-        }
-      }
-
-      evt.preventDefault();
-
-      _this.bodyLocker(true);
-
-      gsap__WEBPACK_IMPORTED_MODULE_0__.gsap.fromTo(_this.modal, {
-        display: 'none',
-        opacity: 0
-      }, {
-        display: 'flex',
-        opacity: 1,
-        duration: .6,
-        ease: 'ease-in',
-        onComplete: function onComplete() {
-          _this.addListeners();
-
-          _this.focusTrap();
-        }
-      });
-    });
-
-    _defineProperty(this, "show", function () {
-      _this.isBodyLocked ? _this.bodyLocker(true) : null;
-      gsap__WEBPACK_IMPORTED_MODULE_0__.gsap.fromTo(_this.modal, {
-        display: 'none',
-        opacity: 0
-      }, {
-        display: 'flex',
-        opacity: 1,
-        duration: .6,
-        ease: 'ease-in',
-        onComplete: function onComplete() {
-          _this.addListeners();
-
-          _this.focusTrap();
-        }
-      });
-    });
-
-    this.preventBodyLock = options.preventBodyLock ? true : false, this.modal = modal;
-    this.overlay = this.modal.querySelector('.modal__overlay');
-    this.content = this.modal.querySelector('.modal__content');
-    this.close = this.modal.querySelector('.modal-closer');
-    this.id = this.modal.getAttribute('id');
-    this.openers = document.querySelectorAll('[data-modal-anchor="' + this.id + '"]');
-    this.isInited = false;
-    this.focusableElements = ['a[href]', 'input', 'select', 'textarea', 'button', 'iframe', '[contenteditable]', '[tabindex]:not([tabindex^="-"])'];
-    this.init();
-  }
-
-  _createClass(Modal, [{
-    key: "init",
-    value: function init() {
-      var _this2 = this;
-
-      if (this.openers) {
-        this.isInited = true;
-        this.openers.forEach(function (opener) {
-          opener.addEventListener('click', _this2.openModal);
-        });
-      } else {
-        console.error('Не добавлена кнопка открытия модального окна, либо в ней не прописан аттр-т: data-modal-anchor={modal-id} ');
-      }
-    }
-  }]);
-
-  return Modal;
-}();
-
-/***/ }),
-
-/***/ "./src/scripts/modules/add-file-control.js":
-/*!*************************************************!*\
-  !*** ./src/scripts/modules/add-file-control.js ***!
-  \*************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _utils_functions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utils/functions */ "./src/scripts/utils/functions.js");
-function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
-
-function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
-function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
-
-function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
-
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
-
-var container = document.querySelector('.main-input-file-container');
-
-if (container) {
-  var control = container.querySelector('input[type="file"]');
-
-  var onChangeHadler = function onChangeHadler(evt) {
-    var opener = evt.target.nextElementSibling;
-    var removeBtn = container.querySelector('.main-input-file-remove-btn');
-
-    var files = _toConsumableArray(evt.target.files);
-
-    var onClickRemoveFile = function onClickRemoveFile() {
-      evt.target.value = "";
-      files = [];
-      opener.querySelector('span').textContent = "Прикрепить документ";
-      removeBtn.classList.add('disabled');
-      removeBtn.removeEventListener('click', onClickRemoveFile);
-    };
-
-    if (files.length) {
-      opener.querySelector('span').textContent = "".concat((0,_utils_functions__WEBPACK_IMPORTED_MODULE_0__.limitStr)(files[0].name, 28));
-
-      if (removeBtn.classList.contains('disabled')) {
-        removeBtn.classList.remove('disabled');
-        removeBtn.addEventListener('click', onClickRemoveFile);
-      }
-    }
-  };
-
-  control.addEventListener('change', onChangeHadler);
-}
-
-/***/ }),
-
-/***/ "./src/scripts/modules/form/controlValidationState.js":
-/*!************************************************************!*\
-  !*** ./src/scripts/modules/form/controlValidationState.js ***!
-  \************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "setInvalidStatus": () => (/* binding */ setInvalidStatus),
-/* harmony export */   "setValidStatus": () => (/* binding */ setValidStatus)
-/* harmony export */ });
-var setInvalidStatus = function setInvalidStatus(field) {
-  !field.classList.contains('invalid-control') ? field.classList.add('invalid-control') : null;
-  field.classList.add('shaker');
-  setTimeout(function () {
-    field.classList.remove('shaker');
-  }, 800);
-};
-
-var setValidStatus = function setValidStatus(field) {
-  field.classList.contains('invalid-control') ? field.classList.remove('invalid-control') : null;
-};
-
-
-
-/***/ }),
-
-/***/ "./src/scripts/modules/form/form-submit.js":
-/*!*************************************************!*\
-  !*** ./src/scripts/modules/form/form-submit.js ***!
-  \*************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _form_validation__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./form-validation */ "./src/scripts/modules/form/form-validation.js");
-
-var btns = document.querySelectorAll('[type="submit"]:not(.quiz__btn--submit)');
-console.log(btns);
-
-if (btns) {
-  btns.forEach(function (btn) {
-    btn.addEventListener('click', function (evt) {
-      evt.preventDefault();
-      (0,_form_validation__WEBPACK_IMPORTED_MODULE_0__.formValidation)(evt.target.closest('form'));
-    });
-  });
-}
-
-/***/ }),
-
-/***/ "./src/scripts/modules/form/form-validation.js":
-/*!*****************************************************!*\
-  !*** ./src/scripts/modules/form/form-validation.js ***!
-  \*****************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "formValidation": () => (/* binding */ formValidation)
-/* harmony export */ });
-/* harmony import */ var gsap__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! gsap */ "./node_modules/gsap/index.js");
-/* harmony import */ var _sendForm__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./sendForm */ "./src/scripts/modules/form/sendForm.js");
-/* harmony import */ var _utils_nodes__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../utils/nodes */ "./src/scripts/utils/nodes.js");
-/* harmony import */ var _controlValidationState__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./controlValidationState */ "./src/scripts/modules/form/controlValidationState.js");
-
-
-
-
-var formValidation = function formValidation(form) {
-  var fields = form.querySelectorAll("[data-required]");
-  fields.forEach(function (field) {
-    field.addEventListener('change', function () {
-      (0,_controlValidationState__WEBPACK_IMPORTED_MODULE_2__.setValidStatus)(field);
-    });
-
-    if (field["type"] === 'text') {
-      if (field.value.trim().length < 2) {
-        (0,_controlValidationState__WEBPACK_IMPORTED_MODULE_2__.setInvalidStatus)(field);
-      } else {
-        (0,_controlValidationState__WEBPACK_IMPORTED_MODULE_2__.setValidStatus)(field);
-      }
-    } else if (field.value.length !== 16) {
-      (0,_controlValidationState__WEBPACK_IMPORTED_MODULE_2__.setInvalidStatus)(field);
-    } else {
-      (0,_controlValidationState__WEBPACK_IMPORTED_MODULE_2__.setValidStatus)(field);
-    }
-  });
-  var isInvalid = document.querySelector('.invalid-control');
-
-  if (!isInvalid) {
-    gsap__WEBPACK_IMPORTED_MODULE_3__.gsap.to(_utils_nodes__WEBPACK_IMPORTED_MODULE_1__.loader, {
-      opacity: 1,
-      visibility: 'visible'
-    });
-    (0,_sendForm__WEBPACK_IMPORTED_MODULE_0__.sendForm)(form);
-  }
-};
-
-/***/ }),
-
-/***/ "./src/scripts/modules/form/sendForm.js":
-/*!**********************************************!*\
-  !*** ./src/scripts/modules/form/sendForm.js ***!
-  \**********************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "sendForm": () => (/* binding */ sendForm)
-/* harmony export */ });
-/* harmony import */ var _classes_Modal__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../classes/Modal */ "./src/scripts/classes/Modal.js");
-/* harmony import */ var gsap__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! gsap */ "./node_modules/gsap/index.js");
-/* harmony import */ var _utils_nodes__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../utils/nodes */ "./src/scripts/utils/nodes.js");
-
-
-
-function sendForm(form) {
-  var successModal = document.getElementById('success-modal');
-  var errorModal = document.getElementById('error-modal');
-
-  function loaderFadeOut() {
-    gsap__WEBPACK_IMPORTED_MODULE_2__.gsap.to(_utils_nodes__WEBPACK_IMPORTED_MODULE_1__.loader, {
-      opacity: 0,
-      visibility: 'hidden'
-    });
-  }
-
-  function success() {
-    loaderFadeOut();
-    form.reset();
-    new _classes_Modal__WEBPACK_IMPORTED_MODULE_0__.Modal(successModal).show();
-  }
-
-  function error() {
-    setTimeout(function () {
-      loaderFadeOut();
-      new _classes_Modal__WEBPACK_IMPORTED_MODULE_0__.Modal(errorModal, {
-        preventBodyLock: true
-      }).show();
-    }, 3000);
-  } // handle the form submission event
-
-
-  var data = new FormData(form);
-  ajax(form.method, form.action, data, success, error);
-
-  function ajax(method, url, data, success, error) {
-    var xhr = new XMLHttpRequest();
-    xhr.open(method, url);
-    xhr.setRequestHeader("Accept", "application/json");
-
-    xhr.onreadystatechange = function () {
-      if (xhr.readyState !== XMLHttpRequest.DONE) return;
-
-      if (xhr.status === 200) {
-        if (xhr.response.indexOf('SUCCESS') > -1) {
-          success(xhr.response, xhr.responseType);
-        } else {
-          error(xhr.status, xhr.response, xhr.responseType);
-        }
-      } else {
-        error(xhr.status, xhr.response, xhr.responseType);
-      }
-    };
-
-    xhr.send(data);
-  }
-
-  ;
-  /*grecaptcha.ready(function() {
-    grecaptcha.execute('6LcN8QojAAAAAO1PL61cpNSsvIGf0HxUgbPazq5h', {action: 'submit'}).then(function(token) {
-      form.querySelector('.g-recaptcha-response').value = token;
-       const data = new FormData(form);
-      ajax(form.method, form.action, data, success, error);
-       function ajax(method, url, data, success, error) {
-        const xhr = new XMLHttpRequest();
-        xhr.open(method, url);
-        xhr.setRequestHeader("Accept", "application/json");
-        xhr.onreadystatechange = function() {
-          if (xhr.readyState !== XMLHttpRequest.DONE) return;
-          if (xhr.status === 200) {
-            if(xhr.response.indexOf('SUCCESS') > -1) {
-              success(xhr.response, xhr.responseType);
-            } else {
-              error(xhr.status, xhr.response, xhr.responseType);
-            }
-          } else {
-            error(xhr.status, xhr.response, xhr.responseType);
-          }
-        };
-        xhr.send(data);
-      };
-     });
-  });*/
-}
-
-/***/ }),
-
-/***/ "./src/scripts/modules/imask.js":
-/*!**************************************!*\
-  !*** ./src/scripts/modules/imask.js ***!
-  \**************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var imask__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! imask */ "./node_modules/imask/esm/index.js");
-
-var phoneFields = document.querySelectorAll('input[type="tel"');
-
-if (phoneFields) {
-  phoneFields.forEach(function (field) {
-    (0,imask__WEBPACK_IMPORTED_MODULE_0__["default"])(field, {
-      mask: '+{7}(000)000-00-00'
-    });
-  });
-}
-
-/***/ }),
-
-/***/ "./src/scripts/modules/modal.js":
-/*!**************************************!*\
-  !*** ./src/scripts/modules/modal.js ***!
-  \**************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _classes_Modal__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../classes/Modal */ "./src/scripts/classes/Modal.js");
-
-var modals = document.querySelectorAll('.modal');
-
-if (modals) {
-  modals.forEach(function (modal) {
-    new _classes_Modal__WEBPACK_IMPORTED_MODULE_0__.Modal(modal);
-  });
-}
-
-/***/ }),
-
-/***/ "./src/scripts/modules/nav.js":
-/*!************************************!*\
-  !*** ./src/scripts/modules/nav.js ***!
-  \************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _utils_nodes_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utils/nodes.js */ "./src/scripts/utils/nodes.js");
-/* harmony import */ var gsap__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! gsap */ "./node_modules/gsap/index.js");
-
-
-
-if (_utils_nodes_js__WEBPACK_IMPORTED_MODULE_0__.nav) {
-  var onClickHandler = function onClickHandler() {
-    if (!_utils_nodes_js__WEBPACK_IMPORTED_MODULE_0__.nav.classList.contains('active')) {
-      openNav();
-    } else {
-      closeNav();
-    }
-  };
-
-  var tl = gsap__WEBPACK_IMPORTED_MODULE_1__.gsap.timeline().pause();
-  tl.fromTo(_utils_nodes_js__WEBPACK_IMPORTED_MODULE_0__.nav, {
-    display: 'none',
-    opacity: 0,
-    classList: 'header__nav'
-  }, {
-    display: 'flex',
-    opacity: 1,
-    duration: .4,
-    classList: 'header__nav active'
-  }).to(_utils_nodes_js__WEBPACK_IMPORTED_MODULE_0__.burger, {
-    rotate: '45deg',
-    duration: .3
-  }, "-=.5").fromTo('.header__nav .nav', {
-    opacity: 0,
-    right: '-100vw'
-  }, {
-    opacity: 1,
-    right: '0',
-    duration: .2,
-    ease: 'ease-in'
-  }, "-=.4");
-
-  function openNav() {
-    _utils_nodes_js__WEBPACK_IMPORTED_MODULE_0__.burger.removeEventListener('click', onClickHandler);
-    tl.play();
-    setTimeout(function () {
-      addListener();
-    }, 1000);
-  }
-
-  ;
-
-  function closeNav() {
-    _utils_nodes_js__WEBPACK_IMPORTED_MODULE_0__.burger.removeEventListener('click', closeNav);
-    removeListener();
-    tl.reverse();
-    setTimeout(function () {
-      _utils_nodes_js__WEBPACK_IMPORTED_MODULE_0__.burger.addEventListener('click', onClickHandler);
-    }, 1000);
-  }
-
-  ;
-
-  var addListener = function addListener() {
-    _utils_nodes_js__WEBPACK_IMPORTED_MODULE_0__.burger.addEventListener('click', closeNav);
-    document.addEventListener('click', onOverlayClickCloseNav);
-    document.addEventListener('keydown', onEscClickCloseNav);
-  };
-
-  var removeListener = function removeListener() {
-    document.removeEventListener('click', onOverlayClickCloseNav);
-    document.removeEventListener('keydown', onEscClickCloseNav);
-  };
-
-  var onOverlayClickCloseNav = function onOverlayClickCloseNav(evt) {
-    if (evt.target === _utils_nodes_js__WEBPACK_IMPORTED_MODULE_0__.nav) {
-      closeNav();
-    }
-  };
-
-  var onEscClickCloseNav = function onEscClickCloseNav(evt) {
-    if (evt.key === "Escape" || evt.key === "Esc") {
-      closeNav();
-    }
-  };
-
-  _utils_nodes_js__WEBPACK_IMPORTED_MODULE_0__.burger.addEventListener('click', onClickHandler);
-}
-
-/***/ }),
-
-/***/ "./src/scripts/modules/quiz/quiz.js":
-/*!******************************************!*\
-  !*** ./src/scripts/modules/quiz/quiz.js ***!
-  \******************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var gsap__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! gsap */ "./node_modules/gsap/index.js");
-/* harmony import */ var _utils_nodes__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../utils/nodes */ "./src/scripts/utils/nodes.js");
-/* harmony import */ var _quizValidation_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./quizValidation.js */ "./src/scripts/modules/quiz/quizValidation.js");
-/* harmony import */ var _form_sendForm__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../form/sendForm */ "./src/scripts/modules/form/sendForm.js");
-
-
-
-
-console.log(_utils_nodes__WEBPACK_IMPORTED_MODULE_0__.loader);
-var quiz = document.querySelector('.quiz');
-
-if (quiz) {
-  var nextBtn = quiz.querySelector('.quiz__btn--next');
-  var prevBtn = quiz.querySelector('.quiz__btn--prev');
-  var submitBtn = quiz.querySelector('.quiz__btn--submit');
-  var quizFields = quiz.querySelectorAll('.quiz__content-part');
-  var current = 0;
-
-  var onClickSlideNextStep = function onClickSlideNextStep() {
-    if (!!(0,_quizValidation_js__WEBPACK_IMPORTED_MODULE_1__.quizValidation)(quizFields[current])) {
-      quizFields[current].classList.remove('active');
-      quizFields[current + 1].classList.add('active');
-      gsap__WEBPACK_IMPORTED_MODULE_3__.gsap.fromTo(quizFields[current + 1], {
-        opacity: 0
-      }, {
-        opacity: 1,
-        duration: .8,
-        ease: 'ease-in'
-      });
-      current++;
-
-      if (current - (quizFields.length - 1) === 0) {
-        nextBtn.classList.add('disabled');
-        submitBtn.classList.remove('disabled');
-      } else {
-        if (current >= 1 && prevBtn.classList.contains('disabled')) {
-          console.log('prevBtn remove disabled');
-          prevBtn.classList.remove('disabled');
-        }
-      }
-    }
-  };
-
-  var onClickSlidePrevStep = function onClickSlidePrevStep() {
-    quizFields[current].classList.remove('active');
-    quizFields[current - 1].classList.add('active');
-    gsap__WEBPACK_IMPORTED_MODULE_3__.gsap.fromTo(quizFields[current - 1], {
-      opacity: 0
-    }, {
-      opacity: 1,
-      duration: .8,
-      ease: 'ease-in'
-    });
-    current--;
-
-    if (current === 0) {
-      prevBtn.classList.add('disabled');
-    }
-
-    if (current - (quizFields.length - 1) !== 0 && !submitBtn.classList.contains('disabled')) {
-      submitBtn.classList.add('disabled');
-      nextBtn.classList.remove('disabled');
-    }
-  };
-
-  nextBtn.addEventListener('click', onClickSlideNextStep);
-  prevBtn.addEventListener('click', onClickSlidePrevStep);
-  submitBtn.addEventListener('click', function (evt) {
-    evt.preventDefault();
-    console.log('send form');
-    gsap__WEBPACK_IMPORTED_MODULE_3__.gsap.to(_utils_nodes__WEBPACK_IMPORTED_MODULE_0__.loader, {
-      opacity: 1,
-      visibility: 'visible'
-    });
-    (0,_form_sendForm__WEBPACK_IMPORTED_MODULE_2__.sendForm)(quiz);
-  });
-}
-
-/***/ }),
-
-/***/ "./src/scripts/modules/quiz/quizValidation.js":
-/*!****************************************************!*\
-  !*** ./src/scripts/modules/quiz/quizValidation.js ***!
-  \****************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "quizValidation": () => (/* binding */ quizValidation)
-/* harmony export */ });
-/* harmony import */ var _form_controlValidationState__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../form/controlValidationState */ "./src/scripts/modules/form/controlValidationState.js");
-
-function quizValidation(controlField) {
-  var invalidControls = [];
-  var controls = controlField.querySelectorAll('[data-required]');
-  controls.forEach(function (control) {
-    (0,_form_controlValidationState__WEBPACK_IMPORTED_MODULE_0__.setValidStatus)(control);
-  });
-  controls.forEach(function (control) {
-    if (control.value.trim().length < 2) {
-      invalidControls.push(control);
-    }
-
-    if (control.type === 'tel') {
-      if (control.value.length !== 16) {
-        invalidControls.push(control);
-      }
-    }
-
-    if (control.type === 'checkbox') {
-      if (!control.checked) {
-        invalidControls.push(control);
-      }
-    }
-  });
-
-  if (!invalidControls.length) {
-    return true;
-  } else {
-    invalidControls.forEach(function (control) {
-      (0,_form_controlValidationState__WEBPACK_IMPORTED_MODULE_0__.setInvalidStatus)(control);
-    });
-  }
-}
-
-/***/ }),
-
-/***/ "./src/scripts/modules/quiz/translate-control.js":
-/*!*******************************************************!*\
-  !*** ./src/scripts/modules/quiz/translate-control.js ***!
-  \*******************************************************/
-/***/ (() => {
-
-var required = document.querySelector('#translate_required');
-
-if (required) {
-  var langField = document.querySelector('.quiz__content-part-field--lang input');
-  var disableBtn = document.querySelector('#translate_not_required');
-
-  if (!required.checked) {
-    langField.disabled = true;
-  }
-
-  required.addEventListener('change', function () {
-    if (required.checked) {
-      langField.disabled = false;
-      langField.focus();
-    }
-  });
-  disableBtn.addEventListener('change', function () {
-    if (!required.checked) {
-      langField.disabled = true;
-    }
-  });
-}
-
-/***/ }),
-
-/***/ "./src/scripts/modules/search.js":
-/*!***************************************!*\
-  !*** ./src/scripts/modules/search.js ***!
-  \***************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var gsap__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! gsap */ "./node_modules/gsap/index.js");
-
-var search = document.querySelector('.search');
-
-if (search) {
-  var opener = document.querySelector('.search-opener');
-  var closer = search.querySelector('.search-closer');
-
-  var onClickOpenSearchField = function onClickOpenSearchField() {
-    gsap__WEBPACK_IMPORTED_MODULE_0__.gsap.to(search, {
-      opacity: 1,
-      top: 0,
-      duration: .7,
-      ease: 'ease-in',
-      onComplete: function onComplete() {
-        opener.removeEventListener('click', onClickOpenSearchField);
-        closer.addEventListener('click', closeSearchHandler);
-      }
-    });
-  };
-
-  var closeSearchHandler = function closeSearchHandler() {
-    gsap__WEBPACK_IMPORTED_MODULE_0__.gsap.to(search, {
-      opacity: 0,
-      top: '-110%',
-      duration: .7,
-      ease: 'ease-out',
-      onComplete: function onComplete() {
-        opener.addEventListener('click', onClickOpenSearchField);
-        closer.removeEventListener('click', closeSearchHandler);
-      }
-    });
-  };
-
-  opener.addEventListener('click', onClickOpenSearchField);
-}
-
-/***/ }),
-
-/***/ "./src/scripts/modules/swiper.js":
-/*!***************************************!*\
-  !*** ./src/scripts/modules/swiper.js ***!
-  \***************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var swiper__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! swiper */ "./node_modules/swiper/swiper.esm.js");
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-
-swiper__WEBPACK_IMPORTED_MODULE_0__["default"].use([swiper__WEBPACK_IMPORTED_MODULE_0__.Thumbs, swiper__WEBPACK_IMPORTED_MODULE_0__.EffectFade, swiper__WEBPACK_IMPORTED_MODULE_0__.Navigation, swiper__WEBPACK_IMPORTED_MODULE_0__.Pagination, swiper__WEBPACK_IMPORTED_MODULE_0__.Autoplay]);
-var sliders = document.querySelectorAll('.main-slider');
-
-if (sliders) {
-  sliders.forEach(function (slider) {
-    var isAutoplayEnabled = false;
-    slider.classList.contains('autoplay') ? isAutoplayEnabled = true : isAutoplayEnabled = false;
-    var btnNext = slider.parentNode.querySelector('.slider-section-button-next');
-    var btnPrev = slider.parentNode.querySelector('.slider-section-button-prev');
-    var speed = 300;
-    isAutoplayEnabled ? speed = 3000 : speed = 300;
-    new swiper__WEBPACK_IMPORTED_MODULE_0__["default"](slider, _defineProperty({
-      slidesPerView: 'auto',
-      spaceBetween: 0,
-      centerInsufficientSlides: true,
-      speed: speed,
-      navigation: {
-        nextEl: btnNext,
-        prevEl: btnPrev
-      },
-      autoplay: {
-        delay: 2000,
-        disableOnInteraction: false
-      }
-    }, "autoplay", isAutoplayEnabled));
-  });
-}
-
-;
-
-/***/ }),
-
-/***/ "./src/scripts/utils/functions.js":
-/*!****************************************!*\
-  !*** ./src/scripts/utils/functions.js ***!
-  \****************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "addClass": () => (/* binding */ addClass),
-/* harmony export */   "bodyLocker": () => (/* binding */ bodyLocker),
-/* harmony export */   "checkClass": () => (/* binding */ checkClass),
-/* harmony export */   "getBoundingClientRect": () => (/* binding */ getBoundingClientRect),
-/* harmony export */   "getCssPropertyValue": () => (/* binding */ getCssPropertyValue),
-/* harmony export */   "getMousePos": () => (/* binding */ getMousePos),
-/* harmony export */   "getRadians": () => (/* binding */ getRadians),
-/* harmony export */   "lerp": () => (/* binding */ lerp),
-/* harmony export */   "limitStr": () => (/* binding */ limitStr),
-/* harmony export */   "removeClass": () => (/* binding */ removeClass),
-/* harmony export */   "setCssProperty": () => (/* binding */ setCssProperty),
-/* harmony export */   "toggleClass": () => (/* binding */ toggleClass)
-/* harmony export */ });
-// работа с классами эл-та
-var root = document.querySelector(':root');
-
-function getCssPropertyValue(name) {
-  return getComputedStyle(root).getPropertyValue(name);
-}
-
-function setCssProperty(name, value) {
-  root.style.setProperty(name, value);
-}
-
-function addClass(el, cl) {
-  el.classList.add(cl);
-}
-
-function removeClass(el, cl) {
-  el.classList.remove(cl);
-}
-
-function checkClass(el, cl) {
-  return el.classList.contains(cl);
-}
-
-function toggleClass(el, cl) {
-  el.classList.toggle(cl);
-} // Linear interpolation
-
-
-var lerp = function lerp(a, b, n) {
-  return (1 - n) * a + n * b;
-}; // Позиция мыши
-
-
-var getMousePos = function getMousePos(evt) {
-  return {
-    x: evt.clientX,
-    y: evt.clientY
-  };
-}; //получение радиан из градусов(для канваса)
-
-
-function getRadians(degrees) {
-  return Math.PI / 180 * degrees;
-} // Ограничение длины текста по кол-ву символов
-
-
-function limitStr(str, n) {
-  if (str.length > n) {
-    return str.slice(0, n) + '...';
-  } else {
-    return str;
-  }
-} // запрет скролла у body
-
-
-function bodyLocker(bool) {
-  var body = document.querySelector('body');
-  var paddingOffset = window.innerWidth - document.body.offsetWidth + 'px';
-
-  if (bool) {
-    body.style.overflow = 'hidden';
-    body.style.paddingRight = paddingOffset;
-  } else {
-    body.style.overflow = 'auto';
-    body.style.paddingRight = '0px';
-  }
-} // вычисление поз-и/размеров эл-та
-
-
-function getBoundingClientRect(elem, side) {
-  if (side === 'height') {
-    return elem.getBoundingClientRect().height;
-  }
-
-  if (side === 'width') {
-    return elem.getBoundingClientRect().width;
-  }
-
-  if (side === 'top') {
-    return elem.getBoundingClientRect().top;
-  }
-
-  if (side === 'bottom') {
-    return elem.getBoundingClientRect().bottom;
-  }
-
-  if (side === 'left') {
-    return elem.getBoundingClientRect().left;
-  }
-
-  if (side === 'right') {
-    return elem.getBoundingClientRect().right;
-  }
-
-  if (side === 'x') {
-    return elem.getBoundingClientRect().x;
-  }
-
-  if (side === 'y') {
-    return elem.getBoundingClientRect().y;
-  }
-}
-
-
-
-/***/ }),
-
-/***/ "./src/scripts/utils/nodes.js":
-/*!************************************!*\
-  !*** ./src/scripts/utils/nodes.js ***!
-  \************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "burger": () => (/* binding */ burger),
-/* harmony export */   "header": () => (/* binding */ header),
-/* harmony export */   "loader": () => (/* binding */ loader),
-/* harmony export */   "nav": () => (/* binding */ nav)
-/* harmony export */ });
-var burger = document.querySelector('.burger');
-var header = document.querySelector('header');
-var nav = document.querySelector('.header__nav');
-var loader = document.querySelector('.loader');
-
-
-/***/ }),
-
 /***/ "./node_modules/gsap/CSSPlugin.js":
 /*!****************************************!*\
   !*** ./node_modules/gsap/CSSPlugin.js ***!
@@ -1046,15 +10,15 @@ var loader = document.querySelector('.loader');
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "CSSPlugin": () => (/* binding */ CSSPlugin),
-/* harmony export */   "_createElement": () => (/* binding */ _createElement),
-/* harmony export */   "_getBBox": () => (/* binding */ _getBBox),
-/* harmony export */   "checkPrefix": () => (/* binding */ _checkPropPrefix),
+/* harmony export */   CSSPlugin: () => (/* binding */ CSSPlugin),
+/* harmony export */   _createElement: () => (/* binding */ _createElement),
+/* harmony export */   _getBBox: () => (/* binding */ _getBBox),
+/* harmony export */   checkPrefix: () => (/* binding */ _checkPropPrefix),
 /* harmony export */   "default": () => (/* binding */ CSSPlugin)
 /* harmony export */ });
 /* harmony import */ var _gsap_core_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./gsap-core.js */ "./node_modules/gsap/gsap-core.js");
 /*!
- * CSSPlugin 3.11.1
+ * CSSPlugin 3.11.4
  * https://greensock.com
  *
  * Copyright 2008-2022, GreenSock. All rights reserved.
@@ -1134,7 +98,7 @@ _renderRoundedCSSProp = function _renderRoundedCSSProp(ratio, data) {
 },
     _transformProp = "transform",
     _transformOriginProp = _transformProp + "Origin",
-    _saveStyle = function _saveStyle(property) {
+    _saveStyle = function _saveStyle(property, isNotCSS) {
   var _this = this;
 
   var target = this.target,
@@ -1156,13 +120,13 @@ _renderRoundedCSSProp = function _renderRoundedCSSProp(ratio, data) {
 
     if (target._gsap.svg) {
       this.svgo = target.getAttribute("data-svg-origin");
-      this.props.push(_transformOriginProp, "");
+      this.props.push(_transformOriginProp, isNotCSS, "");
     }
 
     property = _transformProp;
   }
 
-  style && this.props.push(property, style[property]);
+  (style || isNotCSS) && this.props.push(property, isNotCSS, style[property]);
 },
     _removeIndependentTransforms = function _removeIndependentTransforms(style) {
   if (style.translate) {
@@ -1179,8 +143,9 @@ _renderRoundedCSSProp = function _renderRoundedCSSProp(ratio, data) {
       i,
       p;
 
-  for (i = 0; i < props.length; i += 2) {
-    props[i + 1] ? style[props[i]] = props[i + 1] : style.removeProperty(props[i].replace(_capsExp, "-$1").toLowerCase());
+  for (i = 0; i < props.length; i += 3) {
+    // stored like this: property, isNotCSS, value
+    props[i + 1] ? target[props[i]] = props[i + 2] : props[i + 2] ? style[props[i]] = props[i + 2] : style.removeProperty(props[i].replace(_capsExp, "-$1").toLowerCase());
   }
 
   if (this.tfm) {
@@ -1878,7 +843,7 @@ _identity2DMatrix = [1, 0, 0, 1, 0, 0],
   if (cs.translate) {
     // accommodate independent transforms by combining them into normal ones.
     if (cs.translate !== "none" || cs.scale !== "none" || cs.rotate !== "none") {
-      style[_transformProp] = (cs.translate !== "none" ? "translate3d(" + (cs.translate + " 0 0").split(" ").slice(0, 3).join(", ") + ") " : "") + (cs.rotate !== "none" ? "rotate(" + cs.rotate + ") " : "") + (cs.scale !== "none" ? "scale(" + cs.scale.split(" ").join(",") + ") " : "") + cs[_transformProp];
+      style[_transformProp] = (cs.translate !== "none" ? "translate3d(" + (cs.translate + " 0 0").split(" ").slice(0, 3).join(", ") + ") " : "") + (cs.rotate !== "none" ? "rotate(" + cs.rotate + ") " : "") + (cs.scale !== "none" ? "scale(" + cs.scale.split(" ").join(",") + ") " : "") + (cs[_transformProp] !== "none" ? cs[_transformProp] : "");
     }
 
     style.scale = style.rotate = style.translate = "none";
@@ -2415,7 +1380,7 @@ var CSSPlugin = {
         endUnit ? startUnit !== endUnit && (startValue = _convertToUnit(target, p, startValue, endUnit) + endUnit) : startUnit && (endValue += startUnit);
         this.add(style, "setProperty", startValue, endValue, index, targets, 0, 0, p);
         props.push(p);
-        inlineProps.push(p, style[p]);
+        inlineProps.push(p, 0, style[p]);
       } else if (type !== "undefined") {
         if (startAt && p in startAt) {
           // in case someone hard-codes a complex value as the start, like top: "calc(2vh / 2)". Without this, it'd use the computed value (always in px)
@@ -2441,7 +1406,7 @@ var CSSPlugin = {
               startNum = 0;
             }
 
-            inlineProps.push("visibility", style.visibility);
+            inlineProps.push("visibility", 0, style.visibility);
 
             _addNonTweeningPT(this, style, "visibility", startNum ? "inherit" : "hidden", endNum ? "inherit" : "hidden", !endNum);
           }
@@ -2473,7 +1438,7 @@ var CSSPlugin = {
             props.push("scaleY", p);
             p += "X";
           } else if (p === "transformOrigin") {
-            inlineProps.push(_transformOriginProp, style[_transformOriginProp]);
+            inlineProps.push(_transformOriginProp, 0, style[_transformOriginProp]);
             endValue = _convertKeywordsToPercentages(endValue); //in case something like "left top" or "bottom right" is passed in. Convert to percentages.
 
             if (cache.svg) {
@@ -2529,7 +1494,7 @@ var CSSPlugin = {
           if (p in target) {
             //maybe it's not a style - it could be a property added directly to an element in which case we'll try to animate that.
             this.add(target, p, startValue || target[p], relative ? relative + endValue : endValue, index, targets);
-          } else {
+          } else if (p !== "parseTransform") {
             (0,_gsap_core_js__WEBPACK_IMPORTED_MODULE_0__._missingPlugin)(p, endValue);
 
             continue;
@@ -2538,7 +1503,7 @@ var CSSPlugin = {
           _tweenComplexCSSString.call(this, target, p, startValue, relative ? relative + endValue : endValue);
         }
 
-        isTransformRelated || inlineProps.push(p, style[p]);
+        isTransformRelated || (p in style ? inlineProps.push(p, 0, style[p]) : inlineProps.push(p, 1, startValue || target[p]));
         props.push(p);
       }
     }
@@ -2609,82 +1574,82 @@ _gsap_core_js__WEBPACK_IMPORTED_MODULE_0__.gsap.registerPlugin(CSSPlugin);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "Animation": () => (/* binding */ Animation),
-/* harmony export */   "Back": () => (/* binding */ Back),
-/* harmony export */   "Bounce": () => (/* binding */ Bounce),
-/* harmony export */   "Circ": () => (/* binding */ Circ),
-/* harmony export */   "Cubic": () => (/* binding */ Cubic),
-/* harmony export */   "Elastic": () => (/* binding */ Elastic),
-/* harmony export */   "Expo": () => (/* binding */ Expo),
-/* harmony export */   "GSCache": () => (/* binding */ GSCache),
-/* harmony export */   "Linear": () => (/* binding */ Linear),
-/* harmony export */   "Power0": () => (/* binding */ Power0),
-/* harmony export */   "Power1": () => (/* binding */ Power1),
-/* harmony export */   "Power2": () => (/* binding */ Power2),
-/* harmony export */   "Power3": () => (/* binding */ Power3),
-/* harmony export */   "Power4": () => (/* binding */ Power4),
-/* harmony export */   "PropTween": () => (/* binding */ PropTween),
-/* harmony export */   "Quad": () => (/* binding */ Quad),
-/* harmony export */   "Quart": () => (/* binding */ Quart),
-/* harmony export */   "Quint": () => (/* binding */ Quint),
-/* harmony export */   "Sine": () => (/* binding */ Sine),
-/* harmony export */   "SteppedEase": () => (/* binding */ SteppedEase),
-/* harmony export */   "Strong": () => (/* binding */ Strong),
-/* harmony export */   "Timeline": () => (/* binding */ Timeline),
-/* harmony export */   "TimelineLite": () => (/* binding */ Timeline),
-/* harmony export */   "TimelineMax": () => (/* binding */ Timeline),
-/* harmony export */   "Tween": () => (/* binding */ Tween),
-/* harmony export */   "TweenLite": () => (/* binding */ Tween),
-/* harmony export */   "TweenMax": () => (/* binding */ Tween),
-/* harmony export */   "_checkPlugin": () => (/* binding */ _checkPlugin),
-/* harmony export */   "_colorExp": () => (/* binding */ _colorExp),
-/* harmony export */   "_colorStringFilter": () => (/* binding */ _colorStringFilter),
-/* harmony export */   "_config": () => (/* binding */ _config),
-/* harmony export */   "_forEachName": () => (/* binding */ _forEachName),
-/* harmony export */   "_getCache": () => (/* binding */ _getCache),
-/* harmony export */   "_getProperty": () => (/* binding */ _getProperty),
-/* harmony export */   "_getSetter": () => (/* binding */ _getSetter),
-/* harmony export */   "_isString": () => (/* binding */ _isString),
-/* harmony export */   "_isUndefined": () => (/* binding */ _isUndefined),
-/* harmony export */   "_missingPlugin": () => (/* binding */ _missingPlugin),
-/* harmony export */   "_numExp": () => (/* binding */ _numExp),
-/* harmony export */   "_numWithUnitExp": () => (/* binding */ _numWithUnitExp),
-/* harmony export */   "_parseRelative": () => (/* binding */ _parseRelative),
-/* harmony export */   "_plugins": () => (/* binding */ _plugins),
-/* harmony export */   "_relExp": () => (/* binding */ _relExp),
-/* harmony export */   "_removeLinkedListItem": () => (/* binding */ _removeLinkedListItem),
-/* harmony export */   "_renderComplexString": () => (/* binding */ _renderComplexString),
-/* harmony export */   "_replaceRandom": () => (/* binding */ _replaceRandom),
-/* harmony export */   "_round": () => (/* binding */ _round),
-/* harmony export */   "_roundModifier": () => (/* binding */ _roundModifier),
-/* harmony export */   "_setDefaults": () => (/* binding */ _setDefaults),
-/* harmony export */   "_sortPropTweensByPriority": () => (/* binding */ _sortPropTweensByPriority),
-/* harmony export */   "_ticker": () => (/* binding */ _ticker),
-/* harmony export */   "clamp": () => (/* binding */ clamp),
+/* harmony export */   Animation: () => (/* binding */ Animation),
+/* harmony export */   Back: () => (/* binding */ Back),
+/* harmony export */   Bounce: () => (/* binding */ Bounce),
+/* harmony export */   Circ: () => (/* binding */ Circ),
+/* harmony export */   Cubic: () => (/* binding */ Cubic),
+/* harmony export */   Elastic: () => (/* binding */ Elastic),
+/* harmony export */   Expo: () => (/* binding */ Expo),
+/* harmony export */   GSCache: () => (/* binding */ GSCache),
+/* harmony export */   Linear: () => (/* binding */ Linear),
+/* harmony export */   Power0: () => (/* binding */ Power0),
+/* harmony export */   Power1: () => (/* binding */ Power1),
+/* harmony export */   Power2: () => (/* binding */ Power2),
+/* harmony export */   Power3: () => (/* binding */ Power3),
+/* harmony export */   Power4: () => (/* binding */ Power4),
+/* harmony export */   PropTween: () => (/* binding */ PropTween),
+/* harmony export */   Quad: () => (/* binding */ Quad),
+/* harmony export */   Quart: () => (/* binding */ Quart),
+/* harmony export */   Quint: () => (/* binding */ Quint),
+/* harmony export */   Sine: () => (/* binding */ Sine),
+/* harmony export */   SteppedEase: () => (/* binding */ SteppedEase),
+/* harmony export */   Strong: () => (/* binding */ Strong),
+/* harmony export */   Timeline: () => (/* binding */ Timeline),
+/* harmony export */   TimelineLite: () => (/* binding */ Timeline),
+/* harmony export */   TimelineMax: () => (/* binding */ Timeline),
+/* harmony export */   Tween: () => (/* binding */ Tween),
+/* harmony export */   TweenLite: () => (/* binding */ Tween),
+/* harmony export */   TweenMax: () => (/* binding */ Tween),
+/* harmony export */   _checkPlugin: () => (/* binding */ _checkPlugin),
+/* harmony export */   _colorExp: () => (/* binding */ _colorExp),
+/* harmony export */   _colorStringFilter: () => (/* binding */ _colorStringFilter),
+/* harmony export */   _config: () => (/* binding */ _config),
+/* harmony export */   _forEachName: () => (/* binding */ _forEachName),
+/* harmony export */   _getCache: () => (/* binding */ _getCache),
+/* harmony export */   _getProperty: () => (/* binding */ _getProperty),
+/* harmony export */   _getSetter: () => (/* binding */ _getSetter),
+/* harmony export */   _isString: () => (/* binding */ _isString),
+/* harmony export */   _isUndefined: () => (/* binding */ _isUndefined),
+/* harmony export */   _missingPlugin: () => (/* binding */ _missingPlugin),
+/* harmony export */   _numExp: () => (/* binding */ _numExp),
+/* harmony export */   _numWithUnitExp: () => (/* binding */ _numWithUnitExp),
+/* harmony export */   _parseRelative: () => (/* binding */ _parseRelative),
+/* harmony export */   _plugins: () => (/* binding */ _plugins),
+/* harmony export */   _relExp: () => (/* binding */ _relExp),
+/* harmony export */   _removeLinkedListItem: () => (/* binding */ _removeLinkedListItem),
+/* harmony export */   _renderComplexString: () => (/* binding */ _renderComplexString),
+/* harmony export */   _replaceRandom: () => (/* binding */ _replaceRandom),
+/* harmony export */   _round: () => (/* binding */ _round),
+/* harmony export */   _roundModifier: () => (/* binding */ _roundModifier),
+/* harmony export */   _setDefaults: () => (/* binding */ _setDefaults),
+/* harmony export */   _sortPropTweensByPriority: () => (/* binding */ _sortPropTweensByPriority),
+/* harmony export */   _ticker: () => (/* binding */ _ticker),
+/* harmony export */   clamp: () => (/* binding */ clamp),
 /* harmony export */   "default": () => (/* binding */ gsap),
-/* harmony export */   "distribute": () => (/* binding */ distribute),
-/* harmony export */   "getUnit": () => (/* binding */ getUnit),
-/* harmony export */   "gsap": () => (/* binding */ gsap),
-/* harmony export */   "interpolate": () => (/* binding */ interpolate),
-/* harmony export */   "mapRange": () => (/* binding */ mapRange),
-/* harmony export */   "normalize": () => (/* binding */ normalize),
-/* harmony export */   "pipe": () => (/* binding */ pipe),
-/* harmony export */   "random": () => (/* binding */ random),
-/* harmony export */   "selector": () => (/* binding */ selector),
-/* harmony export */   "shuffle": () => (/* binding */ shuffle),
-/* harmony export */   "snap": () => (/* binding */ snap),
-/* harmony export */   "splitColor": () => (/* binding */ splitColor),
-/* harmony export */   "toArray": () => (/* binding */ toArray),
-/* harmony export */   "unitize": () => (/* binding */ unitize),
-/* harmony export */   "wrap": () => (/* binding */ wrap),
-/* harmony export */   "wrapYoyo": () => (/* binding */ wrapYoyo)
+/* harmony export */   distribute: () => (/* binding */ distribute),
+/* harmony export */   getUnit: () => (/* binding */ getUnit),
+/* harmony export */   gsap: () => (/* binding */ gsap),
+/* harmony export */   interpolate: () => (/* binding */ interpolate),
+/* harmony export */   mapRange: () => (/* binding */ mapRange),
+/* harmony export */   normalize: () => (/* binding */ normalize),
+/* harmony export */   pipe: () => (/* binding */ pipe),
+/* harmony export */   random: () => (/* binding */ random),
+/* harmony export */   selector: () => (/* binding */ selector),
+/* harmony export */   shuffle: () => (/* binding */ shuffle),
+/* harmony export */   snap: () => (/* binding */ snap),
+/* harmony export */   splitColor: () => (/* binding */ splitColor),
+/* harmony export */   toArray: () => (/* binding */ toArray),
+/* harmony export */   unitize: () => (/* binding */ unitize),
+/* harmony export */   wrap: () => (/* binding */ wrap),
+/* harmony export */   wrapYoyo: () => (/* binding */ wrapYoyo)
 /* harmony export */ });
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
 function _inheritsLoose(subClass, superClass) { subClass.prototype = Object.create(superClass.prototype); subClass.prototype.constructor = subClass; subClass.__proto__ = superClass; }
 
 /*!
- * GSAP 3.11.1
+ * GSAP 3.11.4
  * https://greensock.com
  *
  * @license Copyright 2008-2022, GreenSock. All rights reserved.
@@ -2780,7 +1745,12 @@ _unitExp = /^[+\-=e\s\d]*\d+[.\d]*([a-z]*|%)\s*$/i,
 },
     _startAtRevertConfig = {
   suppressEvents: true,
-  isStart: true
+  isStart: true,
+  kill: false
+},
+    _revertConfigNoKill = {
+  suppressEvents: true,
+  kill: false
 },
     _revertConfig = {
   suppressEvents: true
@@ -2864,9 +1834,9 @@ _parseRelative = function _parseRelative(start, value) {
   }
 },
     _lazySafeRender = function _lazySafeRender(animation, time, suppressEvents, force) {
-  _lazyTweens.length && _lazyRender();
-  animation.render(time, suppressEvents, force || _reverting);
-  _lazyTweens.length && _lazyRender(); //in case rendering caused any tweens to lazy-init, we should render them because typically when someone calls seek() or time() or progress(), they expect an immediate render.
+  _lazyTweens.length && !_reverting && _lazyRender();
+  animation.render(time, suppressEvents, force || _reverting && time < 0 && (animation._initted || animation._startAt));
+  _lazyTweens.length && !_reverting && _lazyRender(); //in case rendering caused any tweens to lazy-init, we should render them because typically when someone calls seek() or time() or progress(), they expect an immediate render.
 },
     _numericIfPossible = function _numericIfPossible(value) {
   var n = parseFloat(value);
@@ -3028,7 +1998,7 @@ _parseRelative = function _parseRelative(start, value) {
   return animation;
 },
     _rewindStartAt = function _rewindStartAt(tween, totalTime, suppressEvents, force) {
-  return tween._startAt && (_reverting ? tween._startAt.revert(_revertConfig) : tween.vars.immediateRender && !tween.vars.autoRevert || tween._startAt.render(totalTime, true, force));
+  return tween._startAt && (_reverting ? tween._startAt.revert(_revertConfigNoKill) : tween.vars.immediateRender && !tween.vars.autoRevert || tween._startAt.render(totalTime, true, force));
 },
     _hasNoPausedAncestors = function _hasNoPausedAncestors(animation) {
   return !animation || animation._ts && _hasNoPausedAncestors(animation.parent);
@@ -3116,17 +2086,17 @@ _postAddChecks = function _postAddChecks(timeline, child) {
     _scrollTrigger = function _scrollTrigger(animation, trigger) {
   return (_globals.ScrollTrigger || _missingPlugin("scrollTrigger", trigger)) && _globals.ScrollTrigger.create(trigger, animation);
 },
-    _attemptInitTween = function _attemptInitTween(tween, totalTime, force, suppressEvents) {
-  _initTween(tween, totalTime);
+    _attemptInitTween = function _attemptInitTween(tween, time, force, suppressEvents, tTime) {
+  _initTween(tween, time, tTime);
 
   if (!tween._initted) {
     return 1;
   }
 
-  if (!force && tween._pt && (tween._dur && tween.vars.lazy !== false || !tween._dur && tween.vars.lazy) && _lastRenderedFrame !== _ticker.frame) {
+  if (!force && tween._pt && !_reverting && (tween._dur && tween.vars.lazy !== false || !tween._dur && tween.vars.lazy) && _lastRenderedFrame !== _ticker.frame) {
     _lazyTweens.push(tween);
 
-    tween._lazy = [totalTime, suppressEvents];
+    tween._lazy = [tTime, suppressEvents];
     return 1;
   }
 },
@@ -3163,7 +2133,7 @@ _isFromOrFromStart = function _isFromOrFromStart(_ref2) {
   }
 
   if (ratio !== prevRatio || _reverting || force || tween._zTime === _tinyNum || !totalTime && tween._zTime) {
-    if (!tween._initted && _attemptInitTween(tween, totalTime, force, suppressEvents)) {
+    if (!tween._initted && _attemptInitTween(tween, totalTime, force, suppressEvents, tTime)) {
       // if we render the very beginning (time == 0) of a fromTo(), we must force the render (normal tweens wouldn't need to render at a time of 0 when the prevTime was also 0). This is also mandatory to make sure overwriting kicks in immediately.
       return;
     }
@@ -3233,7 +2203,8 @@ _isFromOrFromStart = function _isFromOrFromStart(_ref2) {
   totalProgress && !leavePlayhead && (animation._time *= dur / animation._dur);
   animation._dur = dur;
   animation._tDur = !repeat ? dur : repeat < 0 ? 1e10 : _roundPrecise(dur * (repeat + 1) + animation._rDelay * repeat);
-  totalProgress > 0 && !leavePlayhead ? _alignPlayhead(animation, animation._tTime = animation._tDur * totalProgress) : animation.parent && _setEnd(animation);
+  totalProgress > 0 && !leavePlayhead && _alignPlayhead(animation, animation._tTime = animation._tDur * totalProgress);
+  animation.parent && _setEnd(animation);
   skipUncache || _uncache(animation.parent, animation);
   return animation;
 },
@@ -3669,7 +2640,7 @@ distribute = function distribute(v) {
     _interrupt = function _interrupt(animation) {
   _removeFromParent(animation);
 
-  animation.scrollTrigger && animation.scrollTrigger.kill(false);
+  animation.scrollTrigger && animation.scrollTrigger.kill(!!_reverting);
   animation.progress() < 1 && _callback(animation, "onInterrupt");
   return animation;
 },
@@ -4025,9 +2996,9 @@ _tickerActive,
       _req = _emptyFunc;
     },
     lagSmoothing: function lagSmoothing(threshold, adjustedLag) {
-      _lagThreshold = threshold || 1 / _tinyNum; //zero should be interpreted as basically unlimited
+      _lagThreshold = threshold || Infinity; // zero should be interpreted as basically unlimited
 
-      _adjustedLag = Math.min(adjustedLag, _lagThreshold, 0);
+      _adjustedLag = Math.min(adjustedLag || 33, _lagThreshold);
     },
     fps: function fps(_fps) {
       _gap = 1000 / (_fps || 240);
@@ -4504,9 +3475,13 @@ var Animation = /*#__PURE__*/function () {
 
     var prevIsReverting = _reverting;
     _reverting = config;
-    this.timeline && this.timeline.revert(config);
-    this.totalTime(-0.01, config.suppressEvents);
-    this.data !== "nested" && _removeFromParent(this);
+
+    if (this._initted || this._startAt) {
+      this.timeline && this.timeline.revert(config);
+      this.totalTime(-0.01, config.suppressEvents);
+    }
+
+    this.data !== "nested" && config.kill !== false && this.kill();
     _reverting = prevIsReverting;
     return this;
   };
@@ -4520,7 +3495,7 @@ var Animation = /*#__PURE__*/function () {
       animation = animation._dp;
     }
 
-    return !this.parent && this.vars.immediateRender ? -1 : time; // the _startAt tweens for .fromTo() and .from() that have immediateRender should always be FIRST in the timeline (important for Recording.revert())
+    return !this.parent && this._sat ? this._sat.vars.immediateRender ? -1 : this._sat.globalTime(rawTime) : time; // the _startAt tweens for .fromTo() and .from() that have immediateRender should always be FIRST in the timeline (important for context.revert()). "_sat" stands for _startAtTween, referring to the parent tween that created the _startAt. We must discern if that tween had immediateRender so that we can know whether or not to prioritize it in revert().
   };
 
   _proto.repeat = function repeat(value) {
@@ -4930,8 +3905,6 @@ var Timeline = /*#__PURE__*/function (_Animation) {
           child = next;
         }
       } else {
-        force = force || _reverting; // if reverting, we should always force renders. If, for example, a .fromTo() tween with a stagger (which creates an internal timeline) gets reverted BEFORE some of its child tweens render for the first time, it may not properly trigger them to revert.
-
         child = this._last;
         var adjustedTime = totalTime < 0 ? totalTime : time; //when the playhead goes backward beyond the start of this timeline, we must pass that information down to the child animations so that zero-duration tweens know whether to render their starting or ending values.
 
@@ -4944,7 +3917,7 @@ var Timeline = /*#__PURE__*/function (_Animation) {
               return this.render(totalTime, suppressEvents, force);
             }
 
-            child.render(child._ts > 0 ? (adjustedTime - child._start) * child._ts : (child._dirty ? child.totalDuration() : child._tDur) + (adjustedTime - child._start) * child._ts, suppressEvents, force);
+            child.render(child._ts > 0 ? (adjustedTime - child._start) * child._ts : (child._dirty ? child.totalDuration() : child._tDur) + (adjustedTime - child._start) * child._ts, suppressEvents, force || _reverting && (child._initted || child._startAt)); // if reverting, we should always force renders of initted tweens (but remember that .fromTo() or .from() may have a _startAt but not _initted yet). If, for example, a .fromTo() tween with a stagger (which creates an internal timeline) gets reverted BEFORE some of its child tweens render for the first time, it may not properly trigger them to revert.
 
             if (time !== this._time || !this._ts && !prevPaused) {
               //in case a tween pauses or seeks the timeline when rendering, like inside of an onUpdate/onComplete
@@ -5265,16 +4238,16 @@ var Timeline = /*#__PURE__*/function (_Animation) {
     return _uncache(this);
   };
 
-  _proto2.invalidate = function invalidate() {
+  _proto2.invalidate = function invalidate(soft) {
     var child = this._first;
     this._lock = 0;
 
     while (child) {
-      child.invalidate();
+      child.invalidate(soft);
       child = child._next;
     }
 
-    return _Animation.prototype.invalidate.call(this);
+    return _Animation.prototype.invalidate.call(this, soft);
   };
 
   _proto2.clear = function clear(includeLabels) {
@@ -5527,7 +4500,7 @@ _processVars = function _processVars(vars, index, target, targets, tween) {
     _overwritingTween,
     //store a reference temporarily so we can avoid overwriting itself.
 _forceAllPropTweens,
-    _initTween = function _initTween(tween, time) {
+    _initTween = function _initTween(tween, time, tTime) {
   var vars = tween.vars,
       ease = vars.ease,
       startAt = vars.startAt,
@@ -5581,7 +4554,9 @@ _forceAllPropTweens,
     cleanVars = _copyExcluding(vars, _reservedProps);
 
     if (prevStartAt) {
-      time < 0 && runBackwards && immediateRender && !autoRevert ? prevStartAt.render(-1, true) : prevStartAt.revert(runBackwards && dur ? _revertConfig : _startAtRevertConfig); // if it's a "startAt" (not "from()" or runBackwards: true), we only need to do a shallow revert (keep transforms cached in CSSPlugin)
+      prevStartAt._zTime < 0 && prevStartAt.progress(1); // in case it's a lazy startAt that hasn't rendered yet.
+
+      time < 0 && runBackwards && immediateRender && !autoRevert ? prevStartAt.render(-1, true) : prevStartAt.revert(runBackwards && dur ? _revertConfigNoKill : _startAtRevertConfig); // if it's a "startAt" (not "from()" or runBackwards: true), we only need to do a shallow revert (keep transforms cached in CSSPlugin)
       // don't just _removeFromParent(prevStartAt.render(-1, true)) because that'll leave inline styles. We're creating a new _startAt for "startAt" tweens that re-capture things to ensure that if the pre-tween values changed since the tween was created, they're recorded.
 
       prevStartAt._lazy = 0;
@@ -5593,7 +4568,7 @@ _forceAllPropTweens,
         overwrite: false,
         parent: parent,
         immediateRender: true,
-        lazy: _isNotFalse(lazy),
+        lazy: !prevStartAt && _isNotFalse(lazy),
         startAt: null,
         delay: 0,
         onUpdate: onUpdate,
@@ -5603,10 +4578,15 @@ _forceAllPropTweens,
       }, startAt))); //copy the properties/values into a new object to avoid collisions, like var to = {x:0}, from = {x:500}; timeline.fromTo(e, from, to).fromTo(e, to, from);
 
 
-      time < 0 && (_reverting || !immediateRender && !autoRevert) && tween._startAt.revert(_revertConfig); // rare edge case, like if a render is forced in the negative direction of a non-initted tween.
+      tween._startAt._dp = 0; // don't allow it to get put back into root timeline! Like when revert() is called and totalTime() gets set.
+
+      tween._startAt._sat = tween; // used in globalTime(). _sat stands for _startAtTween
+
+      time < 0 && (_reverting || !immediateRender && !autoRevert) && tween._startAt.revert(_revertConfigNoKill); // rare edge case, like if a render is forced in the negative direction of a non-initted tween.
 
       if (immediateRender) {
-        if (dur && time <= 0) {
+        if (dur && time <= 0 && tTime <= 0) {
+          // check tTime here because in the case of a yoyo tween whose playhead gets pushed to the end like tween.progress(1), we should allow it through so that the onComplete gets fired properly.
           time && (tween._zTime = time);
           return; //we skip initialization here so that overwriting doesn't occur until the tween actually begins. Otherwise, if you create several immediateRender:true tweens of the same target/properties to drop into a Timeline, the last one created would overwrite the first ones because they didn't get placed into the timeline yet before the first render occurs and kicks in overwriting.
         }
@@ -5620,7 +4600,7 @@ _forceAllPropTweens,
           overwrite: false,
           data: "isFromStart",
           //we tag the tween with as "isFromStart" so that if [inside a plugin] we need to only do something at the very END of a tween, we have a way of identifying this tween as merely the one that's setting the beginning values for a "from()" tween. For example, clearProps in CSSPlugin should only get applied at the very END of a tween and without this tag, from(...{height:100, clearProps:"height", delay:1}) would wipe the height at the beginning of the tween and after 1 second, it'd kick back in.
-          lazy: immediateRender && _isNotFalse(lazy),
+          lazy: immediateRender && !prevStartAt && _isNotFalse(lazy),
           immediateRender: immediateRender,
           //zero-duration tweens render immediately by default, but if we're not specifically instructed to render this tween immediately, we should skip this and merely _init() to record the starting values (rendering them immediately would push them to completion which is wasteful in that case - we'd have to render(-1) immediately after)
           stagger: 0,
@@ -5631,11 +4611,15 @@ _forceAllPropTweens,
 
         _removeFromParent(tween._startAt = Tween.set(targets, p));
 
-        time < 0 && (_reverting ? tween._startAt.revert(_revertConfig) : tween._startAt.render(-1, true));
+        tween._startAt._dp = 0; // don't allow it to get put back into root timeline!
+
+        tween._startAt._sat = tween; // used in globalTime()
+
+        time < 0 && (_reverting ? tween._startAt.revert(_revertConfigNoKill) : tween._startAt.render(-1, true));
         tween._zTime = time;
 
         if (!immediateRender) {
-          _initTween(tween._startAt, _tinyNum); //ensures that the initial values are recorded
+          _initTween(tween._startAt, _tinyNum, _tinyNum); //ensures that the initial values are recorded
 
         } else if (!time) {
           return;
@@ -5977,7 +4961,7 @@ var Tween = /*#__PURE__*/function (_Animation2) {
     if (immediateRender || !duration && !keyframes && _this3._start === _roundPrecise(parent._time) && _isNotFalse(immediateRender) && _hasNoPausedAncestors(_assertThisInitialized(_this3)) && parent.data !== "nested") {
       _this3._tTime = -_tinyNum; //forces a render without having to set the render() "force" parameter to true because we want to allow lazying by default (using the "force" parameter always forces an immediate full render)
 
-      _this3.render(Math.max(0, -delay)); //in case delay is negative
+      _this3.render(Math.max(0, -delay) || 0); //in case delay is negative
 
     }
 
@@ -6062,7 +5046,7 @@ var Tween = /*#__PURE__*/function (_Animation2) {
       }
 
       if (!this._initted) {
-        if (_attemptInitTween(this, isNegative ? totalTime : time, force, suppressEvents)) {
+        if (_attemptInitTween(this, isNegative ? totalTime : time, force, suppressEvents, tTime)) {
           this._tTime = 0; // in constructor if immediateRender is true, we set _tTime to -_tinyNum to have the playhead cross the starting point but we can't leave _tTime as a negative number.
 
           return this;
@@ -6124,7 +5108,7 @@ var Tween = /*#__PURE__*/function (_Animation2) {
         isNegative && !this._onUpdate && _rewindStartAt(this, totalTime, true, true);
         (totalTime || !dur) && (tTime === this._tDur && this._ts > 0 || !tTime && this._ts < 0) && _removeFromParent(this, 1); // don't remove if we're rendering at exactly a time of 0, as there could be autoRevert values that should get set on the next tick (if the playhead goes backward beyond the startTime, negative totalTime). Don't remove if the timeline is reversed and the playhead isn't at 0, otherwise tl.progress(1).reverse() won't work. Only remove if the playhead is at the end and timeScale is positive, or if the playhead is at 0 and the timeScale is negative.
 
-        if (!suppressEvents && !(isNegative && !prevTime) && (tTime || prevTime)) {
+        if (!suppressEvents && !(isNegative && !prevTime) && (tTime || prevTime || isYoyo)) {
           // if prevTime and tTime are zero, we shouldn't fire the onReverseComplete. This could happen if you gsap.to(... {paused:true}).play();
           _callback(this, tTime === tDur ? "onComplete" : "onReverseComplete", true);
 
@@ -6140,11 +5124,13 @@ var Tween = /*#__PURE__*/function (_Animation2) {
     return this._targets;
   };
 
-  _proto3.invalidate = function invalidate() {
-    this._pt = this._op = this._startAt = this._onUpdate = this._lazy = this.ratio = 0;
+  _proto3.invalidate = function invalidate(soft) {
+    // "soft" gives us a way to clear out everything EXCEPT the recorded pre-"from" portion of from() tweens. Otherwise, for example, if you tween.progress(1).render(0, true true).invalidate(), the "from" values would persist and then on the next render, the from() tweens would initialize and the current value would match the "from" values, thus animate from the same value to the same value (no animation). We tap into this in ScrollTrigger's refresh() where we must push a tween to completion and then back again but honor its init state in case the tween is dependent on another tween further up on the page.
+    (!soft || !this.vars.runBackwards) && (this._startAt = 0);
+    this._pt = this._op = this._onUpdate = this._lazy = this.ratio = 0;
     this._ptLookup = [];
-    this.timeline && this.timeline.invalidate();
-    return _Animation2.prototype.invalidate.call(this);
+    this.timeline && this.timeline.invalidate(soft);
+    return _Animation2.prototype.invalidate.call(this, soft);
   };
 
   _proto3.resetTo = function resetTo(property, value, start, startIsRelative) {
@@ -6565,6 +5551,11 @@ var Context = /*#__PURE__*/function () {
   var _proto5 = Context.prototype;
 
   _proto5.add = function add(name, func, scope) {
+    // possible future addition if we need the ability to add() an animation to a context and for whatever reason cannot create that animation inside of a context.add(() => {...}) function.
+    // if (name && _isFunction(name.revert)) {
+    // 	this.data.push(name);
+    // 	return (name._ctx = this);
+    // }
     if (_isFunction(name)) {
       scope = func;
       func = name;
@@ -6601,7 +5592,7 @@ var Context = /*#__PURE__*/function () {
   _proto5.getTweens = function getTweens() {
     var a = [];
     this.data.forEach(function (e) {
-      return e instanceof Context ? a.push.apply(a, e.getTweens()) : e instanceof Tween && a.push(e);
+      return e instanceof Context ? a.push.apply(a, e.getTweens()) : e instanceof Tween && !(e.parent && e.parent.data === "nested") && a.push(e);
     });
     return a;
   };
@@ -6614,8 +5605,18 @@ var Context = /*#__PURE__*/function () {
     var _this4 = this;
 
     if (revert) {
-      // save as an object so that we can cache the globalTime for each tween to optimize performance during the sort
-      this.getTweens().map(function (t) {
+      var tweens = this.getTweens();
+      this.data.forEach(function (t) {
+        // Flip plugin tweens are very different in that they should actually be pushed to their end. The plugin replaces the timeline's .revert() method to do exactly that. But we also need to remove any of those nested tweens inside the flip timeline so that they don't get individually reverted.
+        if (t.data === "isFlip") {
+          t.revert();
+          t.getChildren(true, true, false).forEach(function (tween) {
+            return tweens.splice(tweens.indexOf(tween), 1);
+          });
+        }
+      }); // save as an object so that we can cache the globalTime for each tween to optimize performance during the sort
+
+      tweens.map(function (t) {
         return {
           g: t.globalTime(0),
           t: t
@@ -6624,7 +5625,7 @@ var Context = /*#__PURE__*/function () {
         return b.g - a.g || -1;
       }).forEach(function (o) {
         return o.t.revert(revert);
-      }); // note: all of the _startAt tweens should be reverted in reverse order that thy were created, and they'll all have the same globalTime (-1) so the " || -1" in the sort keeps the order properly.
+      }); // note: all of the _startAt tweens should be reverted in reverse order that they were created, and they'll all have the same globalTime (-1) so the " || -1" in the sort keeps the order properly.
 
       this.data.forEach(function (e) {
         return !(e instanceof Animation) && e.revert && e.revert(revert);
@@ -7062,7 +6063,7 @@ var gsap = _gsap.registerPlugin({
   }
 }, _buildModifierPlugin("roundProps", _roundModifier), _buildModifierPlugin("modifiers"), _buildModifierPlugin("snap", snap)) || _gsap; //to prevent the core plugins from being dropped via aggressive tree shaking, we must include them in the variable declaration in this way.
 
-Tween.version = Timeline.version = gsap.version = "3.11.1";
+Tween.version = Timeline.version = gsap.version = "3.11.4";
 _coreReady = 1;
 _windowExists() && _wake();
 var Power0 = _easeMap.Power0,
@@ -7099,31 +6100,31 @@ var Power0 = _easeMap.Power0,
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "Back": () => (/* reexport safe */ _gsap_core_js__WEBPACK_IMPORTED_MODULE_0__.Back),
-/* harmony export */   "Bounce": () => (/* reexport safe */ _gsap_core_js__WEBPACK_IMPORTED_MODULE_0__.Bounce),
-/* harmony export */   "CSSPlugin": () => (/* reexport safe */ _CSSPlugin_js__WEBPACK_IMPORTED_MODULE_1__.CSSPlugin),
-/* harmony export */   "Circ": () => (/* reexport safe */ _gsap_core_js__WEBPACK_IMPORTED_MODULE_0__.Circ),
-/* harmony export */   "Cubic": () => (/* reexport safe */ _gsap_core_js__WEBPACK_IMPORTED_MODULE_0__.Cubic),
-/* harmony export */   "Elastic": () => (/* reexport safe */ _gsap_core_js__WEBPACK_IMPORTED_MODULE_0__.Elastic),
-/* harmony export */   "Expo": () => (/* reexport safe */ _gsap_core_js__WEBPACK_IMPORTED_MODULE_0__.Expo),
-/* harmony export */   "Linear": () => (/* reexport safe */ _gsap_core_js__WEBPACK_IMPORTED_MODULE_0__.Linear),
-/* harmony export */   "Power0": () => (/* reexport safe */ _gsap_core_js__WEBPACK_IMPORTED_MODULE_0__.Power0),
-/* harmony export */   "Power1": () => (/* reexport safe */ _gsap_core_js__WEBPACK_IMPORTED_MODULE_0__.Power1),
-/* harmony export */   "Power2": () => (/* reexport safe */ _gsap_core_js__WEBPACK_IMPORTED_MODULE_0__.Power2),
-/* harmony export */   "Power3": () => (/* reexport safe */ _gsap_core_js__WEBPACK_IMPORTED_MODULE_0__.Power3),
-/* harmony export */   "Power4": () => (/* reexport safe */ _gsap_core_js__WEBPACK_IMPORTED_MODULE_0__.Power4),
-/* harmony export */   "Quad": () => (/* reexport safe */ _gsap_core_js__WEBPACK_IMPORTED_MODULE_0__.Quad),
-/* harmony export */   "Quart": () => (/* reexport safe */ _gsap_core_js__WEBPACK_IMPORTED_MODULE_0__.Quart),
-/* harmony export */   "Quint": () => (/* reexport safe */ _gsap_core_js__WEBPACK_IMPORTED_MODULE_0__.Quint),
-/* harmony export */   "Sine": () => (/* reexport safe */ _gsap_core_js__WEBPACK_IMPORTED_MODULE_0__.Sine),
-/* harmony export */   "SteppedEase": () => (/* reexport safe */ _gsap_core_js__WEBPACK_IMPORTED_MODULE_0__.SteppedEase),
-/* harmony export */   "Strong": () => (/* reexport safe */ _gsap_core_js__WEBPACK_IMPORTED_MODULE_0__.Strong),
-/* harmony export */   "TimelineLite": () => (/* reexport safe */ _gsap_core_js__WEBPACK_IMPORTED_MODULE_0__.TimelineLite),
-/* harmony export */   "TimelineMax": () => (/* reexport safe */ _gsap_core_js__WEBPACK_IMPORTED_MODULE_0__.TimelineMax),
-/* harmony export */   "TweenLite": () => (/* reexport safe */ _gsap_core_js__WEBPACK_IMPORTED_MODULE_0__.TweenLite),
-/* harmony export */   "TweenMax": () => (/* binding */ TweenMaxWithCSS),
+/* harmony export */   Back: () => (/* reexport safe */ _gsap_core_js__WEBPACK_IMPORTED_MODULE_0__.Back),
+/* harmony export */   Bounce: () => (/* reexport safe */ _gsap_core_js__WEBPACK_IMPORTED_MODULE_0__.Bounce),
+/* harmony export */   CSSPlugin: () => (/* reexport safe */ _CSSPlugin_js__WEBPACK_IMPORTED_MODULE_1__.CSSPlugin),
+/* harmony export */   Circ: () => (/* reexport safe */ _gsap_core_js__WEBPACK_IMPORTED_MODULE_0__.Circ),
+/* harmony export */   Cubic: () => (/* reexport safe */ _gsap_core_js__WEBPACK_IMPORTED_MODULE_0__.Cubic),
+/* harmony export */   Elastic: () => (/* reexport safe */ _gsap_core_js__WEBPACK_IMPORTED_MODULE_0__.Elastic),
+/* harmony export */   Expo: () => (/* reexport safe */ _gsap_core_js__WEBPACK_IMPORTED_MODULE_0__.Expo),
+/* harmony export */   Linear: () => (/* reexport safe */ _gsap_core_js__WEBPACK_IMPORTED_MODULE_0__.Linear),
+/* harmony export */   Power0: () => (/* reexport safe */ _gsap_core_js__WEBPACK_IMPORTED_MODULE_0__.Power0),
+/* harmony export */   Power1: () => (/* reexport safe */ _gsap_core_js__WEBPACK_IMPORTED_MODULE_0__.Power1),
+/* harmony export */   Power2: () => (/* reexport safe */ _gsap_core_js__WEBPACK_IMPORTED_MODULE_0__.Power2),
+/* harmony export */   Power3: () => (/* reexport safe */ _gsap_core_js__WEBPACK_IMPORTED_MODULE_0__.Power3),
+/* harmony export */   Power4: () => (/* reexport safe */ _gsap_core_js__WEBPACK_IMPORTED_MODULE_0__.Power4),
+/* harmony export */   Quad: () => (/* reexport safe */ _gsap_core_js__WEBPACK_IMPORTED_MODULE_0__.Quad),
+/* harmony export */   Quart: () => (/* reexport safe */ _gsap_core_js__WEBPACK_IMPORTED_MODULE_0__.Quart),
+/* harmony export */   Quint: () => (/* reexport safe */ _gsap_core_js__WEBPACK_IMPORTED_MODULE_0__.Quint),
+/* harmony export */   Sine: () => (/* reexport safe */ _gsap_core_js__WEBPACK_IMPORTED_MODULE_0__.Sine),
+/* harmony export */   SteppedEase: () => (/* reexport safe */ _gsap_core_js__WEBPACK_IMPORTED_MODULE_0__.SteppedEase),
+/* harmony export */   Strong: () => (/* reexport safe */ _gsap_core_js__WEBPACK_IMPORTED_MODULE_0__.Strong),
+/* harmony export */   TimelineLite: () => (/* reexport safe */ _gsap_core_js__WEBPACK_IMPORTED_MODULE_0__.TimelineLite),
+/* harmony export */   TimelineMax: () => (/* reexport safe */ _gsap_core_js__WEBPACK_IMPORTED_MODULE_0__.TimelineMax),
+/* harmony export */   TweenLite: () => (/* reexport safe */ _gsap_core_js__WEBPACK_IMPORTED_MODULE_0__.TweenLite),
+/* harmony export */   TweenMax: () => (/* binding */ TweenMaxWithCSS),
 /* harmony export */   "default": () => (/* binding */ gsapWithCSS),
-/* harmony export */   "gsap": () => (/* binding */ gsapWithCSS)
+/* harmony export */   gsap: () => (/* binding */ gsapWithCSS)
 /* harmony export */ });
 /* harmony import */ var _gsap_core_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./gsap-core.js */ "./node_modules/gsap/gsap-core.js");
 /* harmony import */ var _CSSPlugin_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./CSSPlugin.js */ "./node_modules/gsap/CSSPlugin.js");
@@ -7140,7 +6141,7 @@ TweenMaxWithCSS = gsapWithCSS.core.Tween;
 /*!******************************************************************************!*\
   !*** ./node_modules/imask/esm/controls/html-contenteditable-mask-element.js ***!
   \******************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
@@ -7155,7 +6156,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 class HTMLContenteditableMaskElement extends _html_mask_element_js__WEBPACK_IMPORTED_MODULE_0__["default"] {
-  /** Returns HTMLElement selection start */ // @ts-ignore
+  /** Returns HTMLElement selection start */
   get _unsafeSelectionStart() {
     const root = this.rootElement;
     const selection = root.getSelection && root.getSelection();
@@ -7168,7 +6169,6 @@ class HTMLContenteditableMaskElement extends _html_mask_element_js__WEBPACK_IMPO
   }
 
   /** Returns HTMLElement selection end */
-  // @ts-ignore
   get _unsafeSelectionEnd() {
     const root = this.rootElement;
     const selection = root.getSelection && root.getSelection();
@@ -7195,9 +6195,8 @@ class HTMLContenteditableMaskElement extends _html_mask_element_js__WEBPACK_IMPO
   }
 
   /** HTMLElement value */
-  // @ts-ignore
   get value() {
-    return this.input.textContent;
+    return this.input.textContent || '';
   }
   set value(value) {
     this.input.textContent = value;
@@ -7214,7 +6213,7 @@ _core_holder_js__WEBPACK_IMPORTED_MODULE_1__["default"].HTMLContenteditableMaskE
 /*!********************************************************************!*\
   !*** ./node_modules/imask/esm/controls/html-input-mask-element.js ***!
   \********************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
@@ -7235,17 +6234,14 @@ class HTMLInputMaskElement extends _html_mask_element_js__WEBPACK_IMPORTED_MODUL
   constructor(input) {
     super(input);
     this.input = input;
-    this._handlers = {};
   }
 
   /** Returns InputElement selection start */
-  // @ts-ignore
   get _unsafeSelectionStart() {
-    return this.input.selectionStart;
+    return this.input.selectionStart != null ? this.input.selectionStart : this.value.length;
   }
 
   /** Returns InputElement selection end */
-  // @ts-ignore
   get _unsafeSelectionEnd() {
     return this.input.selectionEnd;
   }
@@ -7254,8 +6250,6 @@ class HTMLInputMaskElement extends _html_mask_element_js__WEBPACK_IMPORTED_MODUL
   _unsafeSelect(start, end) {
     this.input.setSelectionRange(start, end);
   }
-
-  // @ts-ignore
   get value() {
     return this.input.value;
   }
@@ -7274,7 +6268,7 @@ _core_holder_js__WEBPACK_IMPORTED_MODULE_1__["default"].HTMLMaskElement = _html_
 /*!**************************************************************!*\
   !*** ./node_modules/imask/esm/controls/html-mask-element.js ***!
   \**************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
@@ -7286,6 +6280,9 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+const KEY_Z = 90;
+const KEY_Y = 89;
+
 /** Bridge between HTMLElement and {@link Masked} */
 class HTMLMaskElement extends _mask_element_js__WEBPACK_IMPORTED_MODULE_0__["default"] {
   /** HTMLElement to use mask on */
@@ -7293,54 +6290,126 @@ class HTMLMaskElement extends _mask_element_js__WEBPACK_IMPORTED_MODULE_0__["def
   constructor(input) {
     super();
     this.input = input;
-    this._handlers = {};
+    this._onKeydown = this._onKeydown.bind(this);
+    this._onInput = this._onInput.bind(this);
+    this._onBeforeinput = this._onBeforeinput.bind(this);
+    this._onCompositionEnd = this._onCompositionEnd.bind(this);
   }
   get rootElement() {
     var _this$input$getRootNo, _this$input$getRootNo2, _this$input;
     return (_this$input$getRootNo = (_this$input$getRootNo2 = (_this$input = this.input).getRootNode) == null ? void 0 : _this$input$getRootNo2.call(_this$input)) != null ? _this$input$getRootNo : document;
   }
 
-  /**
-    Is element in focus
-  */
+  /** Is element in focus */
   get isActive() {
     return this.input === this.rootElement.activeElement;
   }
 
-  /**
-    Binds HTMLElement events to mask internal events
-  */
+  /** Binds HTMLElement events to mask internal events */
   bindEvents(handlers) {
-    Object.keys(handlers).forEach(event => this._toggleEventHandler(HTMLMaskElement.EVENTS_MAP[event], handlers[event]));
+    this.input.addEventListener('keydown', this._onKeydown);
+    this.input.addEventListener('input', this._onInput);
+    this.input.addEventListener('beforeinput', this._onBeforeinput);
+    this.input.addEventListener('compositionend', this._onCompositionEnd);
+    this.input.addEventListener('drop', handlers.drop);
+    this.input.addEventListener('click', handlers.click);
+    this.input.addEventListener('focus', handlers.focus);
+    this.input.addEventListener('blur', handlers.commit);
+    this._handlers = handlers;
+  }
+  _onKeydown(e) {
+    if (this._handlers.redo && (e.keyCode === KEY_Z && e.shiftKey && (e.metaKey || e.ctrlKey) || e.keyCode === KEY_Y && e.ctrlKey)) {
+      e.preventDefault();
+      return this._handlers.redo(e);
+    }
+    if (this._handlers.undo && e.keyCode === KEY_Z && (e.metaKey || e.ctrlKey)) {
+      e.preventDefault();
+      return this._handlers.undo(e);
+    }
+    if (!e.isComposing) this._handlers.selectionChange(e);
+  }
+  _onBeforeinput(e) {
+    if (e.inputType === 'historyUndo' && this._handlers.undo) {
+      e.preventDefault();
+      return this._handlers.undo(e);
+    }
+    if (e.inputType === 'historyRedo' && this._handlers.redo) {
+      e.preventDefault();
+      return this._handlers.redo(e);
+    }
+  }
+  _onCompositionEnd(e) {
+    this._handlers.input(e);
+  }
+  _onInput(e) {
+    if (!e.isComposing) this._handlers.input(e);
   }
 
-  /**
-    Unbinds HTMLElement events to mask internal events
-  */
+  /** Unbinds HTMLElement events to mask internal events */
   unbindEvents() {
-    Object.keys(this._handlers).forEach(event => this._toggleEventHandler(event));
-  }
-  _toggleEventHandler(event, handler) {
-    if (this._handlers[event]) {
-      this.input.removeEventListener(event, this._handlers[event]);
-      delete this._handlers[event];
-    }
-    if (handler) {
-      this.input.addEventListener(event, handler);
-      this._handlers[event] = handler;
-    }
+    this.input.removeEventListener('keydown', this._onKeydown);
+    this.input.removeEventListener('input', this._onInput);
+    this.input.removeEventListener('beforeinput', this._onBeforeinput);
+    this.input.removeEventListener('compositionend', this._onCompositionEnd);
+    this.input.removeEventListener('drop', this._handlers.drop);
+    this.input.removeEventListener('click', this._handlers.click);
+    this.input.removeEventListener('focus', this._handlers.focus);
+    this.input.removeEventListener('blur', this._handlers.commit);
+    this._handlers = {};
   }
 }
-/** Mapping between HTMLElement events and mask internal events */
-HTMLMaskElement.EVENTS_MAP = {
-  selectionChange: 'keydown',
-  input: 'input',
-  drop: 'drop',
-  click: 'click',
-  focus: 'focus',
-  commit: 'blur'
-};
 _core_holder_js__WEBPACK_IMPORTED_MODULE_1__["default"].HTMLMaskElement = HTMLMaskElement;
+
+
+
+
+/***/ }),
+
+/***/ "./node_modules/imask/esm/controls/input-history.js":
+/*!**********************************************************!*\
+  !*** ./node_modules/imask/esm/controls/input-history.js ***!
+  \**********************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ InputHistory)
+/* harmony export */ });
+class InputHistory {
+  constructor() {
+    this.states = [];
+    this.currentIndex = 0;
+  }
+  get currentState() {
+    return this.states[this.currentIndex];
+  }
+  get isEmpty() {
+    return this.states.length === 0;
+  }
+  push(state) {
+    // if current index points before the last element then remove the future
+    if (this.currentIndex < this.states.length - 1) this.states.length = this.currentIndex + 1;
+    this.states.push(state);
+    if (this.states.length > InputHistory.MAX_LENGTH) this.states.shift();
+    this.currentIndex = this.states.length - 1;
+  }
+  go(steps) {
+    this.currentIndex = Math.min(Math.max(this.currentIndex + steps, 0), this.states.length - 1);
+    return this.currentState;
+  }
+  undo() {
+    return this.go(-1);
+  }
+  redo() {
+    return this.go(+1);
+  }
+  clear() {
+    this.states.length = 0;
+    this.currentIndex = 0;
+  }
+}
+InputHistory.MAX_LENGTH = 100;
 
 
 
@@ -7351,7 +6420,7 @@ _core_holder_js__WEBPACK_IMPORTED_MODULE_1__["default"].HTMLMaskElement = HTMLMa
 /*!**************************************************!*\
   !*** ./node_modules/imask/esm/controls/input.js ***!
   \**************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
@@ -7365,7 +6434,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _html_input_mask_element_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./html-input-mask-element.js */ "./node_modules/imask/esm/controls/html-input-mask-element.js");
 /* harmony import */ var _html_contenteditable_mask_element_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./html-contenteditable-mask-element.js */ "./node_modules/imask/esm/controls/html-contenteditable-mask-element.js");
 /* harmony import */ var _core_holder_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../core/holder.js */ "./node_modules/imask/esm/core/holder.js");
-/* harmony import */ var _html_mask_element_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./html-mask-element.js */ "./node_modules/imask/esm/controls/html-mask-element.js");
+/* harmony import */ var _input_history_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./input-history.js */ "./node_modules/imask/esm/controls/input-history.js");
+/* harmony import */ var _html_mask_element_js__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./html-mask-element.js */ "./node_modules/imask/esm/controls/html-mask-element.js");
+
 
 
 
@@ -7389,12 +6460,16 @@ class InputMask {
     this._listeners = {};
     this._value = '';
     this._unmaskedValue = '';
+    this._rawInputValue = '';
+    this.history = new _input_history_js__WEBPACK_IMPORTED_MODULE_7__["default"]();
     this._saveSelection = this._saveSelection.bind(this);
     this._onInput = this._onInput.bind(this);
     this._onChange = this._onChange.bind(this);
     this._onDrop = this._onDrop.bind(this);
     this._onFocus = this._onFocus.bind(this);
     this._onClick = this._onClick.bind(this);
+    this._onUndo = this._onUndo.bind(this);
+    this._onRedo = this._onRedo.bind(this);
     this.alignCursor = this.alignCursor.bind(this);
     this.alignCursorFriendly = this.alignCursorFriendly.bind(this);
     this._bindEvents();
@@ -7408,7 +6483,7 @@ class InputMask {
     return mask == null || ((_this$masked = this.masked) == null ? void 0 : _this$masked.maskEquals(mask));
   }
 
-  /** Read or update mask */
+  /** Masked */
   get mask() {
     return this.masked.mask;
   }
@@ -7435,8 +6510,7 @@ class InputMask {
   set value(str) {
     if (this.value === str) return;
     this.masked.value = str;
-    this.updateControl();
-    this.alignCursor();
+    this.updateControl('auto');
   }
 
   /** Unmasked value */
@@ -7446,6 +6520,16 @@ class InputMask {
   set unmaskedValue(str) {
     if (this.unmaskedValue === str) return;
     this.masked.unmaskedValue = str;
+    this.updateControl('auto');
+  }
+
+  /** Raw input value */
+  get rawInputValue() {
+    return this._rawInputValue;
+  }
+  set rawInputValue(str) {
+    if (this.rawInputValue === str) return;
+    this.masked.rawInputValue = str;
     this.updateControl();
     this.alignCursor();
   }
@@ -7457,8 +6541,7 @@ class InputMask {
   set typedValue(val) {
     if (this.masked.typedValueEquals(val)) return;
     this.masked.typedValue = val;
-    this.updateControl();
-    this.alignCursor();
+    this.updateControl('auto');
   }
 
   /** Display value */
@@ -7474,7 +6557,9 @@ class InputMask {
       drop: this._onDrop,
       click: this._onClick,
       focus: this._onFocus,
-      commit: this._onChange
+      commit: this._onChange,
+      undo: this._onUndo,
+      redo: this._onRedo
     });
   }
 
@@ -7511,7 +6596,6 @@ class InputMask {
     if (this.displayValue !== this.el.value) {
       console.warn('Element value was changed outside of mask. Syncronize mask using `mask.updateValue()` to work properly.'); // eslint-disable-line no-console
     }
-
     this._selection = {
       start: this.selectionStart,
       end: this.cursorPos
@@ -7522,30 +6606,43 @@ class InputMask {
   updateValue() {
     this.masked.value = this.el.value;
     this._value = this.masked.value;
+    this._unmaskedValue = this.masked.unmaskedValue;
+    this._rawInputValue = this.masked.rawInputValue;
   }
 
   /** Syncronizes view from model value, fires change events */
-  updateControl() {
+  updateControl(cursorPos) {
     const newUnmaskedValue = this.masked.unmaskedValue;
     const newValue = this.masked.value;
+    const newRawInputValue = this.masked.rawInputValue;
     const newDisplayValue = this.displayValue;
-    const isChanged = this.unmaskedValue !== newUnmaskedValue || this.value !== newValue;
+    const isChanged = this.unmaskedValue !== newUnmaskedValue || this.value !== newValue || this._rawInputValue !== newRawInputValue;
     this._unmaskedValue = newUnmaskedValue;
     this._value = newValue;
+    this._rawInputValue = newRawInputValue;
     if (this.el.value !== newDisplayValue) this.el.value = newDisplayValue;
+    if (cursorPos === 'auto') this.alignCursor();else if (cursorPos != null) this.cursorPos = cursorPos;
     if (isChanged) this._fireChangeEvents();
+    if (!this._historyChanging && (isChanged || this.history.isEmpty)) this.history.push({
+      unmaskedValue: newUnmaskedValue,
+      selection: {
+        start: this.selectionStart,
+        end: this.cursorPos
+      }
+    });
   }
 
-  /** Updates options with deep equal check, recreates @{link Masked} model if mask type changes */
+  /** Updates options with deep equal check, recreates {@link Masked} model if mask type changes */
   updateOptions(opts) {
     const {
       mask,
       ...restOpts
-    } = opts;
+    } = opts; // TODO types, yes, mask is optional
+
     const updateMask = !this.maskEquals(mask);
-    const updateOpts = !(0,_core_utils_js__WEBPACK_IMPORTED_MODULE_0__.objectIncludes)(this.masked, restOpts);
+    const updateOpts = this.masked.optionsIsChanged(restOpts);
     if (updateMask) this.mask = mask;
-    if (updateOpts) this.masked.updateOptions(restOpts); // TODO "any" no idea
+    if (updateOpts) this.masked.updateOptions(restOpts); // TODO
 
     if (updateMask || updateOpts) this.updateControl();
   }
@@ -7618,9 +6715,6 @@ class InputMask {
   _onInput(e) {
     this._inputEvent = e;
     this._abortUpdateCursor();
-
-    // fix strange IE behavior
-    if (!this._selection) return this.updateValue();
     const details = new _core_action_details_js__WEBPACK_IMPORTED_MODULE_1__["default"]({
       // new state
       value: this.el.value,
@@ -7640,16 +6734,13 @@ class InputMask {
     const removeDirection = oldRawValue === this.masked.rawInputValue ? details.removeDirection : _core_utils_js__WEBPACK_IMPORTED_MODULE_0__.DIRECTION.NONE;
     let cursorPos = this.masked.nearestInputPos(details.startChangePos + offset, removeDirection);
     if (removeDirection !== _core_utils_js__WEBPACK_IMPORTED_MODULE_0__.DIRECTION.NONE) cursorPos = this.masked.nearestInputPos(cursorPos, _core_utils_js__WEBPACK_IMPORTED_MODULE_0__.DIRECTION.NONE);
-    this.updateControl();
-    this.updateCursor(cursorPos);
+    this.updateControl(cursorPos);
     delete this._inputEvent;
   }
 
   /** Handles view change event and commits model value */
   _onChange() {
-    if (this.displayValue !== this.el.value) {
-      this.updateValue();
-    }
+    if (this.displayValue !== this.el.value) this.updateValue();
     this.masked.doCommit();
     this.updateControl();
     this._saveSelection();
@@ -7670,11 +6761,24 @@ class InputMask {
   _onClick(ev) {
     this.alignCursorFriendly();
   }
+  _onUndo() {
+    this._applyHistoryState(this.history.undo());
+  }
+  _onRedo() {
+    this._applyHistoryState(this.history.redo());
+  }
+  _applyHistoryState(state) {
+    if (!state) return;
+    this._historyChanging = true;
+    this.unmaskedValue = state.unmaskedValue;
+    this.el.select(state.selection.start, state.selection.end);
+    this._saveSelection();
+    this._historyChanging = false;
+  }
 
   /** Unbind view events and removes element reference */
   destroy() {
     this._unbindEvents();
-    // @ts-ignore why not
     this._listeners.length = 0;
     delete this.el;
   }
@@ -7690,7 +6794,7 @@ _core_holder_js__WEBPACK_IMPORTED_MODULE_6__["default"].InputMask = InputMask;
 /*!*********************************************************!*\
   !*** ./node_modules/imask/esm/controls/mask-element.js ***!
   \*********************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
@@ -7734,16 +6838,15 @@ class MaskElement {
     } catch {}
   }
 
-  /** Should be overriden in subclasses */
-  _unsafeSelect(start, end) {}
-  /** Should be overriden in subclasses */
+  /** */
   get isActive() {
     return false;
   }
-  /** Should be overriden in subclasses */
-  bindEvents(handlers) {}
-  /** Should be overriden in subclasses */
-  unbindEvents() {}
+  /** */
+
+  /** */
+
+  /** */
 }
 _core_holder_js__WEBPACK_IMPORTED_MODULE_0__["default"].MaskElement = MaskElement;
 
@@ -7756,7 +6859,7 @@ _core_holder_js__WEBPACK_IMPORTED_MODULE_0__["default"].MaskElement = MaskElemen
 /*!*******************************************************!*\
   !*** ./node_modules/imask/esm/core/action-details.js ***!
   \*******************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
@@ -7782,6 +6885,12 @@ class ActionDetails {
     // double check if left part was changed (autofilling, other non-standard input triggers)
     while (this.value.slice(0, this.startChangePos) !== this.oldValue.slice(0, this.startChangePos)) {
       --this.oldSelection.start;
+    }
+    if (this.insertedCount) {
+      // double check right part
+      while (this.value.slice(this.cursorPos) !== this.oldValue.slice(this.oldSelection.end)) {
+        if (this.value.length - this.cursorPos < this.oldValue.length - this.oldSelection.end) ++this.oldSelection.end;else ++this.cursorPos;
+      }
     }
   }
 
@@ -7843,7 +6952,7 @@ class ActionDetails {
 /*!*******************************************************!*\
   !*** ./node_modules/imask/esm/core/change-details.js ***!
   \*******************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
@@ -7857,11 +6966,11 @@ __webpack_require__.r(__webpack_exports__);
 class ChangeDetails {
   /** Inserted symbols */
 
-  /** Can skip chars */
-
   /** Additional offset if any changes occurred before tail */
 
   /** Raw inserted is used by dynamic mask */
+
+  /** Can skip chars */
 
   static normalize(prep) {
     return Array.isArray(prep) ? prep : [prep, new ChangeDetails()];
@@ -7870,23 +6979,29 @@ class ChangeDetails {
     Object.assign(this, {
       inserted: '',
       rawInserted: '',
-      skip: false,
-      tailShift: 0
+      tailShift: 0,
+      skip: false
     }, details);
   }
 
   /** Aggregate changes */
   aggregate(details) {
-    this.rawInserted += details.rawInserted;
-    this.skip = this.skip || details.skip;
     this.inserted += details.inserted;
+    this.rawInserted += details.rawInserted;
     this.tailShift += details.tailShift;
+    this.skip = this.skip || details.skip;
     return this;
   }
 
   /** Total offset considering all changes */
   get offset() {
     return this.tailShift + this.inserted.length;
+  }
+  get consumed() {
+    return Boolean(this.rawInserted) || this.skip;
+  }
+  equals(details) {
+    return this.inserted === details.inserted && this.tailShift === details.tailShift && this.rawInserted === details.rawInserted && this.skip === details.skip;
   }
 }
 _holder_js__WEBPACK_IMPORTED_MODULE_0__["default"].ChangeDetails = ChangeDetails;
@@ -7900,7 +7015,7 @@ _holder_js__WEBPACK_IMPORTED_MODULE_0__["default"].ChangeDetails = ChangeDetails
 /*!****************************************************************!*\
   !*** ./node_modules/imask/esm/core/continuous-tail-details.js ***!
   \****************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
@@ -7970,7 +7085,7 @@ class ContinuousTailDetails {
 /*!***********************************************!*\
   !*** ./node_modules/imask/esm/core/holder.js ***!
   \***********************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
@@ -7992,18 +7107,18 @@ function IMask(el, opts) {
 /*!**********************************************!*\
   !*** ./node_modules/imask/esm/core/utils.js ***!
   \**********************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "DIRECTION": () => (/* binding */ DIRECTION),
-/* harmony export */   "escapeRegExp": () => (/* binding */ escapeRegExp),
-/* harmony export */   "forceDirection": () => (/* binding */ forceDirection),
-/* harmony export */   "isObject": () => (/* binding */ isObject),
-/* harmony export */   "isString": () => (/* binding */ isString),
-/* harmony export */   "objectIncludes": () => (/* binding */ objectIncludes),
-/* harmony export */   "pick": () => (/* binding */ pick)
+/* harmony export */   DIRECTION: () => (/* binding */ DIRECTION),
+/* harmony export */   escapeRegExp: () => (/* binding */ escapeRegExp),
+/* harmony export */   forceDirection: () => (/* binding */ forceDirection),
+/* harmony export */   isObject: () => (/* binding */ isObject),
+/* harmony export */   isString: () => (/* binding */ isString),
+/* harmony export */   objectIncludes: () => (/* binding */ objectIncludes),
+/* harmony export */   pick: () => (/* binding */ pick)
 /* harmony export */ });
 /** Checks if value is string */
 function isString(str) {
@@ -8013,7 +7128,7 @@ function isString(str) {
 /** Checks if value is object */
 function isObject(obj) {
   var _obj$constructor;
-  return typeof obj === 'object' && obj != null && (obj == null ? void 0 : (_obj$constructor = obj.constructor) == null ? void 0 : _obj$constructor.name) === 'Object';
+  return typeof obj === 'object' && obj != null && (obj == null || (_obj$constructor = obj.constructor) == null ? void 0 : _obj$constructor.name) === 'Object';
 }
 function pick(obj, keys) {
   if (Array.isArray(keys)) return pick(obj, (_, k) => keys.includes(k));
@@ -8095,37 +7210,38 @@ function objectIncludes(b, a) {
 /*!*****************************************!*\
   !*** ./node_modules/imask/esm/index.js ***!
   \*****************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "ChangeDetails": () => (/* reexport safe */ _core_change_details_js__WEBPACK_IMPORTED_MODULE_6__["default"]),
-/* harmony export */   "ChunksTailDetails": () => (/* reexport safe */ _masked_pattern_chunk_tail_details_js__WEBPACK_IMPORTED_MODULE_16__["default"]),
-/* harmony export */   "DIRECTION": () => (/* reexport safe */ _core_utils_js__WEBPACK_IMPORTED_MODULE_7__.DIRECTION),
-/* harmony export */   "HTMLContenteditableMaskElement": () => (/* reexport safe */ _controls_html_contenteditable_mask_element_js__WEBPACK_IMPORTED_MODULE_2__["default"]),
-/* harmony export */   "HTMLInputMaskElement": () => (/* reexport safe */ _controls_html_input_mask_element_js__WEBPACK_IMPORTED_MODULE_3__["default"]),
-/* harmony export */   "HTMLMaskElement": () => (/* reexport safe */ _controls_html_mask_element_js__WEBPACK_IMPORTED_MODULE_4__["default"]),
-/* harmony export */   "InputMask": () => (/* reexport safe */ _controls_input_js__WEBPACK_IMPORTED_MODULE_0__["default"]),
-/* harmony export */   "MaskElement": () => (/* reexport safe */ _controls_mask_element_js__WEBPACK_IMPORTED_MODULE_5__["default"]),
-/* harmony export */   "Masked": () => (/* reexport safe */ _masked_base_js__WEBPACK_IMPORTED_MODULE_8__["default"]),
-/* harmony export */   "MaskedDate": () => (/* reexport safe */ _masked_date_js__WEBPACK_IMPORTED_MODULE_9__["default"]),
-/* harmony export */   "MaskedDynamic": () => (/* reexport safe */ _masked_dynamic_js__WEBPACK_IMPORTED_MODULE_10__["default"]),
-/* harmony export */   "MaskedEnum": () => (/* reexport safe */ _masked_enum_js__WEBPACK_IMPORTED_MODULE_11__["default"]),
-/* harmony export */   "MaskedFunction": () => (/* reexport safe */ _masked_function_js__WEBPACK_IMPORTED_MODULE_13__["default"]),
-/* harmony export */   "MaskedNumber": () => (/* reexport safe */ _masked_number_js__WEBPACK_IMPORTED_MODULE_14__["default"]),
-/* harmony export */   "MaskedPattern": () => (/* reexport safe */ _masked_pattern_js__WEBPACK_IMPORTED_MODULE_15__["default"]),
-/* harmony export */   "MaskedRange": () => (/* reexport safe */ _masked_range_js__WEBPACK_IMPORTED_MODULE_20__["default"]),
-/* harmony export */   "MaskedRegExp": () => (/* reexport safe */ _masked_regexp_js__WEBPACK_IMPORTED_MODULE_21__["default"]),
-/* harmony export */   "PIPE_TYPE": () => (/* reexport safe */ _masked_pipe_js__WEBPACK_IMPORTED_MODULE_19__.PIPE_TYPE),
-/* harmony export */   "PatternFixedDefinition": () => (/* reexport safe */ _masked_pattern_fixed_definition_js__WEBPACK_IMPORTED_MODULE_17__["default"]),
-/* harmony export */   "PatternInputDefinition": () => (/* reexport safe */ _masked_pattern_input_definition_js__WEBPACK_IMPORTED_MODULE_18__["default"]),
-/* harmony export */   "createMask": () => (/* reexport safe */ _masked_factory_js__WEBPACK_IMPORTED_MODULE_12__["default"]),
-/* harmony export */   "createPipe": () => (/* reexport safe */ _masked_pipe_js__WEBPACK_IMPORTED_MODULE_19__.createPipe),
+/* harmony export */   ChangeDetails: () => (/* reexport safe */ _core_change_details_js__WEBPACK_IMPORTED_MODULE_6__["default"]),
+/* harmony export */   ChunksTailDetails: () => (/* reexport safe */ _masked_pattern_chunk_tail_details_js__WEBPACK_IMPORTED_MODULE_16__["default"]),
+/* harmony export */   DIRECTION: () => (/* reexport safe */ _core_utils_js__WEBPACK_IMPORTED_MODULE_7__.DIRECTION),
+/* harmony export */   HTMLContenteditableMaskElement: () => (/* reexport safe */ _controls_html_contenteditable_mask_element_js__WEBPACK_IMPORTED_MODULE_2__["default"]),
+/* harmony export */   HTMLInputMaskElement: () => (/* reexport safe */ _controls_html_input_mask_element_js__WEBPACK_IMPORTED_MODULE_3__["default"]),
+/* harmony export */   HTMLMaskElement: () => (/* reexport safe */ _controls_html_mask_element_js__WEBPACK_IMPORTED_MODULE_4__["default"]),
+/* harmony export */   InputMask: () => (/* reexport safe */ _controls_input_js__WEBPACK_IMPORTED_MODULE_0__["default"]),
+/* harmony export */   MaskElement: () => (/* reexport safe */ _controls_mask_element_js__WEBPACK_IMPORTED_MODULE_5__["default"]),
+/* harmony export */   Masked: () => (/* reexport safe */ _masked_base_js__WEBPACK_IMPORTED_MODULE_8__["default"]),
+/* harmony export */   MaskedDate: () => (/* reexport safe */ _masked_date_js__WEBPACK_IMPORTED_MODULE_9__["default"]),
+/* harmony export */   MaskedDynamic: () => (/* reexport safe */ _masked_dynamic_js__WEBPACK_IMPORTED_MODULE_10__["default"]),
+/* harmony export */   MaskedEnum: () => (/* reexport safe */ _masked_enum_js__WEBPACK_IMPORTED_MODULE_11__["default"]),
+/* harmony export */   MaskedFunction: () => (/* reexport safe */ _masked_function_js__WEBPACK_IMPORTED_MODULE_13__["default"]),
+/* harmony export */   MaskedNumber: () => (/* reexport safe */ _masked_number_js__WEBPACK_IMPORTED_MODULE_14__["default"]),
+/* harmony export */   MaskedPattern: () => (/* reexport safe */ _masked_pattern_js__WEBPACK_IMPORTED_MODULE_15__["default"]),
+/* harmony export */   MaskedRange: () => (/* reexport safe */ _masked_range_js__WEBPACK_IMPORTED_MODULE_20__["default"]),
+/* harmony export */   MaskedRegExp: () => (/* reexport safe */ _masked_regexp_js__WEBPACK_IMPORTED_MODULE_21__["default"]),
+/* harmony export */   PIPE_TYPE: () => (/* reexport safe */ _masked_pipe_js__WEBPACK_IMPORTED_MODULE_19__.PIPE_TYPE),
+/* harmony export */   PatternFixedDefinition: () => (/* reexport safe */ _masked_pattern_fixed_definition_js__WEBPACK_IMPORTED_MODULE_17__["default"]),
+/* harmony export */   PatternInputDefinition: () => (/* reexport safe */ _masked_pattern_input_definition_js__WEBPACK_IMPORTED_MODULE_18__["default"]),
+/* harmony export */   RepeatBlock: () => (/* reexport safe */ _masked_repeat_js__WEBPACK_IMPORTED_MODULE_22__["default"]),
+/* harmony export */   createMask: () => (/* reexport safe */ _masked_factory_js__WEBPACK_IMPORTED_MODULE_12__["default"]),
+/* harmony export */   createPipe: () => (/* reexport safe */ _masked_pipe_js__WEBPACK_IMPORTED_MODULE_19__.createPipe),
 /* harmony export */   "default": () => (/* reexport safe */ _core_holder_js__WEBPACK_IMPORTED_MODULE_1__["default"]),
-/* harmony export */   "forceDirection": () => (/* reexport safe */ _core_utils_js__WEBPACK_IMPORTED_MODULE_7__.forceDirection),
-/* harmony export */   "normalizeOpts": () => (/* reexport safe */ _masked_factory_js__WEBPACK_IMPORTED_MODULE_12__.normalizeOpts),
-/* harmony export */   "pipe": () => (/* reexport safe */ _masked_pipe_js__WEBPACK_IMPORTED_MODULE_19__.pipe)
+/* harmony export */   forceDirection: () => (/* reexport safe */ _core_utils_js__WEBPACK_IMPORTED_MODULE_7__.forceDirection),
+/* harmony export */   normalizeOpts: () => (/* reexport safe */ _masked_factory_js__WEBPACK_IMPORTED_MODULE_12__.normalizeOpts),
+/* harmony export */   pipe: () => (/* reexport safe */ _masked_pipe_js__WEBPACK_IMPORTED_MODULE_19__.pipe)
 /* harmony export */ });
 /* harmony import */ var _controls_input_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./controls/input.js */ "./node_modules/imask/esm/controls/input.js");
 /* harmony import */ var _core_holder_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./core/holder.js */ "./node_modules/imask/esm/core/holder.js");
@@ -8149,9 +7265,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _masked_pipe_js__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./masked/pipe.js */ "./node_modules/imask/esm/masked/pipe.js");
 /* harmony import */ var _masked_range_js__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ./masked/range.js */ "./node_modules/imask/esm/masked/range.js");
 /* harmony import */ var _masked_regexp_js__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ./masked/regexp.js */ "./node_modules/imask/esm/masked/regexp.js");
-/* harmony import */ var _core_action_details_js__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ./core/action-details.js */ "./node_modules/imask/esm/core/action-details.js");
-/* harmony import */ var _core_continuous_tail_details_js__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! ./core/continuous-tail-details.js */ "./node_modules/imask/esm/core/continuous-tail-details.js");
-/* harmony import */ var _masked_pattern_cursor_js__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! ./masked/pattern/cursor.js */ "./node_modules/imask/esm/masked/pattern/cursor.js");
+/* harmony import */ var _masked_repeat_js__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ./masked/repeat.js */ "./node_modules/imask/esm/masked/repeat.js");
+/* harmony import */ var _core_action_details_js__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! ./core/action-details.js */ "./node_modules/imask/esm/core/action-details.js");
+/* harmony import */ var _controls_input_history_js__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! ./controls/input-history.js */ "./node_modules/imask/esm/controls/input-history.js");
+/* harmony import */ var _core_continuous_tail_details_js__WEBPACK_IMPORTED_MODULE_25__ = __webpack_require__(/*! ./core/continuous-tail-details.js */ "./node_modules/imask/esm/core/continuous-tail-details.js");
+/* harmony import */ var _masked_pattern_cursor_js__WEBPACK_IMPORTED_MODULE_26__ = __webpack_require__(/*! ./masked/pattern/cursor.js */ "./node_modules/imask/esm/masked/pattern/cursor.js");
+
+
 
 
 
@@ -8191,7 +7311,7 @@ try {
 /*!***********************************************!*\
   !*** ./node_modules/imask/esm/masked/base.js ***!
   \***********************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
@@ -8229,9 +7349,11 @@ class Masked {
 
   /** Format typed value to string */
 
-  /** Parse strgin to get typed value */
+  /** Parse string to get typed value */
 
   /** Enable characters overwriting */
+
+  /** */
 
   /** */
 
@@ -8250,7 +7372,7 @@ class Masked {
 
   /** Sets and applies new options */
   updateOptions(opts) {
-    if (!Object.keys(opts).length) return;
+    if (!this.optionsIsChanged(opts)) return;
     this.withValueRefresh(this._update.bind(this, opts));
   }
 
@@ -8313,7 +7435,7 @@ class Masked {
 
   /** Value that includes raw user input */
   get rawInputValue() {
-    return this.extractInput(0, this.value.length, {
+    return this.extractInput(0, this.displayValue.length, {
       raw: true
     });
   }
@@ -8341,9 +7463,9 @@ class Masked {
       fromPos = 0;
     }
     if (toPos === void 0) {
-      toPos = this.value.length;
+      toPos = this.displayValue.length;
     }
-    return Math.min(this.value.length, toPos - fromPos);
+    return Math.min(this.displayValue.length, toPos - fromPos);
   }
 
   /** Extracts value in range considering flags */
@@ -8352,9 +7474,9 @@ class Masked {
       fromPos = 0;
     }
     if (toPos === void 0) {
-      toPos = this.value.length;
+      toPos = this.displayValue.length;
     }
-    return this.value.slice(fromPos, toPos);
+    return this.displayValue.slice(fromPos, toPos);
   }
 
   /** Extracts tail in range */
@@ -8363,7 +7485,7 @@ class Masked {
       fromPos = 0;
     }
     if (toPos === void 0) {
-      toPos = this.value.length;
+      toPos = this.displayValue.length;
     }
     return new _core_continuous_tail_details_js__WEBPACK_IMPORTED_MODULE_1__["default"](this.extractInput(fromPos, toPos), fromPos);
   }
@@ -8392,7 +7514,28 @@ class Masked {
     const consistentState = this.state;
     let details;
     [ch, details] = this.doPrepareChar(ch, flags);
-    details = details.aggregate(this._appendCharRaw(ch, flags));
+    if (ch) {
+      details = details.aggregate(this._appendCharRaw(ch, flags));
+
+      // TODO handle `skip`?
+
+      // try `autofix` lookahead
+      if (!details.rawInserted && this.autofix === 'pad') {
+        const noFixState = this.state;
+        this.state = consistentState;
+        let fixDetails = this.pad(flags);
+        const chDetails = this._appendCharRaw(ch, flags);
+        fixDetails = fixDetails.aggregate(chDetails);
+
+        // if fix was applied or
+        // if details are equal use skip restoring state optimization
+        if (chDetails.rawInserted || fixDetails.equals(details)) {
+          details = fixDetails;
+        } else {
+          this.state = noFixState;
+        }
+      }
+    }
     if (details.inserted) {
       let consistentTail;
       let appended = this.doValidate(flags) !== false;
@@ -8401,18 +7544,22 @@ class Masked {
         const beforeTailState = this.state;
         if (this.overwrite === true) {
           consistentTail = checkTail.state;
-          checkTail.unshift(this.value.length - details.tailShift);
+          for (let i = 0; i < details.rawInserted.length; ++i) {
+            checkTail.unshift(this.displayValue.length - details.tailShift);
+          }
         }
         let tailDetails = this.appendTail(checkTail);
-        appended = tailDetails.rawInserted === checkTail.toString();
+        appended = tailDetails.rawInserted.length === checkTail.toString().length;
 
         // not ok, try shift
         if (!(appended && tailDetails.inserted) && this.overwrite === 'shift') {
           this.state = beforeTailState;
           consistentTail = checkTail.state;
-          checkTail.shift();
+          for (let i = 0; i < details.rawInserted.length; ++i) {
+            checkTail.shift();
+          }
           tailDetails = this.appendTail(checkTail);
-          appended = tailDetails.rawInserted === checkTail.toString();
+          appended = tailDetails.rawInserted.length === checkTail.toString().length;
         }
 
         // if ok, rollback state after tail
@@ -8462,7 +7609,6 @@ class Masked {
       // but it causes bugs when one append calls another (when dynamic dispatch set rawInputValue)
       // this._resetBeforeTailState();
     }
-
     return details;
   }
   remove(fromPos, toPos) {
@@ -8470,9 +7616,9 @@ class Masked {
       fromPos = 0;
     }
     if (toPos === void 0) {
-      toPos = this.value.length;
+      toPos = this.displayValue.length;
     }
-    this._value = this.value.slice(0, fromPos) + this.value.slice(toPos);
+    this._value = this.displayValue.slice(0, fromPos) + this.displayValue.slice(toPos);
     return new _core_change_details_js__WEBPACK_IMPORTED_MODULE_0__["default"]();
   }
 
@@ -8486,7 +7632,8 @@ class Masked {
     this.rawInputValue = rawInput;
     // append lost trailing chars at the end
     if (this.value && this.value !== value && value.indexOf(this.value) === 0) {
-      this.append(value.slice(this.value.length), {}, '');
+      this.append(value.slice(this.displayValue.length), {}, '');
+      this.doCommit();
     }
     delete this._refreshing;
     return ret;
@@ -8530,6 +7677,9 @@ class Masked {
     if (this.commit) this.commit(this.value, this);
   }
   splice(start, deleteCount, inserted, removeDirection, flags) {
+    if (inserted === void 0) {
+      inserted = '';
+    }
     if (removeDirection === void 0) {
       removeDirection = _core_utils_js__WEBPACK_IMPORTED_MODULE_2__.DIRECTION.NONE;
     }
@@ -8562,7 +7712,7 @@ class Masked {
     if (eagerRemove && removeDirection !== _core_utils_js__WEBPACK_IMPORTED_MODULE_2__.DIRECTION.NONE && oldRawValue === this.rawInputValue) {
       if (removeDirection === _core_utils_js__WEBPACK_IMPORTED_MODULE_2__.DIRECTION.FORCE_LEFT) {
         let valLength;
-        while (oldRawValue === this.rawInputValue && (valLength = this.value.length)) {
+        while (oldRawValue === this.rawInputValue && (valLength = this.displayValue.length)) {
           details.aggregate(new _core_change_details_js__WEBPACK_IMPORTED_MODULE_0__["default"]({
             tailShift: -1
           })).aggregate(this.remove(valLength - 1));
@@ -8576,9 +7726,15 @@ class Masked {
   maskEquals(mask) {
     return this.mask === mask;
   }
+  optionsIsChanged(opts) {
+    return !(0,_core_utils_js__WEBPACK_IMPORTED_MODULE_2__.objectIncludes)(this, opts);
+  }
   typedValueEquals(value) {
     const tval = this.typedValue;
-    return value === tval || Masked.EMPTY_VALUES.includes(value) && Masked.EMPTY_VALUES.includes(tval) || this.format && this.format(value, this) === this.format(this.typedValue, this);
+    return value === tval || Masked.EMPTY_VALUES.includes(value) && Masked.EMPTY_VALUES.includes(tval) || (this.format ? this.format(value, this) === this.format(this.typedValue, this) : false);
+  }
+  pad(flags) {
+    return new _core_change_details_js__WEBPACK_IMPORTED_MODULE_0__["default"]();
   }
 }
 Masked.DEFAULTS = {
@@ -8596,7 +7752,7 @@ _core_holder_js__WEBPACK_IMPORTED_MODULE_3__["default"].Masked = Masked;
 /*!***********************************************!*\
   !*** ./node_modules/imask/esm/masked/date.js ***!
   \***********************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
@@ -8630,29 +7786,39 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+const DefaultPattern = 'd{.}`m{.}`Y';
+
+// Make format and parse required when pattern is provided
+
 /** Date mask */
 class MaskedDate extends _pattern_js__WEBPACK_IMPORTED_MODULE_0__["default"] {
+  static extractPatternOptions(opts) {
+    const {
+      mask,
+      pattern,
+      ...patternOpts
+    } = opts;
+    return {
+      ...patternOpts,
+      mask: (0,_core_utils_js__WEBPACK_IMPORTED_MODULE_3__.isString)(mask) ? mask : pattern
+    };
+  }
+
   /** Pattern mask for date according to {@link MaskedDate#format} */
 
   /** Start date */
 
   /** End date */
 
-  /** */
+  /** Format typed value to string */
+
+  /** Parse string to get typed value */
 
   constructor(opts) {
-    const {
-      mask,
-      pattern,
-      ...patternOpts
-    } = {
+    super(MaskedDate.extractPatternOptions({
       ...MaskedDate.DEFAULTS,
       ...opts
-    };
-    super({
-      ...patternOpts,
-      mask: (0,_core_utils_js__WEBPACK_IMPORTED_MODULE_3__.isString)(mask) ? mask : pattern
-    });
+    }));
   }
   updateOptions(opts) {
     super.updateOptions(opts);
@@ -8680,12 +7846,6 @@ class MaskedDate extends _pattern_js__WEBPACK_IMPORTED_MODULE_0__["default"] {
       }
     }
     Object.assign(patternBlocks, this.blocks, blocks);
-
-    // add autofix
-    Object.keys(patternBlocks).forEach(bk => {
-      const b = patternBlocks[bk];
-      if (!('autofix' in b) && 'autofix' in opts) b.autofix = opts.autofix;
-    });
     super._update({
       ...patternOpts,
       mask: (0,_core_utils_js__WEBPACK_IMPORTED_MODULE_3__.isString)(mask) ? mask : pattern,
@@ -8718,6 +7878,9 @@ class MaskedDate extends _pattern_js__WEBPACK_IMPORTED_MODULE_0__["default"] {
   maskEquals(mask) {
     return mask === Date || super.maskEquals(mask);
   }
+  optionsIsChanged(opts) {
+    return super.optionsIsChanged(MaskedDate.extractPatternOptions(opts));
+  }
 }
 MaskedDate.GET_DEFAULT_BLOCKS = () => ({
   d: {
@@ -8739,16 +7902,17 @@ MaskedDate.GET_DEFAULT_BLOCKS = () => ({
   }
 });
 MaskedDate.DEFAULTS = {
+  ..._pattern_js__WEBPACK_IMPORTED_MODULE_0__["default"].DEFAULTS,
   mask: Date,
-  pattern: 'd{.}`m{.}`Y',
-  format: date => {
+  pattern: DefaultPattern,
+  format: (date, masked) => {
     if (!date) return '';
     const day = String(date.getDate()).padStart(2, '0');
     const month = String(date.getMonth() + 1).padStart(2, '0');
     const year = date.getFullYear();
     return [day, month, year].join('.');
   },
-  parse: str => {
+  parse: (str, masked) => {
     const [day, month, year] = str.split('.').map(Number);
     return new Date(year, month - 1, day);
   }
@@ -8764,7 +7928,7 @@ _core_holder_js__WEBPACK_IMPORTED_MODULE_2__["default"].MaskedDate = MaskedDate;
 /*!**************************************************!*\
   !*** ./node_modules/imask/esm/masked/dynamic.js ***!
   \**************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
@@ -8786,16 +7950,12 @@ __webpack_require__.r(__webpack_exports__);
 
 /** Dynamic mask for choosing appropriate mask in run-time */
 class MaskedDynamic extends _base_js__WEBPACK_IMPORTED_MODULE_3__["default"] {
-  // TODO types
-  /** Currently chosen mask */
-  /** Compliled {@link Masked} options */
-  /** Chooses {@link Masked} depending on input value */
   constructor(opts) {
     super({
       ...MaskedDynamic.DEFAULTS,
       ...opts
     });
-    this.currentMask = null;
+    this.currentMask = undefined;
   }
   updateOptions(opts) {
     super.updateOptions(opts);
@@ -8803,18 +7963,26 @@ class MaskedDynamic extends _base_js__WEBPACK_IMPORTED_MODULE_3__["default"] {
   _update(opts) {
     super._update(opts);
     if ('mask' in opts) {
+      this.exposeMask = undefined;
       // mask could be totally dynamic with only `dispatch` option
-      this.compiledMasks = Array.isArray(opts.mask) ? opts.mask.map(m => (0,_factory_js__WEBPACK_IMPORTED_MODULE_2__["default"])({
-        overwrite: this._overwrite,
-        eager: this._eager,
-        skipInvalid: this._skipInvalid,
-        ...(0,_factory_js__WEBPACK_IMPORTED_MODULE_2__.normalizeOpts)(m)
-      })) : [];
+      this.compiledMasks = Array.isArray(opts.mask) ? opts.mask.map(m => {
+        const {
+          expose,
+          ...maskOpts
+        } = (0,_factory_js__WEBPACK_IMPORTED_MODULE_2__.normalizeOpts)(m);
+        const masked = (0,_factory_js__WEBPACK_IMPORTED_MODULE_2__["default"])({
+          overwrite: this._overwrite,
+          eager: this._eager,
+          skipInvalid: this._skipInvalid,
+          ...maskOpts
+        });
+        if (expose) this.exposeMask = masked;
+        return masked;
+      }) : [];
 
       // this.currentMask = this.doDispatch(''); // probably not needed but lets see
     }
   }
-
   _appendCharRaw(ch, flags) {
     if (flags === void 0) {
       flags = {};
@@ -8854,10 +8022,10 @@ class MaskedDynamic extends _base_js__WEBPACK_IMPORTED_MODULE_3__["default"] {
         // if mask changed reapply input
         this.currentMask.reset();
         if (insertValue) {
-          const d = this.currentMask.append(insertValue, {
+          this.currentMask.append(insertValue, {
             raw: true
           });
-          details.tailShift = d.inserted.length - prevValueBeforeTail.length;
+          details.tailShift = this.currentMask.value.length - prevValueBeforeTail.length;
         }
         if (tailValue) {
           details.tailShift += this.currentMask.append(tailValue, {
@@ -8865,7 +8033,7 @@ class MaskedDynamic extends _base_js__WEBPACK_IMPORTED_MODULE_3__["default"] {
             tail: true
           }).tailShift;
         }
-      } else {
+      } else if (prevMaskState) {
         // Dispatch can do something bad with state, so
         // restore prev mask state
         this.currentMask.state = prevMaskState;
@@ -8937,32 +8105,44 @@ class MaskedDynamic extends _base_js__WEBPACK_IMPORTED_MODULE_3__["default"] {
   }
   reset() {
     var _this$currentMask;
-    (_this$currentMask = this.currentMask) == null ? void 0 : _this$currentMask.reset();
+    (_this$currentMask = this.currentMask) == null || _this$currentMask.reset();
     this.compiledMasks.forEach(m => m.reset());
   }
   get value() {
-    return this.currentMask ? this.currentMask.value : '';
+    return this.exposeMask ? this.exposeMask.value : this.currentMask ? this.currentMask.value : '';
   }
   set value(value) {
-    super.value = value;
+    if (this.exposeMask) {
+      this.exposeMask.value = value;
+      this.currentMask = this.exposeMask;
+      this._applyDispatch();
+    } else super.value = value;
   }
   get unmaskedValue() {
-    return this.currentMask ? this.currentMask.unmaskedValue : '';
+    return this.exposeMask ? this.exposeMask.unmaskedValue : this.currentMask ? this.currentMask.unmaskedValue : '';
   }
   set unmaskedValue(unmaskedValue) {
-    super.unmaskedValue = unmaskedValue;
+    if (this.exposeMask) {
+      this.exposeMask.unmaskedValue = unmaskedValue;
+      this.currentMask = this.exposeMask;
+      this._applyDispatch();
+    } else super.unmaskedValue = unmaskedValue;
   }
   get typedValue() {
-    return this.currentMask ? this.currentMask.typedValue : '';
+    return this.exposeMask ? this.exposeMask.typedValue : this.currentMask ? this.currentMask.typedValue : '';
   }
-
-  // probably typedValue should not be used with dynamic
-  set typedValue(value) {
-    let unmaskedValue = String(value);
+  set typedValue(typedValue) {
+    if (this.exposeMask) {
+      this.exposeMask.typedValue = typedValue;
+      this.currentMask = this.exposeMask;
+      this._applyDispatch();
+      return;
+    }
+    let unmaskedValue = String(typedValue);
 
     // double check it
     if (this.currentMask) {
-      this.currentMask.typedValue = value;
+      this.currentMask.typedValue = typedValue;
       unmaskedValue = this.currentMask.unmaskedValue;
     }
     this.unmaskedValue = unmaskedValue;
@@ -9024,29 +8204,29 @@ class MaskedDynamic extends _base_js__WEBPACK_IMPORTED_MODULE_3__["default"] {
   nearestInputPos(cursorPos, direction) {
     return this.currentMask ? this.currentMask.nearestInputPos(cursorPos, direction) : super.nearestInputPos(cursorPos, direction);
   }
-
-  // @ts-ignore i don't mind overriding
   get overwrite() {
     return this.currentMask ? this.currentMask.overwrite : this._overwrite;
   }
   set overwrite(overwrite) {
     this._overwrite = overwrite;
   }
-
-  // @ts-ignore i don't mind overriding
   get eager() {
     return this.currentMask ? this.currentMask.eager : this._eager;
   }
   set eager(eager) {
     this._eager = eager;
   }
-
-  // @ts-ignore i don't mind overriding
   get skipInvalid() {
     return this.currentMask ? this.currentMask.skipInvalid : this._skipInvalid;
   }
   set skipInvalid(skipInvalid) {
     this._skipInvalid = skipInvalid;
+  }
+  get autofix() {
+    return this.currentMask ? this.currentMask.autofix : this._autofix;
+  }
+  set autofix(autofix) {
+    this._autofix = autofix;
   }
   maskEquals(mask) {
     return Array.isArray(mask) ? this.compiledMasks.every((m, mi) => {
@@ -9063,8 +8243,12 @@ class MaskedDynamic extends _base_js__WEBPACK_IMPORTED_MODULE_3__["default"] {
     return Boolean((_this$currentMask5 = this.currentMask) == null ? void 0 : _this$currentMask5.typedValueEquals(value));
   }
 }
-MaskedDynamic.DEFAULTS = void 0;
+/** Currently chosen mask */
+/** Currently chosen mask */
+/** Compliled {@link Masked} options */
+/** Chooses {@link Masked} depending on input value */
 MaskedDynamic.DEFAULTS = {
+  ..._base_js__WEBPACK_IMPORTED_MODULE_3__["default"].DEFAULTS,
   dispatch: (appended, masked, flags, tail) => {
     if (!masked.compiledMasks.length) return;
     const inputValue = masked.rawInputValue;
@@ -9072,7 +8256,7 @@ MaskedDynamic.DEFAULTS = {
     // simulate input
     const inputs = masked.compiledMasks.map((m, index) => {
       const isCurrent = masked.currentMask === m;
-      const startInputPos = isCurrent ? m.value.length : m.nearestInputPos(m.value.length, _core_utils_js__WEBPACK_IMPORTED_MODULE_0__.DIRECTION.FORCE_LEFT);
+      const startInputPos = isCurrent ? m.displayValue.length : m.nearestInputPos(m.displayValue.length, _core_utils_js__WEBPACK_IMPORTED_MODULE_0__.DIRECTION.FORCE_LEFT);
       if (m.rawInputValue !== inputValue) {
         m.reset();
         m.append(inputValue, {
@@ -9086,7 +8270,7 @@ MaskedDynamic.DEFAULTS = {
       return {
         index,
         weight: m.rawInputValue.length,
-        totalInputPositions: m.totalInputPositions(0, Math.max(startInputPos, m.nearestInputPos(m.value.length, _core_utils_js__WEBPACK_IMPORTED_MODULE_0__.DIRECTION.FORCE_LEFT)))
+        totalInputPositions: m.totalInputPositions(0, Math.max(startInputPos, m.nearestInputPos(m.displayValue.length, _core_utils_js__WEBPACK_IMPORTED_MODULE_0__.DIRECTION.FORCE_LEFT)))
       };
     });
 
@@ -9106,7 +8290,7 @@ _core_holder_js__WEBPACK_IMPORTED_MODULE_4__["default"].MaskedDynamic = MaskedDy
 /*!***********************************************!*\
   !*** ./node_modules/imask/esm/masked/enum.js ***!
   \***********************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
@@ -9117,8 +8301,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _core_holder_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../core/holder.js */ "./node_modules/imask/esm/core/holder.js");
 /* harmony import */ var _core_change_details_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../core/change-details.js */ "./node_modules/imask/esm/core/change-details.js");
 /* harmony import */ var _core_utils_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../core/utils.js */ "./node_modules/imask/esm/core/utils.js");
-/* harmony import */ var _base_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./base.js */ "./node_modules/imask/esm/masked/base.js");
-/* harmony import */ var _core_continuous_tail_details_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../core/continuous-tail-details.js */ "./node_modules/imask/esm/core/continuous-tail-details.js");
+/* harmony import */ var _core_continuous_tail_details_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../core/continuous-tail-details.js */ "./node_modules/imask/esm/core/continuous-tail-details.js");
+/* harmony import */ var _base_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./base.js */ "./node_modules/imask/esm/masked/base.js");
 /* harmony import */ var _factory_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./factory.js */ "./node_modules/imask/esm/masked/factory.js");
 /* harmony import */ var _pattern_chunk_tail_details_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./pattern/chunk-tail-details.js */ "./node_modules/imask/esm/masked/pattern/chunk-tail-details.js");
 /* harmony import */ var _pattern_cursor_js__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./pattern/cursor.js */ "./node_modules/imask/esm/masked/pattern/cursor.js");
@@ -9140,24 +8324,92 @@ __webpack_require__.r(__webpack_exports__);
 
 /** Pattern which validates enum values */
 class MaskedEnum extends _pattern_js__WEBPACK_IMPORTED_MODULE_0__["default"] {
+  constructor(opts) {
+    super({
+      ...MaskedEnum.DEFAULTS,
+      ...opts
+    }); // mask will be created in _update
+  }
   updateOptions(opts) {
     super.updateOptions(opts);
   }
   _update(opts) {
     const {
-      enum: _enum,
+      enum: enum_,
       ...eopts
     } = opts;
-    if (_enum) {
-      eopts.mask = '*'.repeat(_enum[0].length);
-      this.enum = _enum;
+    if (enum_) {
+      const lengths = enum_.map(e => e.length);
+      const requiredLength = Math.min(...lengths);
+      const optionalLength = Math.max(...lengths) - requiredLength;
+      eopts.mask = '*'.repeat(requiredLength);
+      if (optionalLength) eopts.mask += '[' + '*'.repeat(optionalLength) + ']';
+      this.enum = enum_;
     }
     super._update(eopts);
   }
-  doValidate(flags) {
-    return this.enum.some(e => e.indexOf(this.unmaskedValue) >= 0) && super.doValidate(flags);
+  _appendCharRaw(ch, flags) {
+    if (flags === void 0) {
+      flags = {};
+    }
+    const matchFrom = Math.min(this.nearestInputPos(0, _core_utils_js__WEBPACK_IMPORTED_MODULE_3__.DIRECTION.FORCE_RIGHT), this.value.length);
+    const matches = this.enum.filter(e => this.matchValue(e, this.unmaskedValue + ch, matchFrom));
+    if (matches.length) {
+      if (matches.length === 1) {
+        this._forEachBlocksInRange(0, this.value.length, (b, bi) => {
+          const mch = matches[0][bi];
+          if (bi >= this.value.length || mch === b.value) return;
+          b.reset();
+          b._appendChar(mch, flags);
+        });
+      }
+      const d = super._appendCharRaw(matches[0][this.value.length], flags);
+      if (matches.length === 1) {
+        matches[0].slice(this.unmaskedValue.length).split('').forEach(mch => d.aggregate(super._appendCharRaw(mch)));
+      }
+      return d;
+    }
+    return new _core_change_details_js__WEBPACK_IMPORTED_MODULE_2__["default"]({
+      skip: !this.isComplete
+    });
+  }
+  extractTail(fromPos, toPos) {
+    if (fromPos === void 0) {
+      fromPos = 0;
+    }
+    if (toPos === void 0) {
+      toPos = this.displayValue.length;
+    }
+    // just drop tail
+    return new _core_continuous_tail_details_js__WEBPACK_IMPORTED_MODULE_4__["default"]('', fromPos);
+  }
+  remove(fromPos, toPos) {
+    if (fromPos === void 0) {
+      fromPos = 0;
+    }
+    if (toPos === void 0) {
+      toPos = this.displayValue.length;
+    }
+    if (fromPos === toPos) return new _core_change_details_js__WEBPACK_IMPORTED_MODULE_2__["default"]();
+    const matchFrom = Math.min(super.nearestInputPos(0, _core_utils_js__WEBPACK_IMPORTED_MODULE_3__.DIRECTION.FORCE_RIGHT), this.value.length);
+    let pos;
+    for (pos = fromPos; pos >= 0; --pos) {
+      const matches = this.enum.filter(e => this.matchValue(e, this.value.slice(matchFrom, pos), matchFrom));
+      if (matches.length > 1) break;
+    }
+    const details = super.remove(pos, toPos);
+    details.tailShift += pos - fromPos;
+    return details;
+  }
+  get isComplete() {
+    return this.enum.indexOf(this.value) >= 0;
   }
 }
+/** Match enum value */
+MaskedEnum.DEFAULTS = {
+  ..._pattern_js__WEBPACK_IMPORTED_MODULE_0__["default"].DEFAULTS,
+  matchValue: (estr, istr, matchFrom) => estr.indexOf(istr, matchFrom) === matchFrom
+};
 _core_holder_js__WEBPACK_IMPORTED_MODULE_1__["default"].MaskedEnum = MaskedEnum;
 
 
@@ -9169,14 +8421,14 @@ _core_holder_js__WEBPACK_IMPORTED_MODULE_1__["default"].MaskedEnum = MaskedEnum;
 /*!**************************************************!*\
   !*** ./node_modules/imask/esm/masked/factory.js ***!
   \**************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ createMask),
-/* harmony export */   "maskedClass": () => (/* binding */ maskedClass),
-/* harmony export */   "normalizeOpts": () => (/* binding */ normalizeOpts)
+/* harmony export */   maskedClass: () => (/* binding */ maskedClass),
+/* harmony export */   normalizeOpts: () => (/* binding */ normalizeOpts)
 /* harmony export */ });
 /* harmony import */ var _core_utils_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../core/utils.js */ "./node_modules/imask/esm/core/utils.js");
 /* harmony import */ var _core_holder_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../core/holder.js */ "./node_modules/imask/esm/core/holder.js");
@@ -9209,6 +8461,7 @@ __webpack_require__.r(__webpack_exports__);
 // export function maskedClass<Mask extends typeof Masked> (mask: Mask): Mask;
 // export function maskedClass(mask: RegExp): typeof MaskedRegExp;
 // export function maskedClass(mask: (value: string, ...args: any[]) => boolean): typeof MaskedFunction;
+
 /** Get Masked class by mask type */
 function maskedClass(mask) /* TODO */{
   if (mask == null) throw new Error('mask property should be defined');
@@ -9240,7 +8493,7 @@ function normalizeOpts(opts) {
       ...instanceOpts
     } = opts instanceof _core_holder_js__WEBPACK_IMPORTED_MODULE_1__["default"].Masked ? {
       mask: opts
-    } : opts.mask instanceof _core_holder_js__WEBPACK_IMPORTED_MODULE_1__["default"].Masked ? opts : {};
+    } : (0,_core_utils_js__WEBPACK_IMPORTED_MODULE_0__.isObject)(opts) && opts.mask instanceof _core_holder_js__WEBPACK_IMPORTED_MODULE_1__["default"].Masked ? opts : {};
     if (mask) {
       const _mask = mask.mask;
       return {
@@ -9289,7 +8542,7 @@ function createMask(opts) {
   if (_core_holder_js__WEBPACK_IMPORTED_MODULE_1__["default"].Masked && opts instanceof _core_holder_js__WEBPACK_IMPORTED_MODULE_1__["default"].Masked) return opts;
   const nOpts = normalizeOpts(opts);
   const MaskedClass = maskedClass(nOpts.mask);
-  if (!MaskedClass) throw new Error('Masked class is not found for provided mask, appropriate module needs to be imported manually before creating mask.');
+  if (!MaskedClass) throw new Error("Masked class is not found for provided mask " + nOpts.mask + ", appropriate module needs to be imported manually before creating mask.");
   if (nOpts.mask === MaskedClass) delete nOpts.mask;
   if (nOpts._mask) {
     nOpts.mask = nOpts._mask;
@@ -9308,7 +8561,7 @@ _core_holder_js__WEBPACK_IMPORTED_MODULE_1__["default"].createMask = createMask;
 /*!***************************************************!*\
   !*** ./node_modules/imask/esm/masked/function.js ***!
   \***************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
@@ -9328,6 +8581,16 @@ __webpack_require__.r(__webpack_exports__);
 
 /** Masking by custom Function */
 class MaskedFunction extends _base_js__WEBPACK_IMPORTED_MODULE_0__["default"] {
+  /** */
+
+  /** Enable characters overwriting */
+
+  /** */
+
+  /** */
+
+  /** */
+
   updateOptions(opts) {
     super.updateOptions(opts);
   }
@@ -9349,7 +8612,7 @@ _core_holder_js__WEBPACK_IMPORTED_MODULE_1__["default"].MaskedFunction = MaskedF
 /*!*************************************************!*\
   !*** ./node_modules/imask/esm/masked/number.js ***!
   \*************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
@@ -9367,9 +8630,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-/**
-  Number mask
-*/
+var _MaskedNumber;
+/** Number mask */
 class MaskedNumber extends _base_js__WEBPACK_IMPORTED_MODULE_2__["default"] {
   /** Single char */
 
@@ -9386,6 +8648,18 @@ class MaskedNumber extends _base_js__WEBPACK_IMPORTED_MODULE_2__["default"] {
   /** Flag to remove leading and trailing zeros in the end of editing */
 
   /** Flag to pad trailing zeros after point in the end of editing */
+
+  /** Enable characters overwriting */
+
+  /** */
+
+  /** */
+
+  /** */
+
+  /** Format typed value to string */
+
+  /** Parse string to get typed value */
 
   constructor(opts) {
     super({
@@ -9421,7 +8695,7 @@ class MaskedNumber extends _base_js__WEBPACK_IMPORTED_MODULE_2__["default"] {
     if (flags === void 0) {
       flags = {};
     }
-    ch = this._removeThousandsSeparators(this.scale && this.mapToRadix.length && (
+    const [prepCh, details] = super.doPrepareChar(this._removeThousandsSeparators(this.scale && this.mapToRadix.length && (
     /*
       radix should be mapped when
       1) input is done from keyboard = flags.input && flags.raw
@@ -9430,8 +8704,7 @@ class MaskedNumber extends _base_js__WEBPACK_IMPORTED_MODULE_2__["default"] {
       1) value is set = flags.input && !flags.raw
       2) raw value is set = !flags.input && flags.raw
     */
-    flags.input && flags.raw || !flags.input && !flags.raw) ? ch.replace(this._mapToRadixRegExp, this.radix) : ch);
-    const [prepCh, details] = super.doPrepareChar(ch, flags);
+    flags.input && flags.raw || !flags.input && !flags.raw) ? ch.replace(this._mapToRadixRegExp, this.radix) : ch), flags);
     if (ch && !prepCh) details.skip = true;
     if (prepCh && !this.allowPositive && !this.value && prepCh !== '-') details.aggregate(this._appendChar('-'));
     return [prepCh, details];
@@ -9460,7 +8733,7 @@ class MaskedNumber extends _base_js__WEBPACK_IMPORTED_MODULE_2__["default"] {
       fromPos = 0;
     }
     if (toPos === void 0) {
-      toPos = this.value.length;
+      toPos = this.displayValue.length;
     }
     [fromPos, toPos] = this._adjustRangeWithSeparators(fromPos, toPos);
     return this._removeThousandsSeparators(super.extractInput(fromPos, toPos, flags));
@@ -9469,16 +8742,43 @@ class MaskedNumber extends _base_js__WEBPACK_IMPORTED_MODULE_2__["default"] {
     if (flags === void 0) {
       flags = {};
     }
-    if (!this.thousandsSeparator) return super._appendCharRaw(ch, flags);
     const prevBeforeTailValue = flags.tail && flags._beforeTailState ? flags._beforeTailState._value : this._value;
     const prevBeforeTailSeparatorsCount = this._separatorsCountFromSlice(prevBeforeTailValue);
     this._value = this._removeThousandsSeparators(this.value);
-    const appendDetails = super._appendCharRaw(ch, flags);
+    const oldValue = this._value;
+    this._value += ch;
+    const num = this.number;
+    let accepted = !isNaN(num);
+    let skip = false;
+    if (accepted) {
+      let fixedNum;
+      if (this.min != null && this.min < 0 && this.number < this.min) fixedNum = this.min;
+      if (this.max != null && this.max > 0 && this.number > this.max) fixedNum = this.max;
+      if (fixedNum != null) {
+        if (this.autofix) {
+          this._value = this.format(fixedNum, this).replace(MaskedNumber.UNMASKED_RADIX, this.radix);
+          skip || (skip = oldValue === this._value && !flags.tail); // if not changed on tail it's still ok to proceed
+        } else {
+          accepted = false;
+        }
+      }
+      accepted && (accepted = Boolean(this._value.match(this._numberRegExp)));
+    }
+    let appendDetails;
+    if (!accepted) {
+      this._value = oldValue;
+      appendDetails = new _core_change_details_js__WEBPACK_IMPORTED_MODULE_1__["default"]();
+    } else {
+      appendDetails = new _core_change_details_js__WEBPACK_IMPORTED_MODULE_1__["default"]({
+        inserted: this._value.slice(oldValue.length),
+        rawInserted: skip ? '' : ch,
+        skip
+      });
+    }
     this._value = this._insertThousandsSeparators(this._value);
     const beforeTailValue = flags.tail && flags._beforeTailState ? flags._beforeTailState._value : this._value;
     const beforeTailSeparatorsCount = this._separatorsCountFromSlice(beforeTailValue);
     appendDetails.tailShift += (beforeTailSeparatorsCount - prevBeforeTailSeparatorsCount) * this.thousandsSeparator.length;
-    appendDetails.skip = !appendDetails.rawInserted && ch === this.thousandsSeparator;
     return appendDetails;
   }
   _findSeparatorAround(pos) {
@@ -9501,7 +8801,7 @@ class MaskedNumber extends _base_js__WEBPACK_IMPORTED_MODULE_2__["default"] {
       fromPos = 0;
     }
     if (toPos === void 0) {
-      toPos = this.value.length;
+      toPos = this.displayValue.length;
     }
     [fromPos, toPos] = this._adjustRangeWithSeparators(fromPos, toPos);
     const valueBeforePos = this.value.slice(0, fromPos);
@@ -9540,20 +8840,6 @@ class MaskedNumber extends _base_js__WEBPACK_IMPORTED_MODULE_2__["default"] {
     }
     return cursorPos;
   }
-  doValidate(flags) {
-    // validate as string
-    let valid = Boolean(this._removeThousandsSeparators(this.value).match(this._numberRegExp));
-    if (valid) {
-      // validate as number
-      const number = this.number;
-      valid = valid && !isNaN(number) && (
-      // check min bound for negative values
-      this.min == null || this.min >= 0 || this.min <= this.number) && (
-      // check max bound for positive values
-      this.max == null || this.max <= 0 || this.number <= this.max);
-    }
-    return valid && super.doValidate(flags);
-  }
   doCommit() {
     if (this.value) {
       const number = this.number;
@@ -9581,7 +8867,6 @@ class MaskedNumber extends _base_js__WEBPACK_IMPORTED_MODULE_2__["default"] {
       parts[1] = parts[1].replace(/0*$/, ''); // remove trailing zeros
       if (!parts[1].length) parts.length = 1; // remove fractional
     }
-
     return this._insertThousandsSeparators(parts.join(this.radix));
   }
   _padFractionalZeros(value) {
@@ -9618,17 +8903,9 @@ class MaskedNumber extends _base_js__WEBPACK_IMPORTED_MODULE_2__["default"] {
   set number(number) {
     this.typedValue = number;
   }
-
-  /**
-    Is negative allowed
-  */
   get allowNegative() {
     return this.min != null && this.min < 0 || this.max != null && this.max < 0;
   }
-
-  /**
-    Is positive allowed
-  */
   get allowPositive() {
     return this.min != null && this.min > 0 || this.max != null && this.max > 0;
   }
@@ -9638,13 +8915,15 @@ class MaskedNumber extends _base_js__WEBPACK_IMPORTED_MODULE_2__["default"] {
     return (super.typedValueEquals(value) || MaskedNumber.EMPTY_VALUES.includes(value) && MaskedNumber.EMPTY_VALUES.includes(this.typedValue)) && !(value === 0 && this.value === '');
   }
 }
+_MaskedNumber = MaskedNumber;
 MaskedNumber.UNMASKED_RADIX = '.';
 MaskedNumber.EMPTY_VALUES = [..._base_js__WEBPACK_IMPORTED_MODULE_2__["default"].EMPTY_VALUES, 0];
 MaskedNumber.DEFAULTS = {
+  ..._base_js__WEBPACK_IMPORTED_MODULE_2__["default"].DEFAULTS,
   mask: Number,
   radix: ',',
   thousandsSeparator: '',
-  mapToRadix: [MaskedNumber.UNMASKED_RADIX],
+  mapToRadix: [_MaskedNumber.UNMASKED_RADIX],
   min: Number.MIN_SAFE_INTEGER,
   max: Number.MAX_SAFE_INTEGER,
   scale: 2,
@@ -9667,7 +8946,7 @@ _core_holder_js__WEBPACK_IMPORTED_MODULE_3__["default"].MaskedNumber = MaskedNum
 /*!**************************************************!*\
   !*** ./node_modules/imask/esm/masked/pattern.js ***!
   \**************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
@@ -9697,9 +8976,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-/**
-  Pattern mask
-*/
+/** Pattern mask */
 class MaskedPattern extends _base_js__WEBPACK_IMPORTED_MODULE_3__["default"] {
   /** */
 
@@ -9710,6 +8987,14 @@ class MaskedPattern extends _base_js__WEBPACK_IMPORTED_MODULE_3__["default"] {
   /** Single char for filled input */
 
   /** Show placeholder only when needed */
+
+  /** Enable characters overwriting */
+
+  /** */
+
+  /** */
+
+  /** */
 
   constructor(opts) {
     super({
@@ -9729,6 +9014,7 @@ class MaskedPattern extends _base_js__WEBPACK_IMPORTED_MODULE_3__["default"] {
   _rebuildMask() {
     const defs = this.definitions;
     this._blocks = [];
+    this.exposeBlock = undefined;
     this._stops = [];
     this._maskedBlocks = {};
     const pattern = this.mask;
@@ -9744,17 +9030,26 @@ class MaskedPattern extends _base_js__WEBPACK_IMPORTED_MODULE_3__["default"] {
         // use block name with max length
         const bName = bNames[0];
         if (bName) {
-          const maskedBlock = (0,_factory_js__WEBPACK_IMPORTED_MODULE_4__["default"])({
+          const {
+            expose,
+            repeat,
+            ...bOpts
+          } = (0,_factory_js__WEBPACK_IMPORTED_MODULE_4__.normalizeOpts)(this.blocks[bName]); // TODO type Opts<Arg & Extra>
+          const blockOpts = {
             lazy: this.lazy,
             eager: this.eager,
             placeholderChar: this.placeholderChar,
             displayChar: this.displayChar,
             overwrite: this.overwrite,
-            ...(0,_factory_js__WEBPACK_IMPORTED_MODULE_4__.normalizeOpts)(this.blocks[bName]),
+            autofix: this.autofix,
+            ...bOpts,
+            repeat,
             parent: this
-          });
+          };
+          const maskedBlock = repeat != null ? new _core_holder_js__WEBPACK_IMPORTED_MODULE_1__["default"].RepeatBlock(blockOpts /* TODO */) : (0,_factory_js__WEBPACK_IMPORTED_MODULE_4__["default"])(blockOpts);
           if (maskedBlock) {
             this._blocks.push(maskedBlock);
+            if (expose) this.exposeBlock = maskedBlock;
 
             // store block index
             if (!this._maskedBlocks[bName]) this._maskedBlocks[bName] = [];
@@ -9807,6 +9102,10 @@ class MaskedPattern extends _base_js__WEBPACK_IMPORTED_MODULE_3__["default"] {
     };
   }
   set state(state) {
+    if (!state) {
+      this.reset();
+      return;
+    }
     const {
       _blocks,
       ...maskedState
@@ -9819,7 +9118,7 @@ class MaskedPattern extends _base_js__WEBPACK_IMPORTED_MODULE_3__["default"] {
     this._blocks.forEach(b => b.reset());
   }
   get isComplete() {
-    return this._blocks.every(b => b.isComplete);
+    return this.exposeBlock ? this.exposeBlock.isComplete : this._blocks.every(b => b.isComplete);
   }
   get isFilled() {
     return this._blocks.every(b => b.isFilled);
@@ -9835,17 +9134,39 @@ class MaskedPattern extends _base_js__WEBPACK_IMPORTED_MODULE_3__["default"] {
     super.doCommit();
   }
   get unmaskedValue() {
-    return this._blocks.reduce((str, b) => str += b.unmaskedValue, '');
+    return this.exposeBlock ? this.exposeBlock.unmaskedValue : this._blocks.reduce((str, b) => str += b.unmaskedValue, '');
   }
   set unmaskedValue(unmaskedValue) {
-    super.unmaskedValue = unmaskedValue;
+    if (this.exposeBlock) {
+      const tail = this.extractTail(this._blockStartPos(this._blocks.indexOf(this.exposeBlock)) + this.exposeBlock.displayValue.length);
+      this.exposeBlock.unmaskedValue = unmaskedValue;
+      this.appendTail(tail);
+      this.doCommit();
+    } else super.unmaskedValue = unmaskedValue;
   }
   get value() {
+    return this.exposeBlock ? this.exposeBlock.value :
     // TODO return _value when not in change?
-    return this._blocks.reduce((str, b) => str += b.value, '');
+    this._blocks.reduce((str, b) => str += b.value, '');
   }
   set value(value) {
-    super.value = value;
+    if (this.exposeBlock) {
+      const tail = this.extractTail(this._blockStartPos(this._blocks.indexOf(this.exposeBlock)) + this.exposeBlock.displayValue.length);
+      this.exposeBlock.value = value;
+      this.appendTail(tail);
+      this.doCommit();
+    } else super.value = value;
+  }
+  get typedValue() {
+    return this.exposeBlock ? this.exposeBlock.typedValue : super.typedValue;
+  }
+  set typedValue(value) {
+    if (this.exposeBlock) {
+      const tail = this.extractTail(this._blockStartPos(this._blocks.indexOf(this.exposeBlock)) + this.exposeBlock.displayValue.length);
+      this.exposeBlock.typedValue = value;
+      this.appendTail(tail);
+      this.doCommit();
+    } else super.typedValue = value;
   }
   get displayValue() {
     return this._blocks.reduce((str, b) => str += b.displayValue, '');
@@ -9856,7 +9177,7 @@ class MaskedPattern extends _base_js__WEBPACK_IMPORTED_MODULE_3__["default"] {
   _appendEager() {
     var _this$_mapPosToBlock;
     const details = new _core_change_details_js__WEBPACK_IMPORTED_MODULE_0__["default"]();
-    let startBlockIndex = (_this$_mapPosToBlock = this._mapPosToBlock(this.value.length)) == null ? void 0 : _this$_mapPosToBlock.index;
+    let startBlockIndex = (_this$_mapPosToBlock = this._mapPosToBlock(this.displayValue.length)) == null ? void 0 : _this$_mapPosToBlock.index;
     if (startBlockIndex == null) return details;
 
     // TODO test if it works for nested pattern masks
@@ -9872,22 +9193,18 @@ class MaskedPattern extends _base_js__WEBPACK_IMPORTED_MODULE_3__["default"] {
     if (flags === void 0) {
       flags = {};
     }
-    const blockIter = this._mapPosToBlock(this.value.length);
+    const blockIter = this._mapPosToBlock(this.displayValue.length);
     const details = new _core_change_details_js__WEBPACK_IMPORTED_MODULE_0__["default"]();
     if (!blockIter) return details;
-    for (let bi = blockIter.index;; ++bi) {
-      var _flags$_beforeTailSta, _flags$_beforeTailSta2;
-      const block = this._blocks[bi];
-      if (!block) break;
+    for (let bi = blockIter.index, block; block = this._blocks[bi]; ++bi) {
+      var _flags$_beforeTailSta;
       const blockDetails = block._appendChar(ch, {
         ...flags,
-        _beforeTailState: (_flags$_beforeTailSta = flags._beforeTailState) == null ? void 0 : (_flags$_beforeTailSta2 = _flags$_beforeTailSta._blocks) == null ? void 0 : _flags$_beforeTailSta2[bi]
+        _beforeTailState: (_flags$_beforeTailSta = flags._beforeTailState) == null || (_flags$_beforeTailSta = _flags$_beforeTailSta._blocks) == null ? void 0 : _flags$_beforeTailSta[bi]
       });
-      const skip = blockDetails.skip;
       details.aggregate(blockDetails);
-      if (skip || blockDetails.rawInserted) break; // go next char
+      if (blockDetails.consumed) break; // go next char
     }
-
     return details;
   }
   extractTail(fromPos, toPos) {
@@ -9895,7 +9212,7 @@ class MaskedPattern extends _base_js__WEBPACK_IMPORTED_MODULE_3__["default"] {
       fromPos = 0;
     }
     if (toPos === void 0) {
-      toPos = this.value.length;
+      toPos = this.displayValue.length;
     }
     const chunkTail = new _pattern_chunk_tail_details_js__WEBPACK_IMPORTED_MODULE_5__["default"]();
     if (fromPos === toPos) return chunkTail;
@@ -9913,7 +9230,7 @@ class MaskedPattern extends _base_js__WEBPACK_IMPORTED_MODULE_3__["default"] {
       fromPos = 0;
     }
     if (toPos === void 0) {
-      toPos = this.value.length;
+      toPos = this.displayValue.length;
     }
     if (flags === void 0) {
       flags = {};
@@ -9938,16 +9255,14 @@ class MaskedPattern extends _base_js__WEBPACK_IMPORTED_MODULE_3__["default"] {
   _appendPlaceholder(toBlockIndex) {
     const details = new _core_change_details_js__WEBPACK_IMPORTED_MODULE_0__["default"]();
     if (this.lazy && toBlockIndex == null) return details;
-    const startBlockIter = this._mapPosToBlock(this.value.length);
+    const startBlockIter = this._mapPosToBlock(this.displayValue.length);
     if (!startBlockIter) return details;
     const startBlockIndex = startBlockIter.index;
     const endBlockIndex = toBlockIndex != null ? toBlockIndex : this._blocks.length;
     this._blocks.slice(startBlockIndex, endBlockIndex).forEach(b => {
       if (!b.lazy || toBlockIndex != null) {
         var _blocks2;
-        const bDetails = b._appendPlaceholder((_blocks2 = b._blocks) == null ? void 0 : _blocks2.length);
-        this._value += bDetails.inserted;
-        details.aggregate(bDetails);
+        details.aggregate(b._appendPlaceholder((_blocks2 = b._blocks) == null ? void 0 : _blocks2.length));
       }
     });
     return details;
@@ -9959,7 +9274,7 @@ class MaskedPattern extends _base_js__WEBPACK_IMPORTED_MODULE_3__["default"] {
     for (let bi = 0; bi < this._blocks.length; ++bi) {
       const block = this._blocks[bi];
       const blockStartPos = accVal.length;
-      accVal += block.value;
+      accVal += block.displayValue;
       if (pos <= accVal.length) {
         return {
           index: bi,
@@ -9969,11 +9284,11 @@ class MaskedPattern extends _base_js__WEBPACK_IMPORTED_MODULE_3__["default"] {
     }
   }
   _blockStartPos(blockIndex) {
-    return this._blocks.slice(0, blockIndex).reduce((pos, b) => pos += b.value.length, 0);
+    return this._blocks.slice(0, blockIndex).reduce((pos, b) => pos += b.displayValue.length, 0);
   }
   _forEachBlocksInRange(fromPos, toPos, fn) {
     if (toPos === void 0) {
-      toPos = this.value.length;
+      toPos = this.displayValue.length;
     }
     const fromBlockIter = this._mapPosToBlock(fromPos);
     if (fromBlockIter) {
@@ -9981,12 +9296,12 @@ class MaskedPattern extends _base_js__WEBPACK_IMPORTED_MODULE_3__["default"] {
       // process first block
       const isSameBlock = toBlockIter && fromBlockIter.index === toBlockIter.index;
       const fromBlockStartPos = fromBlockIter.offset;
-      const fromBlockEndPos = toBlockIter && isSameBlock ? toBlockIter.offset : this._blocks[fromBlockIter.index].value.length;
+      const fromBlockEndPos = toBlockIter && isSameBlock ? toBlockIter.offset : this._blocks[fromBlockIter.index].displayValue.length;
       fn(this._blocks[fromBlockIter.index], fromBlockIter.index, fromBlockStartPos, fromBlockEndPos);
       if (toBlockIter && !isSameBlock) {
         // process intermediate blocks
         for (let bi = fromBlockIter.index + 1; bi < toBlockIter.index; ++bi) {
-          fn(this._blocks[bi], bi, 0, this._blocks[bi].value.length);
+          fn(this._blocks[bi], bi, 0, this._blocks[bi].displayValue.length);
         }
 
         // process last block
@@ -9999,7 +9314,7 @@ class MaskedPattern extends _base_js__WEBPACK_IMPORTED_MODULE_3__["default"] {
       fromPos = 0;
     }
     if (toPos === void 0) {
-      toPos = this.value.length;
+      toPos = this.displayValue.length;
     }
     const removeDetails = super.remove(fromPos, toPos);
     this._forEachBlocksInRange(fromPos, toPos, (b, _, bFromPos, bToPos) => {
@@ -10020,7 +9335,7 @@ class MaskedPattern extends _base_js__WEBPACK_IMPORTED_MODULE_3__["default"] {
       if (cursor.pushRightBeforeInput()) return cursor.pos;
       cursor.popState();
       if (cursor.pushLeftBeforeInput()) return cursor.pos;
-      return this.value.length;
+      return this.displayValue.length;
     }
 
     // FORCE is only about a|* otherwise is 0
@@ -10059,7 +9374,7 @@ class MaskedPattern extends _base_js__WEBPACK_IMPORTED_MODULE_3__["default"] {
       cursor.pushRightBeforeInput();
       cursor.pushRightBeforeRequired();
       if (cursor.pushRightBeforeFilled()) return cursor.pos;
-      if (direction === _core_utils_js__WEBPACK_IMPORTED_MODULE_2__.DIRECTION.FORCE_RIGHT) return this.value.length;
+      if (direction === _core_utils_js__WEBPACK_IMPORTED_MODULE_2__.DIRECTION.FORCE_RIGHT) return this.displayValue.length;
 
       // backward flow
       cursor.popState();
@@ -10075,7 +9390,7 @@ class MaskedPattern extends _base_js__WEBPACK_IMPORTED_MODULE_3__["default"] {
       fromPos = 0;
     }
     if (toPos === void 0) {
-      toPos = this.value.length;
+      toPos = this.displayValue.length;
     }
     let total = 0;
     this._forEachBlocksInRange(fromPos, toPos, (b, _, bFromPos, bToPos) => {
@@ -10095,8 +9410,14 @@ class MaskedPattern extends _base_js__WEBPACK_IMPORTED_MODULE_3__["default"] {
     if (!indices) return [];
     return indices.map(gi => this._blocks[gi]);
   }
+  pad(flags) {
+    const details = new _core_change_details_js__WEBPACK_IMPORTED_MODULE_0__["default"]();
+    this._forEachBlocksInRange(0, this.displayValue.length, b => details.aggregate(b.pad(flags)));
+    return details;
+  }
 }
 MaskedPattern.DEFAULTS = {
+  ..._base_js__WEBPACK_IMPORTED_MODULE_3__["default"].DEFAULTS,
   lazy: true,
   placeholderChar: '_'
 };
@@ -10115,7 +9436,7 @@ _core_holder_js__WEBPACK_IMPORTED_MODULE_1__["default"].MaskedPattern = MaskedPa
 /*!*********************************************************************!*\
   !*** ./node_modules/imask/esm/masked/pattern/chunk-tail-details.js ***!
   \*********************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
@@ -10170,7 +9491,7 @@ class ChunksTailDetails {
         // unwrap floating chunks to parent, keeping `from` pos
         let firstTailChunk;
         while (tailChunk.chunks.length && tailChunk.chunks[0].stop == null) {
-          firstTailChunk = tailChunk.chunks.shift();
+          firstTailChunk = tailChunk.chunks.shift(); // not possible to be `undefined` because length was checked above
           firstTailChunk.from += tailChunk.from;
           this.extend(firstTailChunk);
         }
@@ -10190,9 +9511,9 @@ class ChunksTailDetails {
       return tail.appendTo(masked);
     }
     const details = new _core_change_details_js__WEBPACK_IMPORTED_MODULE_0__["default"]();
-    for (let ci = 0; ci < this.chunks.length && !details.skip; ++ci) {
+    for (let ci = 0; ci < this.chunks.length; ++ci) {
       const chunk = this.chunks[ci];
-      const lastBlockIter = masked._mapPosToBlock(masked.value.length);
+      const lastBlockIter = masked._mapPosToBlock(masked.displayValue.length);
       const stop = chunk.stop;
       let chunkBlock;
       if (stop != null && (
@@ -10201,16 +9522,13 @@ class ChunksTailDetails {
         if (chunk instanceof ChunksTailDetails ||
         // for continuous block also check if stop is exist
         masked._stops.indexOf(stop) >= 0) {
-          const phDetails = masked._appendPlaceholder(stop);
-          details.aggregate(phDetails);
+          details.aggregate(masked._appendPlaceholder(stop));
         }
         chunkBlock = chunk instanceof ChunksTailDetails && masked._blocks[stop];
       }
       if (chunkBlock) {
         const tailDetails = chunkBlock.appendTail(chunk);
-        tailDetails.skip = false; // always ignore skip, it will be set on last
         details.aggregate(tailDetails);
-        masked._value += tailDetails.inserted;
 
         // get not inserted chars
         const remainChars = chunk.toString().slice(tailDetails.rawInserted.length);
@@ -10295,7 +9613,7 @@ class ChunksTailDetails {
 /*!*********************************************************!*\
   !*** ./node_modules/imask/esm/masked/pattern/cursor.js ***!
   \*********************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
@@ -10348,7 +9666,7 @@ class PatternCursor {
   }
   popState() {
     const s = this._log.pop();
-    this.state = s;
+    if (s) this.state = s;
     return s;
   }
   bindBlock() {
@@ -10359,12 +9677,12 @@ class PatternCursor {
     }
     if (this.index >= this.masked._blocks.length) {
       this.index = this.masked._blocks.length - 1;
-      this.offset = this.block.value.length;
+      this.offset = this.block.displayValue.length; // TODO this is stupid type error, `block` depends on index that was changed above
     }
   }
   _pushLeft(fn) {
     this.pushState();
-    for (this.bindBlock(); 0 <= this.index; --this.index, this.offset = ((_this$block = this.block) == null ? void 0 : _this$block.value.length) || 0) {
+    for (this.bindBlock(); 0 <= this.index; --this.index, this.offset = ((_this$block = this.block) == null ? void 0 : _this$block.displayValue.length) || 0) {
       var _this$block;
       if (fn()) return this.ok = true;
     }
@@ -10442,7 +9760,7 @@ class PatternCursor {
 /*!*******************************************************************!*\
   !*** ./node_modules/imask/esm/masked/pattern/fixed-definition.js ***!
   \*******************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
@@ -10551,13 +9869,15 @@ class PatternFixedDefinition {
     if (flags === void 0) {
       flags = {};
     }
-    const details = new _core_change_details_js__WEBPACK_IMPORTED_MODULE_0__["default"]();
-    if (this.isFilled) return details;
+    if (this.isFilled) return new _core_change_details_js__WEBPACK_IMPORTED_MODULE_0__["default"]();
     const appendEager = this.eager === true || this.eager === 'append';
     const appended = this.char === ch;
     const isResolved = appended && (this.isUnmasking || flags.input || flags.raw) && (!flags.raw || !appendEager) && !flags.tail;
-    if (isResolved) details.rawInserted = this.char;
-    this._value = details.inserted = this.char;
+    const details = new _core_change_details_js__WEBPACK_IMPORTED_MODULE_0__["default"]({
+      inserted: this.char,
+      rawInserted: isResolved ? this.char : ''
+    });
+    this._value = this.char;
     this._isRawInput = isResolved && (flags.raw || flags.input);
     return details;
   }
@@ -10597,6 +9917,9 @@ class PatternFixedDefinition {
     this._value = state._value;
     this._isRawInput = Boolean(state._rawInputValue);
   }
+  pad(flags) {
+    return this._appendPlaceholder();
+  }
 }
 
 
@@ -10608,7 +9931,7 @@ class PatternFixedDefinition {
 /*!*******************************************************************!*\
   !*** ./node_modules/imask/esm/masked/pattern/input-definition.js ***!
   \*******************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
@@ -10700,9 +10023,9 @@ class PatternInputDefinition {
     if (this.isFilled) return new _core_change_details_js__WEBPACK_IMPORTED_MODULE_1__["default"]();
     const state = this.masked.state;
     // simulate input
-    const details = this.masked._appendChar(ch, this.currentMaskFlags(flags));
+    let details = this.masked._appendChar(ch, this.currentMaskFlags(flags));
     if (details.inserted && this.doValidate(flags) === false) {
-      details.inserted = details.rawInserted = '';
+      details = new _core_change_details_js__WEBPACK_IMPORTED_MODULE_1__["default"]();
       this.masked.state = state;
     }
     if (!details.inserted && !this.isOptional && !this.lazy && !flags.input) {
@@ -10717,11 +10040,11 @@ class PatternInputDefinition {
     return this.masked.append(str, this.currentMaskFlags(flags), tail);
   }
   _appendPlaceholder() {
-    const details = new _core_change_details_js__WEBPACK_IMPORTED_MODULE_1__["default"]();
-    if (this.isFilled || this.isOptional) return details;
+    if (this.isFilled || this.isOptional) return new _core_change_details_js__WEBPACK_IMPORTED_MODULE_1__["default"]();
     this.isFilled = true;
-    details.inserted = this.placeholderChar;
-    return details;
+    return new _core_change_details_js__WEBPACK_IMPORTED_MODULE_1__["default"]({
+      inserted: this.placeholderChar
+    });
   }
   _appendEager() {
     return new _core_change_details_js__WEBPACK_IMPORTED_MODULE_1__["default"]();
@@ -10791,8 +10114,11 @@ class PatternInputDefinition {
     var _flags$_beforeTailSta;
     return {
       ...flags,
-      _beforeTailState: ((_flags$_beforeTailSta = flags._beforeTailState) == null ? void 0 : _flags$_beforeTailSta.masked) || flags._beforeTailState
+      _beforeTailState: (flags == null || (_flags$_beforeTailSta = flags._beforeTailState) == null ? void 0 : _flags$_beforeTailSta.masked) || (flags == null ? void 0 : flags._beforeTailState)
     };
+  }
+  pad(flags) {
+    return new _core_change_details_js__WEBPACK_IMPORTED_MODULE_1__["default"]();
   }
 }
 PatternInputDefinition.DEFAULT_DEFINITIONS = {
@@ -10811,14 +10137,14 @@ PatternInputDefinition.DEFAULT_DEFINITIONS = {
 /*!***********************************************!*\
   !*** ./node_modules/imask/esm/masked/pipe.js ***!
   \***********************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "PIPE_TYPE": () => (/* binding */ PIPE_TYPE),
-/* harmony export */   "createPipe": () => (/* binding */ createPipe),
-/* harmony export */   "pipe": () => (/* binding */ pipe)
+/* harmony export */   PIPE_TYPE: () => (/* binding */ PIPE_TYPE),
+/* harmony export */   createPipe: () => (/* binding */ createPipe),
+/* harmony export */   pipe: () => (/* binding */ pipe)
 /* harmony export */ });
 /* harmony import */ var _factory_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./factory.js */ "./node_modules/imask/esm/masked/factory.js");
 /* harmony import */ var _core_holder_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../core/holder.js */ "./node_modules/imask/esm/core/holder.js");
@@ -10865,16 +10191,16 @@ _core_holder_js__WEBPACK_IMPORTED_MODULE_1__["default"].pipe = pipe;
 /*!************************************************!*\
   !*** ./node_modules/imask/esm/masked/range.js ***!
   \************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ MaskedRange)
 /* harmony export */ });
-/* harmony import */ var _core_holder_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../core/holder.js */ "./node_modules/imask/esm/core/holder.js");
-/* harmony import */ var _pattern_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./pattern.js */ "./node_modules/imask/esm/masked/pattern.js");
-/* harmony import */ var _core_change_details_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../core/change-details.js */ "./node_modules/imask/esm/core/change-details.js");
+/* harmony import */ var _core_change_details_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../core/change-details.js */ "./node_modules/imask/esm/core/change-details.js");
+/* harmony import */ var _core_holder_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../core/holder.js */ "./node_modules/imask/esm/core/holder.js");
+/* harmony import */ var _pattern_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./pattern.js */ "./node_modules/imask/esm/masked/pattern.js");
 /* harmony import */ var _core_utils_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../core/utils.js */ "./node_modules/imask/esm/core/utils.js");
 /* harmony import */ var _base_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./base.js */ "./node_modules/imask/esm/masked/base.js");
 /* harmony import */ var _core_continuous_tail_details_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../core/continuous-tail-details.js */ "./node_modules/imask/esm/core/continuous-tail-details.js");
@@ -10898,7 +10224,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 /** Pattern which accepts ranges */
-class MaskedRange extends _pattern_js__WEBPACK_IMPORTED_MODULE_1__["default"] {
+class MaskedRange extends _pattern_js__WEBPACK_IMPORTED_MODULE_2__["default"] {
   /**
     Optionally sets max length of pattern.
     Used when pattern length is longer then `to` param length. Pads zeros at start in this case.
@@ -10908,15 +10234,12 @@ class MaskedRange extends _pattern_js__WEBPACK_IMPORTED_MODULE_1__["default"] {
 
   /** Max bound */
 
-  /** */
-
   get _matchFrom() {
     return this.maxLength - String(this.from).length;
   }
   constructor(opts) {
     super(opts); // mask will be created in _update
   }
-
   updateOptions(opts) {
     super.updateOptions(opts);
   }
@@ -10960,20 +10283,25 @@ class MaskedRange extends _pattern_js__WEBPACK_IMPORTED_MODULE_1__["default"] {
     }
     let details;
     [ch, details] = super.doPrepareChar(ch.replace(/\D/g, ''), flags);
-    if (!this.autofix || !ch) return [ch, details];
+    if (!ch) details.skip = !this.isComplete;
+    return [ch, details];
+  }
+  _appendCharRaw(ch, flags) {
+    if (flags === void 0) {
+      flags = {};
+    }
+    if (!this.autofix || this.value.length + 1 > this.maxLength) return super._appendCharRaw(ch, flags);
     const fromStr = String(this.from).padStart(this.maxLength, '0');
     const toStr = String(this.to).padStart(this.maxLength, '0');
-    const nextVal = this.value + ch;
-    if (nextVal.length > this.maxLength) return ['', details];
-    const [minstr, maxstr] = this.boundaries(nextVal);
-    if (Number(maxstr) < this.from) return [fromStr[nextVal.length - 1], details];
+    const [minstr, maxstr] = this.boundaries(this.value + ch);
+    if (Number(maxstr) < this.from) return super._appendCharRaw(fromStr[this.value.length], flags);
     if (Number(minstr) > this.to) {
-      if (this.autofix === 'pad' && nextVal.length < this.maxLength) {
-        return ['', details.aggregate(this.append(fromStr[nextVal.length - 1] + ch, flags))];
+      if (!flags.tail && this.autofix === 'pad' && this.value.length + 1 < this.maxLength) {
+        return super._appendCharRaw(fromStr[this.value.length], flags).aggregate(this._appendCharRaw(ch, flags));
       }
-      return [toStr[nextVal.length - 1], details];
+      return super._appendCharRaw(toStr[this.value.length], flags);
     }
-    return [ch, details];
+    return super._appendCharRaw(ch, flags);
   }
   doValidate(flags) {
     const str = this.value;
@@ -10982,8 +10310,24 @@ class MaskedRange extends _pattern_js__WEBPACK_IMPORTED_MODULE_1__["default"] {
     const [minstr, maxstr] = this.boundaries(str);
     return this.from <= Number(maxstr) && Number(minstr) <= this.to && super.doValidate(flags);
   }
+  pad(flags) {
+    const details = new _core_change_details_js__WEBPACK_IMPORTED_MODULE_0__["default"]();
+    if (this.value.length === this.maxLength) return details;
+    const value = this.value;
+    const padLength = this.maxLength - this.value.length;
+    if (padLength) {
+      this.reset();
+      for (let i = 0; i < padLength; ++i) {
+        details.aggregate(super._appendCharRaw('0', flags));
+      }
+
+      // append tail
+      value.split('').forEach(ch => this._appendCharRaw(ch));
+    }
+    return details;
+  }
 }
-_core_holder_js__WEBPACK_IMPORTED_MODULE_0__["default"].MaskedRange = MaskedRange;
+_core_holder_js__WEBPACK_IMPORTED_MODULE_1__["default"].MaskedRange = MaskedRange;
 
 
 
@@ -10994,7 +10338,7 @@ _core_holder_js__WEBPACK_IMPORTED_MODULE_0__["default"].MaskedRange = MaskedRang
 /*!*************************************************!*\
   !*** ./node_modules/imask/esm/masked/regexp.js ***!
   \*************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
@@ -11014,15 +10358,190 @@ __webpack_require__.r(__webpack_exports__);
 
 /** Masking by RegExp */
 class MaskedRegExp extends _base_js__WEBPACK_IMPORTED_MODULE_0__["default"] {
+  /** */
+
+  /** Enable characters overwriting */
+
+  /** */
+
+  /** */
+
+  /** */
+
   updateOptions(opts) {
     super.updateOptions(opts);
   }
   _update(opts) {
-    if (opts.mask) opts.validate = value => value.search(opts.mask) >= 0;
+    const mask = opts.mask;
+    if (mask) opts.validate = value => value.search(mask) >= 0;
     super._update(opts);
   }
 }
 _core_holder_js__WEBPACK_IMPORTED_MODULE_1__["default"].MaskedRegExp = MaskedRegExp;
+
+
+
+
+/***/ }),
+
+/***/ "./node_modules/imask/esm/masked/repeat.js":
+/*!*************************************************!*\
+  !*** ./node_modules/imask/esm/masked/repeat.js ***!
+  \*************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ RepeatBlock)
+/* harmony export */ });
+/* harmony import */ var _core_change_details_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../core/change-details.js */ "./node_modules/imask/esm/core/change-details.js");
+/* harmony import */ var _core_holder_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../core/holder.js */ "./node_modules/imask/esm/core/holder.js");
+/* harmony import */ var _factory_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./factory.js */ "./node_modules/imask/esm/masked/factory.js");
+/* harmony import */ var _pattern_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./pattern.js */ "./node_modules/imask/esm/masked/pattern.js");
+/* harmony import */ var _core_utils_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../core/utils.js */ "./node_modules/imask/esm/core/utils.js");
+/* harmony import */ var _base_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./base.js */ "./node_modules/imask/esm/masked/base.js");
+/* harmony import */ var _core_continuous_tail_details_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../core/continuous-tail-details.js */ "./node_modules/imask/esm/core/continuous-tail-details.js");
+/* harmony import */ var _pattern_chunk_tail_details_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./pattern/chunk-tail-details.js */ "./node_modules/imask/esm/masked/pattern/chunk-tail-details.js");
+/* harmony import */ var _pattern_cursor_js__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./pattern/cursor.js */ "./node_modules/imask/esm/masked/pattern/cursor.js");
+/* harmony import */ var _pattern_fixed_definition_js__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./pattern/fixed-definition.js */ "./node_modules/imask/esm/masked/pattern/fixed-definition.js");
+/* harmony import */ var _pattern_input_definition_js__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./pattern/input-definition.js */ "./node_modules/imask/esm/masked/pattern/input-definition.js");
+/* harmony import */ var _regexp_js__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./regexp.js */ "./node_modules/imask/esm/masked/regexp.js");
+
+
+
+
+
+
+
+
+
+
+
+
+
+/** Pattern mask */
+class RepeatBlock extends _pattern_js__WEBPACK_IMPORTED_MODULE_3__["default"] {
+  get repeatFrom() {
+    var _ref;
+    return (_ref = Array.isArray(this.repeat) ? this.repeat[0] : this.repeat === Infinity ? 0 : this.repeat) != null ? _ref : 0;
+  }
+  get repeatTo() {
+    var _ref2;
+    return (_ref2 = Array.isArray(this.repeat) ? this.repeat[1] : this.repeat) != null ? _ref2 : Infinity;
+  }
+  constructor(opts) {
+    super(opts);
+  }
+  updateOptions(opts) {
+    super.updateOptions(opts);
+  }
+  _update(opts) {
+    var _ref3, _ref4, _this$_blocks;
+    const {
+      repeat,
+      ...blockOpts
+    } = (0,_factory_js__WEBPACK_IMPORTED_MODULE_2__.normalizeOpts)(opts); // TODO type
+    this._blockOpts = Object.assign({}, this._blockOpts, blockOpts);
+    const block = (0,_factory_js__WEBPACK_IMPORTED_MODULE_2__["default"])(this._blockOpts);
+    this.repeat = (_ref3 = (_ref4 = repeat != null ? repeat : block.repeat) != null ? _ref4 : this.repeat) != null ? _ref3 : Infinity; // TODO type
+
+    super._update({
+      mask: 'm'.repeat(Math.max(this.repeatTo === Infinity && ((_this$_blocks = this._blocks) == null ? void 0 : _this$_blocks.length) || 0, this.repeatFrom)),
+      blocks: {
+        m: block
+      },
+      eager: block.eager,
+      overwrite: block.overwrite,
+      skipInvalid: block.skipInvalid,
+      lazy: block.lazy,
+      placeholderChar: block.placeholderChar,
+      displayChar: block.displayChar
+    });
+  }
+  _allocateBlock(bi) {
+    if (bi < this._blocks.length) return this._blocks[bi];
+    if (this.repeatTo === Infinity || this._blocks.length < this.repeatTo) {
+      this._blocks.push((0,_factory_js__WEBPACK_IMPORTED_MODULE_2__["default"])(this._blockOpts));
+      this.mask += 'm';
+      return this._blocks[this._blocks.length - 1];
+    }
+  }
+  _appendCharRaw(ch, flags) {
+    if (flags === void 0) {
+      flags = {};
+    }
+    const details = new _core_change_details_js__WEBPACK_IMPORTED_MODULE_0__["default"]();
+    for (let bi = (_this$_mapPosToBlock$ = (_this$_mapPosToBlock = this._mapPosToBlock(this.displayValue.length)) == null ? void 0 : _this$_mapPosToBlock.index) != null ? _this$_mapPosToBlock$ : Math.max(this._blocks.length - 1, 0), block, allocated;
+    // try to get a block or
+    // try to allocate a new block if not allocated already
+    block = (_this$_blocks$bi = this._blocks[bi]) != null ? _this$_blocks$bi : allocated = !allocated && this._allocateBlock(bi); ++bi) {
+      var _this$_mapPosToBlock$, _this$_mapPosToBlock, _this$_blocks$bi, _flags$_beforeTailSta;
+      const blockDetails = block._appendChar(ch, {
+        ...flags,
+        _beforeTailState: (_flags$_beforeTailSta = flags._beforeTailState) == null || (_flags$_beforeTailSta = _flags$_beforeTailSta._blocks) == null ? void 0 : _flags$_beforeTailSta[bi]
+      });
+      if (blockDetails.skip && allocated) {
+        // remove the last allocated block and break
+        this._blocks.pop();
+        this.mask = this.mask.slice(1);
+        break;
+      }
+      details.aggregate(blockDetails);
+      if (blockDetails.consumed) break; // go next char
+    }
+    return details;
+  }
+  _trimEmptyTail(fromPos, toPos) {
+    var _this$_mapPosToBlock2, _this$_mapPosToBlock3;
+    if (fromPos === void 0) {
+      fromPos = 0;
+    }
+    const firstBlockIndex = Math.max(((_this$_mapPosToBlock2 = this._mapPosToBlock(fromPos)) == null ? void 0 : _this$_mapPosToBlock2.index) || 0, this.repeatFrom, 0);
+    let lastBlockIndex;
+    if (toPos != null) lastBlockIndex = (_this$_mapPosToBlock3 = this._mapPosToBlock(toPos)) == null ? void 0 : _this$_mapPosToBlock3.index;
+    if (lastBlockIndex == null) lastBlockIndex = this._blocks.length - 1;
+    let removeCount = 0;
+    for (let blockIndex = lastBlockIndex; firstBlockIndex <= blockIndex; --blockIndex, ++removeCount) {
+      if (this._blocks[blockIndex].unmaskedValue) break;
+    }
+    if (removeCount) {
+      this._blocks.splice(lastBlockIndex - removeCount + 1, removeCount);
+      this.mask = this.mask.slice(removeCount);
+    }
+  }
+  reset() {
+    super.reset();
+    this._trimEmptyTail();
+  }
+  remove(fromPos, toPos) {
+    if (fromPos === void 0) {
+      fromPos = 0;
+    }
+    if (toPos === void 0) {
+      toPos = this.displayValue.length;
+    }
+    const removeDetails = super.remove(fromPos, toPos);
+    this._trimEmptyTail(fromPos, toPos);
+    return removeDetails;
+  }
+  totalInputPositions(fromPos, toPos) {
+    if (fromPos === void 0) {
+      fromPos = 0;
+    }
+    if (toPos == null && this.repeatTo === Infinity) return Infinity;
+    return super.totalInputPositions(fromPos, toPos);
+  }
+  get state() {
+    return super.state;
+  }
+  set state(state) {
+    this._blocks.length = state._blocks.length;
+    this.mask = this.mask.slice(0, this._blocks.length);
+    super.state = state;
+  }
+}
+_core_holder_js__WEBPACK_IMPORTED_MODULE_1__["default"].RepeatBlock = RepeatBlock;
 
 
 
@@ -11038,11 +10557,11 @@ _core_holder_js__WEBPACK_IMPORTED_MODULE_1__["default"].MaskedRegExp = MaskedReg
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "extend": () => (/* binding */ extend),
-/* harmony export */   "getDocument": () => (/* binding */ getDocument),
-/* harmony export */   "getWindow": () => (/* binding */ getWindow),
-/* harmony export */   "ssrDocument": () => (/* binding */ ssrDocument),
-/* harmony export */   "ssrWindow": () => (/* binding */ ssrWindow)
+/* harmony export */   extend: () => (/* binding */ extend),
+/* harmony export */   getDocument: () => (/* binding */ getDocument),
+/* harmony export */   getWindow: () => (/* binding */ getWindow),
+/* harmony export */   ssrDocument: () => (/* binding */ ssrDocument),
+/* harmony export */   ssrWindow: () => (/* binding */ ssrWindow)
 /* harmony export */ });
 /**
  * SSR Window 4.0.2
@@ -11317,6 +10836,7 @@ function setBreakpoint() {
 
   // Toggle navigation, pagination, scrollbar
   ['navigation', 'pagination', 'scrollbar'].forEach(prop => {
+    if (typeof breakpointParams[prop] === 'undefined') return;
     const wasModuleEnabled = params[prop] && params[prop].enabled;
     const isModuleEnabled = breakpointParams[prop] && breakpointParams[prop].enabled;
     if (wasModuleEnabled && !isModuleEnabled) {
@@ -11678,6 +11198,11 @@ class Swiper {
       progress: 0,
       velocity: 0,
       animating: false,
+      cssOverflowAdjustment() {
+        // Returns 0 unless `translate` is > 2**23
+        // Should be subtracted from css values to prevent overflow
+        return Math.trunc(this.translate / 2 ** 23) * 2 ** 23;
+      },
       // Locks
       allowSlideNext: swiper.params.allowSlideNext,
       allowSlidePrev: swiper.params.allowSlidePrev,
@@ -11694,7 +11219,7 @@ class Swiper {
         // Form elements to match
         focusableElements: swiper.params.focusableElements,
         // Last click time
-        lastClickTime: (0,_shared_utils_js__WEBPACK_IMPORTED_MODULE_1__.now)(),
+        lastClickTime: 0,
         clickTimeout: undefined,
         // Velocities
         velocities: [],
@@ -11727,6 +11252,18 @@ class Swiper {
     // Return app instance
     // eslint-disable-next-line no-constructor-return
     return swiper;
+  }
+  getSlideIndex(slideEl) {
+    const {
+      slidesEl,
+      params
+    } = this;
+    const slides = (0,_shared_utils_js__WEBPACK_IMPORTED_MODULE_1__.elementChildren)(slidesEl, `.${params.slideClass}, swiper-slide`);
+    const firstSlideIndex = (0,_shared_utils_js__WEBPACK_IMPORTED_MODULE_1__.elementIndex)(slides[0]);
+    return (0,_shared_utils_js__WEBPACK_IMPORTED_MODULE_1__.elementIndex)(slideEl) - firstSlideIndex;
+  }
+  getSlideIndexByData(index) {
+    return this.getSlideIndex(this.slides.filter(slideEl => slideEl.getAttribute('data-swiper-slide-index') * 1 === index)[0]);
   }
   recalcSlides() {
     const swiper = this;
@@ -11805,7 +11342,7 @@ class Swiper {
     } = swiper;
     let spv = 1;
     if (params.centeredSlides) {
-      let slideSize = slides[activeIndex].swiperSlideSize;
+      let slideSize = slides[activeIndex] ? slides[activeIndex].swiperSlideSize : 0;
       let breakLoop;
       for (let i = activeIndex + 1; i < slides.length; i += 1) {
         if (slides[i] && !breakLoop) {
@@ -11870,14 +11407,15 @@ class Swiper {
       swiper.updateSlidesClasses();
     }
     let translated;
-    if (swiper.params.freeMode && swiper.params.freeMode.enabled) {
+    if (params.freeMode && params.freeMode.enabled && !params.cssMode) {
       setTranslate();
-      if (swiper.params.autoHeight) {
+      if (params.autoHeight) {
         swiper.updateAutoHeight();
       }
     } else {
-      if ((swiper.params.slidesPerView === 'auto' || swiper.params.slidesPerView > 1) && swiper.isEnd && !swiper.params.centeredSlides) {
-        translated = swiper.slideTo(swiper.slides.length - 1, 0, false, true);
+      if ((params.slidesPerView === 'auto' || params.slidesPerView > 1) && swiper.isEnd && !params.centeredSlides) {
+        const slides = swiper.virtual && params.virtual.enabled ? swiper.virtual.slides : swiper.slides;
+        translated = swiper.slideTo(slides.length - 1, 0, false, true);
       } else {
         translated = swiper.slideTo(swiper.activeIndex, 0, false, true);
       }
@@ -12029,9 +11567,11 @@ class Swiper {
         });
       }
     });
+    (0,_shared_process_lazy_preloader_js__WEBPACK_IMPORTED_MODULE_20__.preload)(swiper);
 
     // Init Flag
     swiper.initialized = true;
+    (0,_shared_process_lazy_preloader_js__WEBPACK_IMPORTED_MODULE_20__.preload)(swiper);
 
     // Emit
     swiper.emit('init');
@@ -12245,6 +11785,7 @@ __webpack_require__.r(__webpack_exports__);
   slidePrevClass: 'swiper-slide-prev',
   wrapperClass: 'swiper-wrapper',
   lazyPreloaderClass: 'swiper-lazy-preloader',
+  lazyPreloadPrevNext: 0,
   // Callbacks
   runCallbacksOnInit: true,
   // Internals
@@ -12519,6 +12060,9 @@ __webpack_require__.r(__webpack_exports__);
 function onLoad(e) {
   const swiper = this;
   (0,_shared_process_lazy_preloader_js__WEBPACK_IMPORTED_MODULE_0__.processLazyPreloader)(swiper, e.target);
+  if (swiper.params.cssMode || swiper.params.slidesPerView !== 'auto' && !swiper.params.autoHeight) {
+    return;
+  }
   swiper.update();
 }
 
@@ -12535,7 +12079,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ onResize)
 /* harmony export */ });
-let timeout;
 function onResize() {
   const swiper = this;
   const {
@@ -12574,9 +12117,11 @@ function onResize() {
     }
   }
   if (swiper.autoplay && swiper.autoplay.running && swiper.autoplay.paused) {
-    clearTimeout(timeout);
-    timeout = setTimeout(() => {
-      swiper.autoplay.resume();
+    clearTimeout(swiper.autoplay.resizeTimeout);
+    swiper.autoplay.resizeTimeout = setTimeout(() => {
+      if (swiper.autoplay && swiper.autoplay.running && swiper.autoplay.paused) {
+        swiper.autoplay.resume();
+      }
     }, 500);
   }
   // Return locks after resize
@@ -12653,7 +12198,12 @@ function onTouchEnd(event) {
   if (pointerIndex >= 0) {
     data.evCache.splice(pointerIndex, 1);
   }
-  if (['pointercancel', 'pointerout', 'pointerleave'].includes(event.type)) return;
+  if (['pointercancel', 'pointerout', 'pointerleave'].includes(event.type)) {
+    const proceed = event.type === 'pointercancel' && (swiper.browser.isSafari || swiper.browser.isWebView);
+    if (!proceed) {
+      return;
+    }
+  }
   const {
     params,
     touches,
@@ -12717,7 +12267,7 @@ function onTouchEnd(event) {
   if (params.cssMode) {
     return;
   }
-  if (swiper.params.freeMode && params.freeMode.enabled) {
+  if (params.freeMode && params.freeMode.enabled) {
     swiper.freeMode.onTouchEnd({
       currentPos
     });
@@ -12743,7 +12293,7 @@ function onTouchEnd(event) {
   let rewindLastIndex = null;
   if (params.rewind) {
     if (swiper.isBeginning) {
-      rewindLastIndex = swiper.params.virtual && swiper.params.virtual.enabled && swiper.virtual ? swiper.virtual.slides.length - 1 : swiper.slides.length - 1;
+      rewindLastIndex = params.virtual && params.virtual.enabled && swiper.virtual ? swiper.virtual.slides.length - 1 : swiper.slides.length - 1;
     } else if (swiper.isEnd) {
       rewindFirstIndex = 0;
     }
@@ -13039,7 +12589,7 @@ function onTouchMove(event) {
     swiper.updateActiveIndex();
     swiper.updateSlidesClasses();
   }
-  if (swiper.params.freeMode && params.freeMode.enabled && swiper.freeMode) {
+  if (params.freeMode && params.freeMode.enabled && swiper.freeMode) {
     swiper.freeMode.onTouchMove();
   }
   // Update progress
@@ -13170,7 +12720,7 @@ function onTouchStart(event) {
   if ((params.touchStartForcePreventDefault || shouldPreventDefault) && !targetEl.isContentEditable) {
     e.preventDefault();
   }
-  if (swiper.params.freeMode && swiper.params.freeMode.enabled && swiper.freeMode && swiper.animating && !params.cssMode) {
+  if (params.freeMode && params.freeMode.enabled && swiper.freeMode && swiper.animating && !params.cssMode) {
     swiper.freeMode.onTouchStart();
   }
   swiper.emit('touchStart', e);
@@ -13215,8 +12765,16 @@ function setGrabCursor(moving) {
   const swiper = this;
   if (!swiper.params.simulateTouch || swiper.params.watchOverflow && swiper.isLocked || swiper.params.cssMode) return;
   const el = swiper.params.touchEventsTarget === 'container' ? swiper.el : swiper.wrapperEl;
+  if (swiper.isElement) {
+    swiper.__preventObserver__ = true;
+  }
   el.style.cursor = 'move';
   el.style.cursor = moving ? 'grabbing' : 'grab';
+  if (swiper.isElement) {
+    requestAnimationFrame(() => {
+      swiper.__preventObserver__ = false;
+    });
+  }
 }
 
 /***/ }),
@@ -13237,7 +12795,15 @@ function unsetGrabCursor() {
   if (swiper.params.watchOverflow && swiper.isLocked || swiper.params.cssMode) {
     return;
   }
+  if (swiper.isElement) {
+    swiper.__preventObserver__ = true;
+  }
   swiper[swiper.params.touchEventsTarget === 'container' ? 'el' : 'wrapperEl'].style.cursor = '';
+  if (swiper.isElement) {
+    requestAnimationFrame(() => {
+      swiper.__preventObserver__ = false;
+    });
+  }
 }
 
 /***/ }),
@@ -13313,18 +12879,17 @@ __webpack_require__.r(__webpack_exports__);
 function loopDestroy() {
   const swiper = this;
   const {
-    slides,
     params,
     slidesEl
   } = swiper;
   if (!params.loop || swiper.virtual && swiper.params.virtual.enabled) return;
   swiper.recalcSlides();
   const newSlidesOrder = [];
-  slides.forEach(slideEl => {
+  swiper.slides.forEach(slideEl => {
     const index = typeof slideEl.swiperSlideIndex === 'undefined' ? slideEl.getAttribute('data-swiper-slide-index') * 1 : slideEl.swiperSlideIndex;
     newSlidesOrder[index] = slideEl;
   });
-  slides.forEach(slideEl => {
+  swiper.slides.forEach(slideEl => {
     slideEl.removeAttribute('data-swiper-slide-index');
   });
   newSlidesOrder.forEach(slideEl => {
@@ -13347,8 +12912,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ loopFix)
 /* harmony export */ });
-/* harmony import */ var _shared_utils_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../shared/utils.js */ "./node_modules/swiper/shared/utils.js");
-
 function loopFix({
   slideRealIndex,
   slideTo = true,
@@ -13395,7 +12958,7 @@ function loopFix({
   const appendSlidesIndexes = [];
   let activeIndex = swiper.activeIndex;
   if (typeof activeSlideIndex === 'undefined') {
-    activeSlideIndex = (0,_shared_utils_js__WEBPACK_IMPORTED_MODULE_0__.elementIndex)(swiper.slides.filter(el => el.classList.contains('swiper-slide-active'))[0]);
+    activeSlideIndex = swiper.getSlideIndex(swiper.slides.filter(el => el.classList.contains(params.slideActiveClass))[0]);
   } else {
     activeIndex = activeSlideIndex;
   }
@@ -13405,13 +12968,13 @@ function loopFix({
   let slidesAppended = 0;
   // prepend last slides before start
   if (activeSlideIndex < loopedSlides) {
-    slidesPrepended = loopedSlides - activeSlideIndex;
+    slidesPrepended = Math.max(loopedSlides - activeSlideIndex, params.slidesPerGroup);
     for (let i = 0; i < loopedSlides - activeSlideIndex; i += 1) {
       const index = i - Math.floor(i / slides.length) * slides.length;
       prependSlidesIndexes.push(slides.length - index - 1);
     }
   } else if (activeSlideIndex /* + slidesPerView */ > swiper.slides.length - loopedSlides * 2) {
-    slidesAppended = activeSlideIndex - (swiper.slides.length - loopedSlides * 2);
+    slidesAppended = Math.max(activeSlideIndex - (swiper.slides.length - loopedSlides * 2), params.slidesPerGroup);
     for (let i = 0; i < slidesAppended; i += 1) {
       const index = i - Math.floor(i / slides.length) * slides.length;
       appendSlidesIndexes.push(index);
@@ -13419,15 +12982,22 @@ function loopFix({
   }
   if (isPrev) {
     prependSlidesIndexes.forEach(index => {
+      swiper.slides[index].swiperLoopMoveDOM = true;
       slidesEl.prepend(swiper.slides[index]);
+      swiper.slides[index].swiperLoopMoveDOM = false;
     });
   }
   if (isNext) {
     appendSlidesIndexes.forEach(index => {
+      swiper.slides[index].swiperLoopMoveDOM = true;
       slidesEl.append(swiper.slides[index]);
+      swiper.slides[index].swiperLoopMoveDOM = false;
     });
   }
   swiper.recalcSlides();
+  if (params.slidesPerView === 'auto') {
+    swiper.updateSlides();
+  }
   if (params.watchSlidesProgress) {
     swiper.updateSlidesOffset();
   }
@@ -13481,7 +13051,7 @@ function loopFix({
     };
     if (Array.isArray(swiper.controller.control)) {
       swiper.controller.control.forEach(c => {
-        if (c.params.loop) c.loopFix(loopParams);
+        if (!c.destroyed && c.params.loop) c.loopFix(loopParams);
       });
     } else if (swiper.controller.control instanceof swiper.constructor && swiper.controller.control.params.loop) {
       swiper.controller.control.loopFix(loopParams);
@@ -13568,6 +13138,7 @@ function Observer({
       // The observerUpdate event should only be triggered
       // once despite the number of mutations.  Additional
       // triggers are redundant and are very costly
+      if (swiper.__preventObserver__) return;
       if (mutations.length === 1) {
         emit('observerUpdate', mutations[0]);
         return;
@@ -13929,7 +13500,7 @@ function slideTo(index = 0, speed = this.params.speed, runCallbacks = true, inte
   }
   // Directions locks
   if (swiper.initialized && slideIndex !== activeIndex) {
-    if (!swiper.allowSlideNext && translate < swiper.translate && translate < swiper.minTranslate()) {
+    if (!swiper.allowSlideNext && (rtl ? translate > swiper.translate && translate > swiper.minTranslate() : translate < swiper.translate && translate < swiper.minTranslate())) {
       return false;
     }
     if (!swiper.allowSlidePrev && translate > swiper.translate && translate > swiper.maxTranslate()) {
@@ -14059,7 +13630,7 @@ function slideToClickedSlide() {
     if (params.centeredSlides) {
       if (slideToIndex < swiper.loopedSlides - slidesPerView / 2 || slideToIndex > swiper.slides.length - swiper.loopedSlides + slidesPerView / 2) {
         swiper.loopFix();
-        slideToIndex = (0,_shared_utils_js__WEBPACK_IMPORTED_MODULE_0__.elementIndex)((0,_shared_utils_js__WEBPACK_IMPORTED_MODULE_0__.elementChildren)(slidesEl, `${slideSelector}[data-swiper-slide-index="${realIndex}"]`)[0]);
+        slideToIndex = swiper.getSlideIndex((0,_shared_utils_js__WEBPACK_IMPORTED_MODULE_0__.elementChildren)(slidesEl, `${slideSelector}[data-swiper-slide-index="${realIndex}"]`)[0]);
         (0,_shared_utils_js__WEBPACK_IMPORTED_MODULE_0__.nextTick)(() => {
           swiper.slideTo(slideToIndex);
         });
@@ -14068,7 +13639,7 @@ function slideToClickedSlide() {
       }
     } else if (slideToIndex > swiper.slides.length - slidesPerView) {
       swiper.loopFix();
-      slideToIndex = (0,_shared_utils_js__WEBPACK_IMPORTED_MODULE_0__.elementIndex)((0,_shared_utils_js__WEBPACK_IMPORTED_MODULE_0__.elementChildren)(slidesEl, `${slideSelector}[data-swiper-slide-index="${realIndex}"]`)[0]);
+      slideToIndex = swiper.getSlideIndex((0,_shared_utils_js__WEBPACK_IMPORTED_MODULE_0__.elementChildren)(slidesEl, `${slideSelector}[data-swiper-slide-index="${realIndex}"]`)[0]);
       (0,_shared_utils_js__WEBPACK_IMPORTED_MODULE_0__.nextTick)(() => {
         swiper.slideTo(slideToIndex);
       });
@@ -14135,8 +13706,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ slideToLoop)
 /* harmony export */ });
-/* harmony import */ var _shared_utils_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../shared/utils.js */ "./node_modules/swiper/shared/utils.js");
-
 function slideToLoop(index = 0, speed = this.params.speed, runCallbacks = true, internal) {
   if (typeof index === 'string') {
     const indexAsNumber = parseInt(index, 10);
@@ -14149,7 +13718,7 @@ function slideToLoop(index = 0, speed = this.params.speed, runCallbacks = true, 
       // eslint-disable-next-line
       newIndex = newIndex + swiper.virtual.slidesBefore;
     } else {
-      newIndex = (0,_shared_utils_js__WEBPACK_IMPORTED_MODULE_0__.elementIndex)(swiper.slides.filter(slideEl => slideEl.getAttribute('data-swiper-slide-index') * 1 === newIndex)[0]);
+      newIndex = swiper.getSlideIndexByData(newIndex);
     }
   }
   return swiper.slideTo(newIndex, speed, runCallbacks, internal);
@@ -14336,6 +13905,7 @@ function getSwiperTranslate(axis = this.isHorizontal() ? 'x' : 'y') {
     return translate;
   }
   let currentTranslate = (0,_shared_utils_js__WEBPACK_IMPORTED_MODULE_0__.getTranslate)(wrapperEl, axis);
+  currentTranslate += swiper.cssOverflowAdjustment();
   if (rtl) currentTranslate = -currentTranslate;
   return currentTranslate || 0;
 }
@@ -14438,13 +14008,18 @@ function setTranslate(translate, byController) {
     x = Math.floor(x);
     y = Math.floor(y);
   }
+  swiper.previousTranslate = swiper.translate;
+  swiper.translate = swiper.isHorizontal() ? x : y;
   if (params.cssMode) {
     wrapperEl[swiper.isHorizontal() ? 'scrollLeft' : 'scrollTop'] = swiper.isHorizontal() ? -x : -y;
   } else if (!params.virtualTranslate) {
+    if (swiper.isHorizontal()) {
+      x -= swiper.cssOverflowAdjustment();
+    } else {
+      y -= swiper.cssOverflowAdjustment();
+    }
     wrapperEl.style.transform = `translate3d(${x}px, ${y}px, ${z}px)`;
   }
-  swiper.previousTranslate = swiper.translate;
-  swiper.translate = swiper.isHorizontal() ? x : y;
 
   // Check if we need to update progress
   let newProgress;
@@ -14600,8 +14175,10 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ updateActiveIndex),
-/* harmony export */   "getActiveIndexByTranslate": () => (/* binding */ getActiveIndexByTranslate)
+/* harmony export */   getActiveIndexByTranslate: () => (/* binding */ getActiveIndexByTranslate)
 /* harmony export */ });
+/* harmony import */ var _shared_process_lazy_preloader_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../shared/process-lazy-preloader.js */ "./node_modules/swiper/shared/process-lazy-preloader.js");
+
 function getActiveIndexByTranslate(swiper) {
   const {
     slidesGrid,
@@ -14678,11 +14255,16 @@ function updateActiveIndex(newActiveIndex) {
     realIndex = activeIndex;
   }
   Object.assign(swiper, {
+    previousSnapIndex,
     snapIndex,
+    previousRealIndex,
     realIndex,
     previousIndex,
     activeIndex
   });
+  if (swiper.initialized) {
+    (0,_shared_process_lazy_preloader_js__WEBPACK_IMPORTED_MODULE_0__.preload)(swiper);
+  }
   swiper.emit('activeIndexChange');
   swiper.emit('snapIndexChange');
   if (previousRealIndex !== realIndex) {
@@ -14719,7 +14301,7 @@ function updateAutoHeight(speed) {
   }
   const getSlideByIndex = index => {
     if (isVirtual) {
-      return swiper.slides.filter(el => parseInt(el.getAttribute('data-swiper-slide-index'), 10) === index)[0];
+      return swiper.slides[swiper.getSlideIndexByData(index)];
     }
     return swiper.slides[index];
   };
@@ -14810,8 +14392,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ updateProgress)
 /* harmony export */ });
-/* harmony import */ var _shared_utils_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../shared/utils.js */ "./node_modules/swiper/shared/utils.js");
-
 function updateProgress(translate) {
   const swiper = this;
   if (typeof translate === 'undefined') {
@@ -14843,8 +14423,8 @@ function updateProgress(translate) {
     if (isEndRounded) progress = 1;
   }
   if (params.loop) {
-    const firstSlideIndex = (0,_shared_utils_js__WEBPACK_IMPORTED_MODULE_0__.elementIndex)(swiper.slides.filter(el => el.getAttribute('data-swiper-slide-index') === '0')[0]);
-    const lastSlideIndex = (0,_shared_utils_js__WEBPACK_IMPORTED_MODULE_0__.elementIndex)(swiper.slides.filter(el => el.getAttribute('data-swiper-slide-index') * 1 === swiper.slides.length - 1)[0]);
+    const firstSlideIndex = swiper.getSlideIndexByData(0);
+    const lastSlideIndex = swiper.getSlideIndexByData(swiper.slides.length - 1);
     const firstSlideTranslate = swiper.slidesGrid[firstSlideIndex];
     const lastSlideTranslate = swiper.slidesGrid[lastSlideIndex];
     const translateMax = swiper.slidesGrid[swiper.slidesGrid.length - 1];
@@ -14991,6 +14571,8 @@ function updateSlides() {
   }
   if (typeof spaceBetween === 'string' && spaceBetween.indexOf('%') >= 0) {
     spaceBetween = parseFloat(spaceBetween.replace('%', '')) / 100 * swiperSize;
+  } else if (typeof spaceBetween === 'string') {
+    spaceBetween = parseFloat(spaceBetween);
   }
   swiper.virtualSize = -spaceBetween;
 
@@ -15100,10 +14682,10 @@ function updateSlides() {
   }
   swiper.virtualSize = Math.max(swiper.virtualSize, swiperSize) + offsetAfter;
   if (rtl && wrongRTL && (params.effect === 'slide' || params.effect === 'coverflow')) {
-    wrapperEl.style.width = `${swiper.virtualSize + params.spaceBetween}px`;
+    wrapperEl.style.width = `${swiper.virtualSize + spaceBetween}px`;
   }
   if (params.setWrapperSize) {
-    wrapperEl.style[getDirectionLabel('width')] = `${swiper.virtualSize + params.spaceBetween}px`;
+    wrapperEl.style[getDirectionLabel('width')] = `${swiper.virtualSize + spaceBetween}px`;
   }
   if (gridEnabled) {
     swiper.grid.updateWrapperSize(slideSize, snapGrid, getDirectionLabel);
@@ -15142,7 +14724,7 @@ function updateSlides() {
     }
   }
   if (snapGrid.length === 0) snapGrid = [0];
-  if (params.spaceBetween !== 0) {
+  if (spaceBetween !== 0) {
     const key = swiper.isHorizontal() && rtl ? 'marginLeft' : getDirectionLabel('marginRight');
     slides.filter((_, slideIndex) => {
       if (!params.cssMode || params.loop) return true;
@@ -15157,12 +14739,12 @@ function updateSlides() {
   if (params.centeredSlides && params.centeredSlidesBounds) {
     let allSlidesSize = 0;
     slidesSizesGrid.forEach(slideSizeValue => {
-      allSlidesSize += slideSizeValue + (params.spaceBetween ? params.spaceBetween : 0);
+      allSlidesSize += slideSizeValue + (spaceBetween || 0);
     });
-    allSlidesSize -= params.spaceBetween;
+    allSlidesSize -= spaceBetween;
     const maxSnap = allSlidesSize - swiperSize;
     snapGrid = snapGrid.map(snap => {
-      if (snap < 0) return -offsetBefore;
+      if (snap <= 0) return -offsetBefore;
       if (snap > maxSnap) return maxSnap + offsetAfter;
       return snap;
     });
@@ -15170,9 +14752,9 @@ function updateSlides() {
   if (params.centerInsufficientSlides) {
     let allSlidesSize = 0;
     slidesSizesGrid.forEach(slideSizeValue => {
-      allSlidesSize += slideSizeValue + (params.spaceBetween ? params.spaceBetween : 0);
+      allSlidesSize += slideSizeValue + (spaceBetween || 0);
     });
-    allSlidesSize -= params.spaceBetween;
+    allSlidesSize -= spaceBetween;
     if (allSlidesSize < swiperSize) {
       const allSlidesOffset = (swiperSize - allSlidesSize) / 2;
       snapGrid.forEach((snap, snapIndex) => {
@@ -15307,7 +14889,7 @@ function updateSlidesOffset() {
   // eslint-disable-next-line
   const minusOffset = swiper.isElement ? swiper.isHorizontal() ? swiper.wrapperEl.offsetLeft : swiper.wrapperEl.offsetTop : 0;
   for (let i = 0; i < slides.length; i += 1) {
-    slides[i].swiperSlideOffset = (swiper.isHorizontal() ? slides[i].offsetLeft : slides[i].offsetTop) - minusOffset;
+    slides[i].swiperSlideOffset = (swiper.isHorizontal() ? slides[i].offsetLeft : slides[i].offsetTop) - minusOffset - swiper.cssOverflowAdjustment();
   }
 }
 
@@ -15343,14 +14925,20 @@ function updateSlidesProgress(translate = this && this.translate || 0) {
   });
   swiper.visibleSlidesIndexes = [];
   swiper.visibleSlides = [];
+  let spaceBetween = params.spaceBetween;
+  if (typeof spaceBetween === 'string' && spaceBetween.indexOf('%') >= 0) {
+    spaceBetween = parseFloat(spaceBetween.replace('%', '')) / 100 * swiper.size;
+  } else if (typeof spaceBetween === 'string') {
+    spaceBetween = parseFloat(spaceBetween);
+  }
   for (let i = 0; i < slides.length; i += 1) {
     const slide = slides[i];
     let slideOffset = slide.swiperSlideOffset;
     if (params.cssMode && params.centeredSlides) {
       slideOffset -= slides[0].swiperSlideOffset;
     }
-    const slideProgress = (offsetCenter + (params.centeredSlides ? swiper.minTranslate() : 0) - slideOffset) / (slide.swiperSlideSize + params.spaceBetween);
-    const originalSlideProgress = (offsetCenter - snapGrid[0] + (params.centeredSlides ? swiper.minTranslate() : 0) - slideOffset) / (slide.swiperSlideSize + params.spaceBetween);
+    const slideProgress = (offsetCenter + (params.centeredSlides ? swiper.minTranslate() : 0) - slideOffset) / (slide.swiperSlideSize + spaceBetween);
+    const originalSlideProgress = (offsetCenter - snapGrid[0] + (params.centeredSlides ? swiper.minTranslate() : 0) - slideOffset) / (slide.swiperSlideSize + spaceBetween);
     const slideBefore = -(offsetCenter - slideOffset);
     const slideAfter = slideBefore + swiper.slidesSizesGrid[i];
     const isVisible = slideBefore >= 0 && slideBefore < swiper.size - 1 || slideAfter > 1 && slideAfter <= swiper.size || slideBefore <= 0 && slideAfter >= swiper.size;
@@ -15554,7 +15142,7 @@ function A11y({
           addElLabel(bulletEl, params.paginationBulletMessage.replace(/\{\{index\}\}/, (0,_shared_utils_js__WEBPACK_IMPORTED_MODULE_1__.elementIndex)(bulletEl) + 1));
         }
       }
-      if (bulletEl.matches(`.${swiper.params.pagination.bulletActiveClass}`)) {
+      if (bulletEl.matches((0,_shared_classes_to_selector_js__WEBPACK_IMPORTED_MODULE_0__["default"])(swiper.params.pagination.bulletActiveClass))) {
         bulletEl.setAttribute('aria-current', 'true');
       } else {
         bulletEl.removeAttribute('aria-current');
@@ -15616,7 +15204,11 @@ function A11y({
   };
   const init = () => {
     const params = swiper.params.a11y;
-    swiper.el.append(liveRegion);
+    if (swiper.isElement) {
+      swiper.el.shadowEl.append(liveRegion);
+    } else {
+      swiper.el.append(liveRegion);
+    }
 
     // Container
     const containerEl = swiper.el;
@@ -15665,7 +15257,7 @@ function A11y({
     swiper.el.addEventListener('pointerup', handlePointerUp, true);
   };
   function destroy() {
-    if (liveRegion && liveRegion.length > 0) liveRegion.remove();
+    if (liveRegion) liveRegion.remove();
     let {
       nextEl,
       prevEl
@@ -15696,9 +15288,6 @@ function A11y({
     liveRegion = (0,_shared_utils_js__WEBPACK_IMPORTED_MODULE_1__.createElement)('span', swiper.params.a11y.notificationClass);
     liveRegion.setAttribute('aria-live', 'assertive');
     liveRegion.setAttribute('aria-atomic', 'true');
-    if (swiper.isElement) {
-      liveRegion.setAttribute('slot', 'container-end');
-    }
   });
   on('afterInit', () => {
     if (!swiper.params.a11y.enabled) return;
@@ -16088,11 +15677,8 @@ function Controller({
     };
     return this;
   }
-  // xxx: for now i will just save one spline function to to
   function getInterpolateFunction(c) {
-    if (!swiper.controller.spline) {
-      swiper.controller.spline = swiper.params.loop ? new LinearSpline(swiper.slidesGrid, c.slidesGrid) : new LinearSpline(swiper.snapGrid, c.snapGrid);
-    }
+    swiper.controller.spline = swiper.params.loop ? new LinearSpline(swiper.slidesGrid, c.slidesGrid) : new LinearSpline(swiper.snapGrid, c.snapGrid);
   }
   function setTranslate(_t, byController) {
     const controlled = swiper.controller.control;
@@ -16100,6 +15686,8 @@ function Controller({
     let controlledTranslate;
     const Swiper = swiper.constructor;
     function setControlledTranslate(c) {
+      if (c.destroyed) return;
+
       // this will create an Interpolate function based on the snapGrids
       // x is the Grid of the scrolled scroller and y will be the controlled scroller
       // it makes sense to create this only once and recall it for the interpolation
@@ -16113,6 +15701,9 @@ function Controller({
       }
       if (!controlledTranslate || swiper.params.controller.by === 'container') {
         multiplier = (c.maxTranslate() - c.minTranslate()) / (swiper.maxTranslate() - swiper.minTranslate());
+        if (Number.isNaN(multiplier) || !Number.isFinite(multiplier)) {
+          multiplier = 1;
+        }
         controlledTranslate = (translate - swiper.minTranslate()) * multiplier + c.minTranslate();
       }
       if (swiper.params.controller.inverse) {
@@ -16138,6 +15729,7 @@ function Controller({
     const controlled = swiper.controller.control;
     let i;
     function setControlledTransition(c) {
+      if (c.destroyed) return;
       c.setTransition(duration, swiper);
       if (duration !== 0) {
         c.transitionStart();
@@ -16198,11 +15790,11 @@ function Controller({
     removeSpline();
   });
   on('setTranslate', (_s, translate, byController) => {
-    if (!swiper.controller.control) return;
+    if (!swiper.controller.control || swiper.controller.control.destroyed) return;
     swiper.controller.setTranslate(translate, byController);
   });
   on('setTransition', (_s, duration, byController) => {
-    if (!swiper.controller.control) return;
+    if (!swiper.controller.control || swiper.controller.control.destroyed) return;
     swiper.controller.setTransition(duration, byController);
   });
   Object.assign(swiper.controller, {
@@ -16250,14 +15842,15 @@ function EffectCards({
   const setTranslate = () => {
     const {
       slides,
-      activeIndex
+      activeIndex,
+      rtlTranslate: rtl
     } = swiper;
     const params = swiper.params.cardsEffect;
     const {
       startTranslate,
       isTouched
     } = swiper.touchEventsData;
-    const currentTranslate = swiper.translate;
+    const currentTranslate = rtl ? -swiper.translate : swiper.translate;
     for (let i = 0; i < slides.length; i += 1) {
       const slideEl = slides[i];
       const slideProgress = slideEl.progress;
@@ -16287,10 +15880,10 @@ function EffectCards({
       }
       if (progress < 0) {
         // next
-        tX = `calc(${tX}px + (${tXAdd * Math.abs(progress)}%))`;
+        tX = `calc(${tX}px ${rtl ? '-' : '+'} (${tXAdd * Math.abs(progress)}%))`;
       } else if (progress > 0) {
         // prev
-        tX = `calc(${tX}px + (-${tXAdd * Math.abs(progress)}%))`;
+        tX = `calc(${tX}px ${rtl ? '-' : '+'} (-${tXAdd * Math.abs(progress)}%))`;
       } else {
         tX = `${tX}px`;
       }
@@ -16300,11 +15893,15 @@ function EffectCards({
         tX = prevY;
       }
       const scaleString = progress < 0 ? `${1 + (1 - scale) * progress}` : `${1 - (1 - scale) * progress}`;
+
+      /* eslint-disable */
       const transform = `
         translate3d(${tX}, ${tY}, ${tZ}px)
-        rotateZ(${params.rotate ? rotate : 0}deg)
+        rotateZ(${params.rotate ? rtl ? -rotate : rotate : 0}deg)
         scale(${scaleString})
       `;
+      /* eslint-enable */
+
       if (params.slideShadows) {
         // Set shadows
         let shadowEl = slideEl.querySelector('.swiper-slide-shadow');
@@ -16589,7 +16186,7 @@ function EffectCreative({
       targetEl.style.transform = transform;
       targetEl.style.opacity = opacityString;
       if (data.origin) {
-        targetEl.style.transformOrigin = opacityString;
+        targetEl.style.transformOrigin = data.origin;
       }
     }
   };
@@ -17046,6 +16643,7 @@ function freeMode({
     }
   });
   function onTouchStart() {
+    if (swiper.params.cssMode) return;
     const translate = swiper.getTranslate();
     swiper.setTranslate(translate);
     swiper.setTransition(0);
@@ -17055,6 +16653,7 @@ function freeMode({
     });
   }
   function onTouchMove() {
+    if (swiper.params.cssMode) return;
     const {
       touchEventsData: data,
       touches
@@ -17074,6 +16673,7 @@ function freeMode({
   function onTouchEnd({
     currentPos
   }) {
+    if (swiper.params.cssMode) return;
     const {
       params,
       wrapperEl,
@@ -17281,6 +16881,15 @@ function Grid({
   let slidesNumberEvenToRows;
   let slidesPerRow;
   let numFullColumns;
+  const getSpaceBetween = () => {
+    let spaceBetween = swiper.params.spaceBetween;
+    if (typeof spaceBetween === 'string' && spaceBetween.indexOf('%') >= 0) {
+      spaceBetween = parseFloat(spaceBetween.replace('%', '')) / 100 * swiper.size;
+    } else if (typeof spaceBetween === 'string') {
+      spaceBetween = parseFloat(spaceBetween);
+    }
+    return spaceBetween;
+  };
   const initSlides = slidesLength => {
     const {
       slidesPerView
@@ -17289,7 +16898,6 @@ function Grid({
       rows,
       fill
     } = swiper.params.grid;
-    slidesPerRow = slidesNumberEvenToRows / rows;
     numFullColumns = Math.floor(slidesLength / rows);
     if (Math.floor(slidesLength / rows) === slidesLength / rows) {
       slidesNumberEvenToRows = slidesLength;
@@ -17299,12 +16907,13 @@ function Grid({
     if (slidesPerView !== 'auto' && fill === 'row') {
       slidesNumberEvenToRows = Math.max(slidesNumberEvenToRows, slidesPerView * rows);
     }
+    slidesPerRow = slidesNumberEvenToRows / rows;
   };
   const updateSlide = (i, slide, slidesLength, getDirectionLabel) => {
     const {
-      slidesPerGroup,
-      spaceBetween
+      slidesPerGroup
     } = swiper.params;
+    const spaceBetween = getSpaceBetween();
     const {
       rows,
       fill
@@ -17335,14 +16944,16 @@ function Grid({
       row = Math.floor(i / slidesPerRow);
       column = i - row * slidesPerRow;
     }
+    slide.row = row;
+    slide.column = column;
     slide.style[getDirectionLabel('margin-top')] = row !== 0 ? spaceBetween && `${spaceBetween}px` : '';
   };
   const updateWrapperSize = (slideSize, snapGrid, getDirectionLabel) => {
     const {
-      spaceBetween,
       centeredSlides,
       roundLengths
     } = swiper.params;
+    const spaceBetween = getSpaceBetween();
     const {
       rows
     } = swiper.params.grid;
@@ -17397,28 +17008,38 @@ function HashNavigation({
     hashNavigation: {
       enabled: false,
       replaceState: false,
-      watchState: false
+      watchState: false,
+      getSlideIndex(_s, hash) {
+        if (swiper.virtual && swiper.params.virtual.enabled) {
+          const slideWithHash = swiper.slides.filter(slideEl => slideEl.getAttribute('data-hash') === hash)[0];
+          if (!slideWithHash) return 0;
+          const index = parseInt(slideWithHash.getAttribute('data-swiper-slide-index'), 10);
+          return index;
+        }
+        return swiper.getSlideIndex((0,_shared_utils_js__WEBPACK_IMPORTED_MODULE_1__.elementChildren)(swiper.slidesEl, `.${swiper.params.slideClass}[data-hash="${hash}"], swiper-slide[data-hash="${hash}"]`)[0]);
+      }
     }
   });
   const onHashChange = () => {
     emit('hashChange');
     const newHash = document.location.hash.replace('#', '');
-    const activeSlideHash = swiper.slides[swiper.activeIndex].getAttribute('data-hash');
+    const activeSlideEl = swiper.virtual && swiper.params.virtual.enabled ? swiper.slidesEl.querySelector(`[data-swiper-slide-index="${swiper.activeIndex}"]`) : swiper.slides[swiper.activeIndex];
+    const activeSlideHash = activeSlideEl ? activeSlideEl.getAttribute('data-hash') : '';
     if (newHash !== activeSlideHash) {
-      const newIndex = (0,_shared_utils_js__WEBPACK_IMPORTED_MODULE_1__.elementIndex)((0,_shared_utils_js__WEBPACK_IMPORTED_MODULE_1__.elementChildren)(swiper.slidesEl, `.${swiper.params.slideClass}[data-hash="${newHash}"], swiper-slide[data-hash="${newHash}"]`)[0]);
-      if (typeof newIndex === 'undefined') return;
+      const newIndex = swiper.params.hashNavigation.getSlideIndex(swiper, newHash);
+      if (typeof newIndex === 'undefined' || Number.isNaN(newIndex)) return;
       swiper.slideTo(newIndex);
     }
   };
   const setHash = () => {
     if (!initialized || !swiper.params.hashNavigation.enabled) return;
+    const activeSlideEl = swiper.virtual && swiper.params.virtual.enabled ? swiper.slidesEl.querySelector(`[data-swiper-slide-index="${swiper.activeIndex}"]`) : swiper.slides[swiper.activeIndex];
+    const activeSlideHash = activeSlideEl ? activeSlideEl.getAttribute('data-hash') || activeSlideEl.getAttribute('data-history') : '';
     if (swiper.params.hashNavigation.replaceState && window.history && window.history.replaceState) {
-      window.history.replaceState(null, null, `#${swiper.slides[swiper.activeIndex].getAttribute('data-hash')}` || '');
+      window.history.replaceState(null, null, `#${activeSlideHash}` || '');
       emit('hashSet');
     } else {
-      const slide = swiper.slides[swiper.activeIndex];
-      const hash = slide.getAttribute('data-hash') || slide.getAttribute('data-history');
-      document.location.hash = hash || '';
+      document.location.hash = activeSlideHash || '';
       emit('hashSet');
     }
   };
@@ -17428,14 +17049,8 @@ function HashNavigation({
     const hash = document.location.hash.replace('#', '');
     if (hash) {
       const speed = 0;
-      for (let i = 0, length = swiper.slides.length; i < length; i += 1) {
-        const slide = swiper.slides[i];
-        const slideHash = slide.getAttribute('data-hash') || slide.getAttribute('data-history');
-        if (slideHash === hash) {
-          const index = (0,_shared_utils_js__WEBPACK_IMPORTED_MODULE_1__.elementIndex)(slide);
-          swiper.slideTo(index, speed, swiper.params.runCallbacksOnInit, true);
-        }
-      }
+      const index = swiper.params.hashNavigation.getSlideIndex(swiper, hash);
+      swiper.slideTo(index || 0, speed, swiper.params.runCallbacksOnInit, true);
     }
     if (swiper.params.hashNavigation.watchState) {
       window.addEventListener('hashchange', onHashChange);
@@ -17482,8 +17097,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (/* binding */ History)
 /* harmony export */ });
 /* harmony import */ var ssr_window__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ssr-window */ "./node_modules/ssr-window/ssr-window.esm.js");
-/* harmony import */ var _shared_utils_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../shared/utils.js */ "./node_modules/swiper/shared/utils.js");
-
 
 function History({
   swiper,
@@ -17562,7 +17175,7 @@ function History({
         const slide = swiper.slides[i];
         const slideHistory = slugify(slide.getAttribute('data-history'));
         if (slideHistory === value) {
-          const index = (0,_shared_utils_js__WEBPACK_IMPORTED_MODULE_1__.elementIndex)(slide);
+          const index = swiper.getSlideIndex(slide);
           swiper.slideTo(index, speed, runCallbacks);
         }
       }
@@ -18063,7 +17676,8 @@ function Mousewheel({
       sensitivity: 1,
       eventsTarget: 'container',
       thresholdDelta: null,
-      thresholdTime: null
+      thresholdTime: null,
+      noMousewheelClass: 'swiper-no-mousewheel'
     }
   });
   swiper.mousewheel = {
@@ -18209,6 +17823,9 @@ function Mousewheel({
     let e = event;
     let disableParentSwiper = true;
     if (!swiper.enabled) return;
+
+    // Ignore event if the target or its parents have the swiper-no-mousewheel class
+    if (event.target.closest(`.${swiper.params.mousewheel.noMousewheelClass}`)) return;
     const params = swiper.params.mousewheel;
     if (swiper.params.cssMode) {
       e.preventDefault();
@@ -18722,6 +18339,16 @@ function Pagination({
     e.preventDefault();
     const index = (0,_shared_utils_js__WEBPACK_IMPORTED_MODULE_2__.elementIndex)(bulletEl) * swiper.params.slidesPerGroup;
     if (swiper.params.loop) {
+      if (swiper.realIndex === index) return;
+      const newSlideIndex = swiper.getSlideIndexByData(index);
+      const currentSlideIndex = swiper.getSlideIndexByData(swiper.realIndex);
+      if (newSlideIndex > swiper.slides.length - swiper.loopedSlides) {
+        swiper.loopFix({
+          direction: newSlideIndex > currentSlideIndex ? 'next' : 'prev',
+          activeSlideIndex: newSlideIndex,
+          slideTo: false
+        });
+      }
       swiper.slideToLoop(index);
     } else {
       swiper.slideTo(index);
@@ -18736,13 +18363,17 @@ function Pagination({
     el = makeElementsArray(el);
     // Current/Total
     let current;
+    let previousIndex;
     const slidesLength = swiper.virtual && swiper.params.virtual.enabled ? swiper.virtual.slides.length : swiper.slides.length;
     const total = swiper.params.loop ? Math.ceil(slidesLength / swiper.params.slidesPerGroup) : swiper.snapGrid.length;
     if (swiper.params.loop) {
+      previousIndex = swiper.previousRealIndex || 0;
       current = swiper.params.slidesPerGroup > 1 ? Math.floor(swiper.realIndex / swiper.params.slidesPerGroup) : swiper.realIndex;
     } else if (typeof swiper.snapIndex !== 'undefined') {
       current = swiper.snapIndex;
+      previousIndex = swiper.previousSnapIndex;
     } else {
+      previousIndex = swiper.previousIndex || 0;
       current = swiper.activeIndex || 0;
     }
     // Types
@@ -18756,8 +18387,8 @@ function Pagination({
         el.forEach(subEl => {
           subEl.style[swiper.isHorizontal() ? 'width' : 'height'] = `${bulletSize * (params.dynamicMainBullets + 4)}px`;
         });
-        if (params.dynamicMainBullets > 1 && swiper.previousIndex !== undefined) {
-          dynamicBulletIndex += current - (swiper.previousIndex || 0);
+        if (params.dynamicMainBullets > 1 && previousIndex !== undefined) {
+          dynamicBulletIndex += current - (previousIndex || 0);
           if (dynamicBulletIndex > params.dynamicMainBullets - 1) {
             dynamicBulletIndex = params.dynamicMainBullets - 1;
           } else if (dynamicBulletIndex < 0) {
@@ -18769,17 +18400,20 @@ function Pagination({
         midIndex = (lastIndex + firstIndex) / 2;
       }
       bullets.forEach(bulletEl => {
-        bulletEl.classList.remove(...['', '-next', '-next-next', '-prev', '-prev-prev', '-main'].map(suffix => `${params.bulletActiveClass}${suffix}`));
+        const classesToRemove = [...['', '-next', '-next-next', '-prev', '-prev-prev', '-main'].map(suffix => `${params.bulletActiveClass}${suffix}`)].map(s => typeof s === 'string' && s.includes(' ') ? s.split(' ') : s).flat();
+        bulletEl.classList.remove(...classesToRemove);
       });
       if (el.length > 1) {
         bullets.forEach(bullet => {
           const bulletIndex = (0,_shared_utils_js__WEBPACK_IMPORTED_MODULE_2__.elementIndex)(bullet);
           if (bulletIndex === current) {
-            bullet.classList.add(params.bulletActiveClass);
+            bullet.classList.add(...params.bulletActiveClass.split(' '));
+          } else if (swiper.isElement) {
+            bullet.setAttribute('part', 'bullet');
           }
           if (params.dynamicBullets) {
             if (bulletIndex >= firstIndex && bulletIndex <= lastIndex) {
-              bullet.classList.add(`${params.bulletActiveClass}-main`);
+              bullet.classList.add(...`${params.bulletActiveClass}-main`.split(' '));
             }
             if (bulletIndex === firstIndex) {
               setSideBullets(bullet, 'prev');
@@ -18792,13 +18426,20 @@ function Pagination({
       } else {
         const bullet = bullets[current];
         if (bullet) {
-          bullet.classList.add(params.bulletActiveClass);
+          bullet.classList.add(...params.bulletActiveClass.split(' '));
+        }
+        if (swiper.isElement) {
+          bullets.forEach((bulletEl, bulletIndex) => {
+            bulletEl.setAttribute('part', bulletIndex === current ? 'bullet-active' : 'bullet');
+          });
         }
         if (params.dynamicBullets) {
           const firstDisplayedBullet = bullets[firstIndex];
           const lastDisplayedBullet = bullets[lastIndex];
           for (let i = firstIndex; i <= lastIndex; i += 1) {
-            bullets[i].classList.add(`${params.bulletActiveClass}-main`);
+            if (bullets[i]) {
+              bullets[i].classList.add(...`${params.bulletActiveClass}-main`.split(' '));
+            }
           }
           setSideBullets(firstDisplayedBullet, 'prev');
           setSideBullets(lastDisplayedBullet, 'next');
@@ -18871,7 +18512,8 @@ function Pagination({
         if (params.renderBullet) {
           paginationHTML += params.renderBullet.call(swiper, i, params.bulletClass);
         } else {
-          paginationHTML += `<${params.bulletElement} class="${params.bulletClass}"></${params.bulletElement}>`;
+          // prettier-ignore
+          paginationHTML += `<${params.bulletElement} ${swiper.isElement ? 'part="bullet"' : ''} class="${params.bulletClass}"></${params.bulletElement}>`;
         }
       }
     }
@@ -18889,12 +18531,13 @@ function Pagination({
         paginationHTML = `<span class="${params.progressbarFillClass}"></span>`;
       }
     }
+    swiper.pagination.bullets = [];
     el.forEach(subEl => {
       if (params.type !== 'custom') {
         subEl.innerHTML = paginationHTML || '';
       }
       if (params.type === 'bullets') {
-        swiper.pagination.bullets = [...subEl.querySelectorAll((0,_shared_classes_to_selector_js__WEBPACK_IMPORTED_MODULE_0__["default"])(params.bulletClass))];
+        swiper.pagination.bullets.push(...subEl.querySelectorAll((0,_shared_classes_to_selector_js__WEBPACK_IMPORTED_MODULE_0__["default"])(params.bulletClass)));
       }
     });
     if (params.type !== 'custom') {
@@ -18972,8 +18615,20 @@ function Pagination({
         }
       });
     }
-    if (swiper.pagination.bullets) swiper.pagination.bullets.forEach(subEl => subEl.classList.remove(params.bulletActiveClass));
+    if (swiper.pagination.bullets) swiper.pagination.bullets.forEach(subEl => subEl.classList.remove(...params.bulletActiveClass.split(' ')));
   }
+  on('changeDirection', () => {
+    if (!swiper.pagination || !swiper.pagination.el) return;
+    const params = swiper.params.pagination;
+    let {
+      el
+    } = swiper.pagination;
+    el = makeElementsArray(el);
+    el.forEach(subEl => {
+      subEl.classList.remove(params.horizontalClass, params.verticalClass);
+      subEl.classList.add(swiper.isHorizontal() ? params.horizontalClass : params.verticalClass);
+    });
+  });
   on('init', () => {
     if (swiper.params.pagination.enabled === false) {
       // eslint-disable-next-line
@@ -19820,7 +19475,7 @@ function Virtual({
     }
     slideEl.setAttribute('data-swiper-slide-index', index);
     if (!params.renderSlide) {
-      slideEl.textContent = slide;
+      slideEl.innerHTML = slide;
     }
     if (params.cache) swiper.virtual.cache[index] = slideEl;
     return slideEl;
@@ -19889,7 +19544,7 @@ function Virtual({
     if (previousFrom === from && previousTo === to && !force) {
       if (swiper.slidesGrid !== previousSlidesGrid && offset !== previousOffset) {
         swiper.slides.forEach(slideEl => {
-          slideEl.style[offsetProp] = `${offset}px`;
+          slideEl.style[offsetProp] = `${offset - Math.abs(swiper.cssOverflowAdjustment())}px`;
         });
       }
       swiper.updateProgress();
@@ -19970,7 +19625,7 @@ function Virtual({
       });
     }
     (0,_shared_utils_js__WEBPACK_IMPORTED_MODULE_1__.elementChildren)(swiper.slidesEl, '.swiper-slide, swiper-slide').forEach(slideEl => {
-      slideEl.style[offsetProp] = `${offset}px`;
+      slideEl.style[offsetProp] = `${offset - Math.abs(swiper.cssOverflowAdjustment())}px`;
     });
     onRendered();
   }
@@ -20138,6 +19793,8 @@ function Zoom({
   let fakeGestureMoved;
   const evCache = [];
   const gesture = {
+    originX: 0,
+    originY: 0,
     slideEl: undefined,
     slideWidth: undefined,
     slideHeight: undefined,
@@ -20217,6 +19874,9 @@ function Zoom({
 
   // Events
   function onGestureStart(e) {
+    if (e.pointerType === 'mouse') {
+      evCache.splice(0, evCache.length);
+    }
     if (!eventWithinSlide(e)) return;
     const params = swiper.params.zoom;
     fakeGestureTouched = false;
@@ -20248,7 +19908,8 @@ function Zoom({
     }
     if (gesture.imageEl) {
       const [originX, originY] = getScaleOrigin();
-      gesture.imageEl.style.transformOrigin = `${originX}px ${originY}px`;
+      gesture.originX = originX;
+      gesture.originY = originY;
       gesture.imageEl.style.transitionDuration = '0ms';
     }
     isScaling = true;
@@ -20278,6 +19939,7 @@ function Zoom({
   }
   function onGestureEnd(e) {
     if (!eventWithinSlide(e)) return;
+    if (e.pointerType === 'mouse' && e.type === 'pointerout') return;
     const params = swiper.params.zoom;
     const zoom = swiper.zoom;
     const pointerIndex = evCache.findIndex(cachedEv => cachedEv.pointerId === e.pointerId);
@@ -20293,7 +19955,16 @@ function Zoom({
     gesture.imageEl.style.transform = `translate3d(0,0,0) scale(${zoom.scale})`;
     currentScale = zoom.scale;
     isScaling = false;
-    if (zoom.scale === 1) gesture.slideEl = undefined;
+    if (zoom.scale > 1 && gesture.slideEl) {
+      gesture.slideEl.classList.add(`${params.zoomedSlideClass}`);
+    } else if (zoom.scale <= 1 && gesture.slideEl) {
+      gesture.slideEl.classList.remove(`${params.zoomedSlideClass}`);
+    }
+    if (zoom.scale === 1) {
+      gesture.originX = 0;
+      gesture.originY = 0;
+      gesture.slideEl = undefined;
+    }
   }
   function onTouchStart(e) {
     const device = swiper.device;
@@ -20301,14 +19972,14 @@ function Zoom({
     if (image.isTouched) return;
     if (device.android && e.cancelable) e.preventDefault();
     image.isTouched = true;
-    image.touchesStart.x = e.pageX;
-    image.touchesStart.y = e.pageY;
+    const event = evCache.length > 0 ? evCache[0] : e;
+    image.touchesStart.x = event.pageX;
+    image.touchesStart.y = event.pageY;
   }
   function onTouchMove(e) {
     if (!eventWithinSlide(e) || !eventWithinZoomContainer(e)) return;
     const zoom = swiper.zoom;
     if (!gesture.imageEl) return;
-    swiper.allowClick = false;
     if (!image.isTouched || !gesture.slideEl) return;
     if (!image.isMoved) {
       image.width = gesture.imageEl.offsetWidth;
@@ -20329,6 +20000,10 @@ function Zoom({
     image.maxY = -image.minY;
     image.touchesCurrent.x = evCache.length > 0 ? evCache[0].pageX : e.pageX;
     image.touchesCurrent.y = evCache.length > 0 ? evCache[0].pageY : e.pageY;
+    const touchesDiff = Math.max(Math.abs(image.touchesCurrent.x - image.touchesStart.x), Math.abs(image.touchesCurrent.y - image.touchesStart.y));
+    if (touchesDiff > 5) {
+      swiper.allowClick = false;
+    }
     if (!image.isMoved && !isScaling) {
       if (swiper.isHorizontal() && (Math.floor(image.minX) === Math.floor(image.startX) && image.touchesCurrent.x < image.touchesStart.x || Math.floor(image.maxX) === Math.floor(image.startX) && image.touchesCurrent.x > image.touchesStart.x)) {
         image.isTouched = false;
@@ -20344,8 +20019,13 @@ function Zoom({
     }
     e.stopPropagation();
     image.isMoved = true;
-    image.currentX = image.touchesCurrent.x - image.touchesStart.x + image.startX;
-    image.currentY = image.touchesCurrent.y - image.touchesStart.y + image.startY;
+    const scaleRatio = (zoom.scale - currentScale) / (gesture.maxRatio - swiper.params.zoom.minRatio);
+    const {
+      originX,
+      originY
+    } = gesture;
+    image.currentX = image.touchesCurrent.x - image.touchesStart.x + image.startX + scaleRatio * (image.width - originX * 2);
+    image.currentY = image.touchesCurrent.y - image.touchesStart.y + image.startY + scaleRatio * (image.height - originY * 2);
     if (image.currentX < image.minX) {
       image.currentX = image.minX + 1 - (image.minX - image.currentX + 1) ** 0.8;
     }
@@ -20395,7 +20075,6 @@ function Zoom({
     const momentumDuration = Math.max(momentumDurationX, momentumDurationY);
     image.currentX = newPositionX;
     image.currentY = newPositionY;
-
     // Define if we need image drag
     const scaledWidth = image.width * zoom.scale;
     const scaledHeight = image.height * zoom.scale;
@@ -20410,18 +20089,21 @@ function Zoom({
   }
   function onTransitionEnd() {
     const zoom = swiper.zoom;
-    if (gesture.slideEl && swiper.previousIndex !== swiper.activeIndex) {
+    if (gesture.slideEl && swiper.activeIndex !== swiper.slides.indexOf(gesture.slideEl)) {
       if (gesture.imageEl) {
         gesture.imageEl.style.transform = 'translate3d(0,0,0) scale(1)';
       }
       if (gesture.imageWrapEl) {
         gesture.imageWrapEl.style.transform = 'translate3d(0,0,0)';
       }
+      gesture.slideEl.classList.remove(`${swiper.params.zoom.zoomedSlideClass}`);
       zoom.scale = 1;
       currentScale = 1;
       gesture.slideEl = undefined;
       gesture.imageEl = undefined;
       gesture.imageWrapEl = undefined;
+      gesture.originX = 0;
+      gesture.originY = 0;
     }
   }
   function zoomIn(e) {
@@ -20520,6 +20202,10 @@ function Zoom({
       translateX = 0;
       translateY = 0;
     }
+    if (forceZoomRatio && zoom.scale === 1) {
+      gesture.originX = 0;
+      gesture.originY = 0;
+    }
     gesture.imageWrapEl.style.transitionDuration = '300ms';
     gesture.imageWrapEl.style.transform = `translate3d(${translateX}px, ${translateY}px,0)`;
     gesture.imageEl.style.transitionDuration = '300ms';
@@ -20558,6 +20244,8 @@ function Zoom({
     gesture.imageEl.style.transform = 'translate3d(0,0,0) scale(1)';
     gesture.slideEl.classList.remove(`${params.zoomedSlideClass}`);
     gesture.slideEl = undefined;
+    gesture.originX = 0;
+    gesture.originY = 0;
   }
 
   // Toggle Zoom
@@ -20597,10 +20285,9 @@ function Zoom({
     } = getListeners();
 
     // Scale image
-
     swiper.wrapperEl.addEventListener('pointerdown', onGestureStart, passiveListener);
     swiper.wrapperEl.addEventListener('pointermove', onGestureChange, activeListenerWithCapture);
-    ['pointerup', 'pointercancel'].forEach(eventName => {
+    ['pointerup', 'pointercancel', 'pointerout'].forEach(eventName => {
       swiper.wrapperEl.addEventListener(eventName, onGestureEnd, passiveListener);
     });
 
@@ -20619,7 +20306,7 @@ function Zoom({
     // Scale image
     swiper.wrapperEl.removeEventListener('pointerdown', onGestureStart, passiveListener);
     swiper.wrapperEl.removeEventListener('pointermove', onGestureChange, activeListenerWithCapture);
-    ['pointerup', 'pointercancel'].forEach(eventName => {
+    ['pointerup', 'pointercancel', 'pointerout'].forEach(eventName => {
       swiper.wrapperEl.removeEventListener(eventName, onGestureEnd, passiveListener);
     });
 
@@ -20680,7 +20367,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (/* binding */ classesToSelector)
 /* harmony export */ });
 function classesToSelector(classes = '') {
-  return `.${classes.trim().replace(/([\.:!\/])/g, '\\$1') // eslint-disable-line
+  return `.${classes.trim().replace(/([\.:!+\/])/g, '\\$1') // eslint-disable-line
   .replace(/ /g, '.')}`;
 }
 
@@ -20877,7 +20564,7 @@ function effectVirtualTransitionEnd({
     } else {
       transitionEndTarget = transformElements.filter(transformEl => {
         const el = transformEl.classList.contains('swiper-slide-transform') ? getSlide(transformEl) : transformEl;
-        return (0,_utils_js__WEBPACK_IMPORTED_MODULE_0__.elementIndex)(el) === activeIndex;
+        return swiper.getSlideIndex(el) === activeIndex;
       });
     }
     transitionEndTarget.forEach(el => {
@@ -20907,7 +20594,7 @@ function effectVirtualTransitionEnd({
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "getBrowser": () => (/* binding */ getBrowser)
+/* harmony export */   getBrowser: () => (/* binding */ getBrowser)
 /* harmony export */ });
 /* harmony import */ var ssr_window__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ssr-window */ "./node_modules/ssr-window/ssr-window.esm.js");
 
@@ -20951,7 +20638,7 @@ function getBrowser() {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "getDevice": () => (/* binding */ getDevice)
+/* harmony export */   getDevice: () => (/* binding */ getDevice)
 /* harmony export */ });
 /* harmony import */ var ssr_window__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ssr-window */ "./node_modules/ssr-window/ssr-window.esm.js");
 /* harmony import */ var _get_support_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./get-support.js */ "./node_modules/swiper/shared/get-support.js");
@@ -21018,7 +20705,7 @@ function getDevice(overrides = {}) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "getSupport": () => (/* binding */ getSupport)
+/* harmony export */   getSupport: () => (/* binding */ getSupport)
 /* harmony export */ });
 /* harmony import */ var ssr_window__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ssr-window */ "./node_modules/ssr-window/ssr-window.esm.js");
 
@@ -21027,7 +20714,7 @@ function calcSupport() {
   const window = (0,ssr_window__WEBPACK_IMPORTED_MODULE_0__.getWindow)();
   const document = (0,ssr_window__WEBPACK_IMPORTED_MODULE_0__.getDocument)();
   return {
-    smoothScroll: document.documentElement && 'scrollBehavior' in document.documentElement.style,
+    smoothScroll: document.documentElement && document.documentElement.style && 'scrollBehavior' in document.documentElement.style,
     touch: !!('ontouchstart' in window || window.DocumentTouch && document instanceof window.DocumentTouch)
   };
 }
@@ -21050,7 +20737,8 @@ function getSupport() {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "processLazyPreloader": () => (/* binding */ processLazyPreloader)
+/* harmony export */   preload: () => (/* binding */ preload),
+/* harmony export */   processLazyPreloader: () => (/* binding */ processLazyPreloader)
 /* harmony export */ });
 const processLazyPreloader = (swiper, imageEl) => {
   if (!swiper || swiper.destroyed || !swiper.params) return;
@@ -21059,6 +20747,46 @@ const processLazyPreloader = (swiper, imageEl) => {
   if (slideEl) {
     const lazyEl = slideEl.querySelector(`.${swiper.params.lazyPreloaderClass}`);
     if (lazyEl) lazyEl.remove();
+  }
+};
+const unlazy = (swiper, index) => {
+  if (!swiper.slides[index]) return;
+  const imageEl = swiper.slides[index].querySelector('[loading="lazy"]');
+  if (imageEl) imageEl.removeAttribute('loading');
+};
+const preload = swiper => {
+  if (!swiper || swiper.destroyed || !swiper.params) return;
+  let amount = swiper.params.lazyPreloadPrevNext;
+  const len = swiper.slides.length;
+  if (!len || !amount || amount < 0) return;
+  amount = Math.min(amount, len);
+  const slidesPerView = swiper.params.slidesPerView === 'auto' ? swiper.slidesPerViewDynamic() : Math.ceil(swiper.params.slidesPerView);
+  const activeIndex = swiper.activeIndex;
+  if (swiper.params.grid && swiper.params.grid.rows > 1) {
+    const activeColumn = activeIndex;
+    const preloadColumns = [activeColumn - amount];
+    preloadColumns.push(...Array.from({
+      length: amount
+    }).map((_, i) => {
+      return activeColumn + slidesPerView + i;
+    }));
+    swiper.slides.forEach((slideEl, i) => {
+      if (preloadColumns.includes(slideEl.column)) unlazy(swiper, i);
+    });
+    return;
+  }
+  const slideIndexLastInView = activeIndex + slidesPerView - 1;
+  if (swiper.params.rewind || swiper.params.loop) {
+    for (let i = activeIndex - amount; i <= slideIndexLastInView + amount; i += 1) {
+      const realIndex = (i % len + len) % len;
+      if (realIndex < activeIndex || realIndex > slideIndexLastInView) unlazy(swiper, realIndex);
+    }
+  } else {
+    for (let i = Math.max(activeIndex - amount, 0); i <= Math.min(slideIndexLastInView + amount, len - 1); i += 1) {
+      if (i !== activeIndex && (i > slideIndexLastInView || i < activeIndex)) {
+        unlazy(swiper, i);
+      }
+    }
   }
 };
 
@@ -21073,27 +20801,27 @@ const processLazyPreloader = (swiper, imageEl) => {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "animateCSSModeScroll": () => (/* binding */ animateCSSModeScroll),
-/* harmony export */   "createElement": () => (/* binding */ createElement),
-/* harmony export */   "deleteProps": () => (/* binding */ deleteProps),
-/* harmony export */   "elementChildren": () => (/* binding */ elementChildren),
-/* harmony export */   "elementIndex": () => (/* binding */ elementIndex),
-/* harmony export */   "elementNextAll": () => (/* binding */ elementNextAll),
-/* harmony export */   "elementOffset": () => (/* binding */ elementOffset),
-/* harmony export */   "elementOuterSize": () => (/* binding */ elementOuterSize),
-/* harmony export */   "elementParents": () => (/* binding */ elementParents),
-/* harmony export */   "elementPrevAll": () => (/* binding */ elementPrevAll),
-/* harmony export */   "elementStyle": () => (/* binding */ elementStyle),
-/* harmony export */   "elementTransitionEnd": () => (/* binding */ elementTransitionEnd),
-/* harmony export */   "extend": () => (/* binding */ extend),
-/* harmony export */   "findElementsInElements": () => (/* binding */ findElementsInElements),
-/* harmony export */   "getComputedStyle": () => (/* binding */ getComputedStyle),
-/* harmony export */   "getSlideTransformEl": () => (/* binding */ getSlideTransformEl),
-/* harmony export */   "getTranslate": () => (/* binding */ getTranslate),
-/* harmony export */   "isObject": () => (/* binding */ isObject),
-/* harmony export */   "nextTick": () => (/* binding */ nextTick),
-/* harmony export */   "now": () => (/* binding */ now),
-/* harmony export */   "setCSSProperty": () => (/* binding */ setCSSProperty)
+/* harmony export */   animateCSSModeScroll: () => (/* binding */ animateCSSModeScroll),
+/* harmony export */   createElement: () => (/* binding */ createElement),
+/* harmony export */   deleteProps: () => (/* binding */ deleteProps),
+/* harmony export */   elementChildren: () => (/* binding */ elementChildren),
+/* harmony export */   elementIndex: () => (/* binding */ elementIndex),
+/* harmony export */   elementNextAll: () => (/* binding */ elementNextAll),
+/* harmony export */   elementOffset: () => (/* binding */ elementOffset),
+/* harmony export */   elementOuterSize: () => (/* binding */ elementOuterSize),
+/* harmony export */   elementParents: () => (/* binding */ elementParents),
+/* harmony export */   elementPrevAll: () => (/* binding */ elementPrevAll),
+/* harmony export */   elementStyle: () => (/* binding */ elementStyle),
+/* harmony export */   elementTransitionEnd: () => (/* binding */ elementTransitionEnd),
+/* harmony export */   extend: () => (/* binding */ extend),
+/* harmony export */   findElementsInElements: () => (/* binding */ findElementsInElements),
+/* harmony export */   getComputedStyle: () => (/* binding */ getComputedStyle),
+/* harmony export */   getSlideTransformEl: () => (/* binding */ getSlideTransformEl),
+/* harmony export */   getTranslate: () => (/* binding */ getTranslate),
+/* harmony export */   isObject: () => (/* binding */ isObject),
+/* harmony export */   nextTick: () => (/* binding */ nextTick),
+/* harmony export */   now: () => (/* binding */ now),
+/* harmony export */   setCSSProperty: () => (/* binding */ setCSSProperty)
 /* harmony export */ });
 /* harmony import */ var ssr_window__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ssr-window */ "./node_modules/ssr-window/ssr-window.esm.js");
 
@@ -21374,30 +21102,30 @@ function elementOuterSize(el, size, includeMargins) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "A11y": () => (/* reexport safe */ _modules_a11y_a11y_js__WEBPACK_IMPORTED_MODULE_10__["default"]),
-/* harmony export */   "Autoplay": () => (/* reexport safe */ _modules_autoplay_autoplay_js__WEBPACK_IMPORTED_MODULE_13__["default"]),
-/* harmony export */   "Controller": () => (/* reexport safe */ _modules_controller_controller_js__WEBPACK_IMPORTED_MODULE_9__["default"]),
-/* harmony export */   "EffectCards": () => (/* reexport safe */ _modules_effect_cards_effect_cards_js__WEBPACK_IMPORTED_MODULE_23__["default"]),
-/* harmony export */   "EffectCoverflow": () => (/* reexport safe */ _modules_effect_coverflow_effect_coverflow_js__WEBPACK_IMPORTED_MODULE_21__["default"]),
-/* harmony export */   "EffectCreative": () => (/* reexport safe */ _modules_effect_creative_effect_creative_js__WEBPACK_IMPORTED_MODULE_22__["default"]),
-/* harmony export */   "EffectCube": () => (/* reexport safe */ _modules_effect_cube_effect_cube_js__WEBPACK_IMPORTED_MODULE_19__["default"]),
-/* harmony export */   "EffectFade": () => (/* reexport safe */ _modules_effect_fade_effect_fade_js__WEBPACK_IMPORTED_MODULE_18__["default"]),
-/* harmony export */   "EffectFlip": () => (/* reexport safe */ _modules_effect_flip_effect_flip_js__WEBPACK_IMPORTED_MODULE_20__["default"]),
-/* harmony export */   "FreeMode": () => (/* reexport safe */ _modules_free_mode_free_mode_js__WEBPACK_IMPORTED_MODULE_15__["default"]),
-/* harmony export */   "Grid": () => (/* reexport safe */ _modules_grid_grid_js__WEBPACK_IMPORTED_MODULE_16__["default"]),
-/* harmony export */   "HashNavigation": () => (/* reexport safe */ _modules_hash_navigation_hash_navigation_js__WEBPACK_IMPORTED_MODULE_12__["default"]),
-/* harmony export */   "History": () => (/* reexport safe */ _modules_history_history_js__WEBPACK_IMPORTED_MODULE_11__["default"]),
-/* harmony export */   "Keyboard": () => (/* reexport safe */ _modules_keyboard_keyboard_js__WEBPACK_IMPORTED_MODULE_2__["default"]),
-/* harmony export */   "Manipulation": () => (/* reexport safe */ _modules_manipulation_manipulation_js__WEBPACK_IMPORTED_MODULE_17__["default"]),
-/* harmony export */   "Mousewheel": () => (/* reexport safe */ _modules_mousewheel_mousewheel_js__WEBPACK_IMPORTED_MODULE_3__["default"]),
-/* harmony export */   "Navigation": () => (/* reexport safe */ _modules_navigation_navigation_js__WEBPACK_IMPORTED_MODULE_4__["default"]),
-/* harmony export */   "Pagination": () => (/* reexport safe */ _modules_pagination_pagination_js__WEBPACK_IMPORTED_MODULE_5__["default"]),
-/* harmony export */   "Parallax": () => (/* reexport safe */ _modules_parallax_parallax_js__WEBPACK_IMPORTED_MODULE_7__["default"]),
-/* harmony export */   "Scrollbar": () => (/* reexport safe */ _modules_scrollbar_scrollbar_js__WEBPACK_IMPORTED_MODULE_6__["default"]),
-/* harmony export */   "Swiper": () => (/* reexport safe */ _core_core_js__WEBPACK_IMPORTED_MODULE_0__["default"]),
-/* harmony export */   "Thumbs": () => (/* reexport safe */ _modules_thumbs_thumbs_js__WEBPACK_IMPORTED_MODULE_14__["default"]),
-/* harmony export */   "Virtual": () => (/* reexport safe */ _modules_virtual_virtual_js__WEBPACK_IMPORTED_MODULE_1__["default"]),
-/* harmony export */   "Zoom": () => (/* reexport safe */ _modules_zoom_zoom_js__WEBPACK_IMPORTED_MODULE_8__["default"]),
+/* harmony export */   A11y: () => (/* reexport safe */ _modules_a11y_a11y_js__WEBPACK_IMPORTED_MODULE_10__["default"]),
+/* harmony export */   Autoplay: () => (/* reexport safe */ _modules_autoplay_autoplay_js__WEBPACK_IMPORTED_MODULE_13__["default"]),
+/* harmony export */   Controller: () => (/* reexport safe */ _modules_controller_controller_js__WEBPACK_IMPORTED_MODULE_9__["default"]),
+/* harmony export */   EffectCards: () => (/* reexport safe */ _modules_effect_cards_effect_cards_js__WEBPACK_IMPORTED_MODULE_23__["default"]),
+/* harmony export */   EffectCoverflow: () => (/* reexport safe */ _modules_effect_coverflow_effect_coverflow_js__WEBPACK_IMPORTED_MODULE_21__["default"]),
+/* harmony export */   EffectCreative: () => (/* reexport safe */ _modules_effect_creative_effect_creative_js__WEBPACK_IMPORTED_MODULE_22__["default"]),
+/* harmony export */   EffectCube: () => (/* reexport safe */ _modules_effect_cube_effect_cube_js__WEBPACK_IMPORTED_MODULE_19__["default"]),
+/* harmony export */   EffectFade: () => (/* reexport safe */ _modules_effect_fade_effect_fade_js__WEBPACK_IMPORTED_MODULE_18__["default"]),
+/* harmony export */   EffectFlip: () => (/* reexport safe */ _modules_effect_flip_effect_flip_js__WEBPACK_IMPORTED_MODULE_20__["default"]),
+/* harmony export */   FreeMode: () => (/* reexport safe */ _modules_free_mode_free_mode_js__WEBPACK_IMPORTED_MODULE_15__["default"]),
+/* harmony export */   Grid: () => (/* reexport safe */ _modules_grid_grid_js__WEBPACK_IMPORTED_MODULE_16__["default"]),
+/* harmony export */   HashNavigation: () => (/* reexport safe */ _modules_hash_navigation_hash_navigation_js__WEBPACK_IMPORTED_MODULE_12__["default"]),
+/* harmony export */   History: () => (/* reexport safe */ _modules_history_history_js__WEBPACK_IMPORTED_MODULE_11__["default"]),
+/* harmony export */   Keyboard: () => (/* reexport safe */ _modules_keyboard_keyboard_js__WEBPACK_IMPORTED_MODULE_2__["default"]),
+/* harmony export */   Manipulation: () => (/* reexport safe */ _modules_manipulation_manipulation_js__WEBPACK_IMPORTED_MODULE_17__["default"]),
+/* harmony export */   Mousewheel: () => (/* reexport safe */ _modules_mousewheel_mousewheel_js__WEBPACK_IMPORTED_MODULE_3__["default"]),
+/* harmony export */   Navigation: () => (/* reexport safe */ _modules_navigation_navigation_js__WEBPACK_IMPORTED_MODULE_4__["default"]),
+/* harmony export */   Pagination: () => (/* reexport safe */ _modules_pagination_pagination_js__WEBPACK_IMPORTED_MODULE_5__["default"]),
+/* harmony export */   Parallax: () => (/* reexport safe */ _modules_parallax_parallax_js__WEBPACK_IMPORTED_MODULE_7__["default"]),
+/* harmony export */   Scrollbar: () => (/* reexport safe */ _modules_scrollbar_scrollbar_js__WEBPACK_IMPORTED_MODULE_6__["default"]),
+/* harmony export */   Swiper: () => (/* reexport safe */ _core_core_js__WEBPACK_IMPORTED_MODULE_0__["default"]),
+/* harmony export */   Thumbs: () => (/* reexport safe */ _modules_thumbs_thumbs_js__WEBPACK_IMPORTED_MODULE_14__["default"]),
+/* harmony export */   Virtual: () => (/* reexport safe */ _modules_virtual_virtual_js__WEBPACK_IMPORTED_MODULE_1__["default"]),
+/* harmony export */   Zoom: () => (/* reexport safe */ _modules_zoom_zoom_js__WEBPACK_IMPORTED_MODULE_8__["default"]),
 /* harmony export */   "default": () => (/* reexport safe */ _core_core_js__WEBPACK_IMPORTED_MODULE_0__["default"])
 /* harmony export */ });
 /* harmony import */ var _core_core_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./core/core.js */ "./node_modules/swiper/core/core.js");
@@ -21425,7 +21153,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _modules_effect_creative_effect_creative_js__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ./modules/effect-creative/effect-creative.js */ "./node_modules/swiper/modules/effect-creative/effect-creative.js");
 /* harmony import */ var _modules_effect_cards_effect_cards_js__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! ./modules/effect-cards/effect-cards.js */ "./node_modules/swiper/modules/effect-cards/effect-cards.js");
 /**
- * Swiper 9.0.5
+ * Swiper 9.4.1
  * Most modern mobile touch slider and framework with hardware accelerated transitions
  * https://swiperjs.com
  *
@@ -21433,7 +21161,7 @@ __webpack_require__.r(__webpack_exports__);
  *
  * Released under the MIT License
  *
- * Released on: February 13, 2023
+ * Released on: June 13, 2023
  */
 
 
@@ -21459,6 +21187,918 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
+/***/ }),
+
+/***/ "./src/scripts/classes/Modal.js":
+/*!**************************************!*\
+  !*** ./src/scripts/classes/Modal.js ***!
+  \**************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   Modal: () => (/* binding */ Modal)
+/* harmony export */ });
+/* harmony import */ var gsap__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! gsap */ "./node_modules/gsap/index.js");
+
+class Modal {
+  constructor(modal) {
+    let options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+    this.preventBodyLock = options.preventBodyLock ? true : false, this.modal = modal;
+    this.overlay = this.modal.querySelector('.modal__overlay');
+    this.content = this.modal.querySelector('.modal__content');
+    this.close = this.modal.querySelector('.modal-closer');
+    this.id = this.modal.getAttribute('id');
+    this.openers = document.querySelectorAll('[data-modal-anchor="' + this.id + '"]');
+    this.isInited = false;
+    this.focusableElements = ['a[href]', 'input', 'select', 'textarea', 'button', 'iframe', '[contenteditable]', '[tabindex]:not([tabindex^="-"])'];
+    this.init();
+  }
+  bodyLocker = bool => {
+    const body = document.querySelector('body');
+    if (bool) {
+      body.style.overflow = 'hidden';
+    } else {
+      body.style.overflow = 'auto';
+    }
+  };
+  focusTrap = () => {
+    const firstFocusableElement = this.modal.querySelectorAll(this.focusableElements)[0];
+    const focusableContent = this.modal.querySelectorAll(this.focusableElements);
+    const lastFocusableElement = focusableContent[focusableContent.length - 1];
+    if (focusableContent.length) {
+      const onBtnClickHandler = evt => {
+        const isTabPressed = evt.key === 'Tab' || evt.key === 9;
+        if (evt.key === 'Escape') {
+          document.removeEventListener('keydown', onBtnClickHandler);
+        }
+        if (!isTabPressed) {
+          return;
+        }
+        if (evt.shiftKey) {
+          if (document.activeElement === firstFocusableElement) {
+            lastFocusableElement.focus();
+            evt.preventDefault();
+          }
+        } else {
+          if (document.activeElement === lastFocusableElement) {
+            firstFocusableElement.focus();
+            evt.preventDefault();
+          }
+        }
+      };
+      document.addEventListener('keydown', onBtnClickHandler);
+      firstFocusableElement.focus();
+    }
+  };
+  addListeners = () => {
+    if (this.openers) {
+      this.openers.forEach(opener => {
+        opener.removeEventListener('click', this.openModal);
+      });
+    }
+    document.addEventListener('click', this.closeByOverlayClick);
+    document.addEventListener('keydown', this.closeByEscBtn);
+    if (this.close) {
+      this.close.addEventListener('click', this.closeByBtnClick);
+    }
+  };
+  refresh = () => {
+    document.removeEventListener('click', this.closeByOverlayClick);
+    document.removeEventListener('keydown', this.closeByEscBtn);
+    if (this.close) {
+      this.close.removeEventListener('click', this.closeByBtnClick);
+    }
+    gsap__WEBPACK_IMPORTED_MODULE_0__.gsap.fromTo(this.modal, {
+      display: 'flex'
+    }, {
+      opacity: 0,
+      duration: .6,
+      ease: 'ease-in',
+      onComplete: () => {
+        this.modal.style.display = 'none';
+        //если в модалке есть форма, при закрытии обнуляю поля
+        this.modal.querySelectorAll('form').forEach(f => f.reset());
+      }
+    });
+    !this.preventBodyLock ? this.bodyLocker(false) : null;
+    this.preventBodyLock = false;
+    if (this.openers) {
+      this.openers.forEach(opener => {
+        opener.addEventListener('click', this.openModal);
+      });
+    }
+  };
+  closeByOverlayClick = evt => {
+    if (evt.target === this.overlay) {
+      this.refresh();
+    }
+  };
+  closeByEscBtn = evt => {
+    if (evt.key === "Escape") {
+      this.refresh();
+    }
+  };
+  closeByBtnClick = () => {
+    this.refresh();
+  };
+  openModal = evt => {
+    let title = this.modal.querySelector('.lw-section-title');
+    let desc = this.modal.querySelector('.modal__header-text');
+    let formName = this.modal.querySelector('input[type="hidden"]');
+    if (title) {
+      if (evt.currentTarget.dataset.modalTitle) {
+        title.innerHTML = evt.currentTarget.dataset.modalTitle;
+        formName.value = title.innerText;
+      } else {
+        title.innerHTML = 'Связаться с менеджером';
+      }
+    }
+    if (desc) {
+      if (evt.currentTarget.dataset.modalText) {
+        desc.innerHTML = evt.currentTarget.dataset.modalText;
+      } else {
+        desc.innerHTML = 'Заполните форму, и мы перезвоним Вам';
+      }
+    }
+    evt.preventDefault();
+    this.bodyLocker(true);
+    gsap__WEBPACK_IMPORTED_MODULE_0__.gsap.fromTo(this.modal, {
+      display: 'none',
+      opacity: 0
+    }, {
+      display: 'flex',
+      opacity: 1,
+      duration: .6,
+      ease: 'ease-in',
+      onComplete: () => {
+        this.addListeners();
+        this.focusTrap();
+      }
+    });
+  };
+  show = () => {
+    this.isBodyLocked ? this.bodyLocker(true) : null;
+    gsap__WEBPACK_IMPORTED_MODULE_0__.gsap.fromTo(this.modal, {
+      display: 'none',
+      opacity: 0
+    }, {
+      display: 'flex',
+      opacity: 1,
+      duration: .6,
+      ease: 'ease-in',
+      onComplete: () => {
+        this.addListeners();
+        this.focusTrap();
+      }
+    });
+  };
+  init() {
+    if (this.openers) {
+      this.isInited = true;
+      this.openers.forEach(opener => {
+        opener.addEventListener('click', this.openModal);
+      });
+    } else {
+      console.error('Не добавлена кнопка открытия модального окна, либо в ней не прописан аттр-т: data-modal-anchor={modal-id} ');
+    }
+  }
+}
+
+/***/ }),
+
+/***/ "./src/scripts/modules/add-file-control.js":
+/*!*************************************************!*\
+  !*** ./src/scripts/modules/add-file-control.js ***!
+  \*************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _utils_functions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utils/functions */ "./src/scripts/utils/functions.js");
+
+const container = document.querySelector('.main-input-file-container');
+if (container) {
+  const control = container.querySelector('input[type="file"]');
+  const onChangeHadler = evt => {
+    const opener = evt.target.nextElementSibling;
+    const removeBtn = container.querySelector('.main-input-file-remove-btn');
+    let files = [...evt.target.files];
+    const onClickRemoveFile = () => {
+      evt.target.value = "";
+      files = [];
+      opener.querySelector('span').textContent = "Прикрепить документ";
+      removeBtn.classList.add('disabled');
+      removeBtn.removeEventListener('click', onClickRemoveFile);
+    };
+    if (files.length) {
+      opener.querySelector('span').textContent = `${(0,_utils_functions__WEBPACK_IMPORTED_MODULE_0__.limitStr)(files[0].name, 28)}`;
+      if (removeBtn.classList.contains('disabled')) {
+        removeBtn.classList.remove('disabled');
+        removeBtn.addEventListener('click', onClickRemoveFile);
+      }
+    }
+  };
+  control.addEventListener('change', onChangeHadler);
+}
+
+/***/ }),
+
+/***/ "./src/scripts/modules/form/controlValidationState.js":
+/*!************************************************************!*\
+  !*** ./src/scripts/modules/form/controlValidationState.js ***!
+  \************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   setInvalidStatus: () => (/* binding */ setInvalidStatus),
+/* harmony export */   setValidStatus: () => (/* binding */ setValidStatus)
+/* harmony export */ });
+const setInvalidStatus = field => {
+  !field.classList.contains('invalid-control') ? field.classList.add('invalid-control') : null;
+  field.classList.add('shaker');
+  setTimeout(() => {
+    field.classList.remove('shaker');
+  }, 800);
+};
+const setValidStatus = field => {
+  field.classList.contains('invalid-control') ? field.classList.remove('invalid-control') : null;
+};
+
+
+/***/ }),
+
+/***/ "./src/scripts/modules/form/form-submit.js":
+/*!*************************************************!*\
+  !*** ./src/scripts/modules/form/form-submit.js ***!
+  \*************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _form_validation__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./form-validation */ "./src/scripts/modules/form/form-validation.js");
+
+const btns = document.querySelectorAll('[type="submit"]:not(.quiz__btn--submit)');
+console.log(btns);
+if (btns) {
+  btns.forEach(btn => {
+    btn.addEventListener('click', evt => {
+      evt.preventDefault();
+      (0,_form_validation__WEBPACK_IMPORTED_MODULE_0__.formValidation)(evt.target.closest('form'));
+    });
+  });
+}
+
+/***/ }),
+
+/***/ "./src/scripts/modules/form/form-validation.js":
+/*!*****************************************************!*\
+  !*** ./src/scripts/modules/form/form-validation.js ***!
+  \*****************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   formValidation: () => (/* binding */ formValidation)
+/* harmony export */ });
+/* harmony import */ var gsap__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! gsap */ "./node_modules/gsap/index.js");
+/* harmony import */ var _sendForm__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./sendForm */ "./src/scripts/modules/form/sendForm.js");
+/* harmony import */ var _utils_nodes__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../utils/nodes */ "./src/scripts/utils/nodes.js");
+/* harmony import */ var _controlValidationState__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./controlValidationState */ "./src/scripts/modules/form/controlValidationState.js");
+
+
+
+
+const formValidation = form => {
+  const fields = form.querySelectorAll("[data-required]");
+  fields.forEach(field => {
+    field.addEventListener('change', () => {
+      (0,_controlValidationState__WEBPACK_IMPORTED_MODULE_2__.setValidStatus)(field);
+    });
+    if (field["type"] === 'text') {
+      if (field.value.trim().length < 2) {
+        (0,_controlValidationState__WEBPACK_IMPORTED_MODULE_2__.setInvalidStatus)(field);
+      } else {
+        (0,_controlValidationState__WEBPACK_IMPORTED_MODULE_2__.setValidStatus)(field);
+      }
+    } else if (field.value.length !== 16) {
+      (0,_controlValidationState__WEBPACK_IMPORTED_MODULE_2__.setInvalidStatus)(field);
+    } else {
+      (0,_controlValidationState__WEBPACK_IMPORTED_MODULE_2__.setValidStatus)(field);
+    }
+  });
+  const isInvalid = document.querySelector('.invalid-control');
+  if (!isInvalid) {
+    gsap__WEBPACK_IMPORTED_MODULE_3__.gsap.to(_utils_nodes__WEBPACK_IMPORTED_MODULE_1__.loader, {
+      opacity: 1,
+      visibility: 'visible'
+    });
+    (0,_sendForm__WEBPACK_IMPORTED_MODULE_0__.sendForm)(form);
+  }
+};
+
+/***/ }),
+
+/***/ "./src/scripts/modules/form/sendForm.js":
+/*!**********************************************!*\
+  !*** ./src/scripts/modules/form/sendForm.js ***!
+  \**********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   sendForm: () => (/* binding */ sendForm)
+/* harmony export */ });
+/* harmony import */ var _classes_Modal__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../classes/Modal */ "./src/scripts/classes/Modal.js");
+/* harmony import */ var gsap__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! gsap */ "./node_modules/gsap/index.js");
+/* harmony import */ var _utils_nodes__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../utils/nodes */ "./src/scripts/utils/nodes.js");
+
+
+
+function sendForm(form) {
+  const successModal = document.getElementById('success-modal');
+  const errorModal = document.getElementById('error-modal');
+  function loaderFadeOut() {
+    gsap__WEBPACK_IMPORTED_MODULE_2__.gsap.to(_utils_nodes__WEBPACK_IMPORTED_MODULE_1__.loader, {
+      opacity: 0,
+      visibility: 'hidden'
+    });
+  }
+  function success() {
+    loaderFadeOut();
+    form.reset();
+    new _classes_Modal__WEBPACK_IMPORTED_MODULE_0__.Modal(successModal).show();
+  }
+  function error() {
+    setTimeout(() => {
+      loaderFadeOut();
+      new _classes_Modal__WEBPACK_IMPORTED_MODULE_0__.Modal(errorModal, {
+        preventBodyLock: true
+      }).show();
+    }, 3000);
+  }
+
+  // handle the form submission event
+
+  const data = new FormData(form);
+  ajax(form.method, form.action, data, success, error);
+  function ajax(method, url, data, success, error) {
+    const xhr = new XMLHttpRequest();
+    xhr.open(method, url);
+    xhr.setRequestHeader("Accept", "application/json");
+    xhr.onreadystatechange = function () {
+      if (xhr.readyState !== XMLHttpRequest.DONE) return;
+      if (xhr.status === 200) {
+        if (xhr.response.indexOf('SUCCESS') > -1) {
+          success(xhr.response, xhr.responseType);
+        } else {
+          error(xhr.status, xhr.response, xhr.responseType);
+        }
+      } else {
+        error(xhr.status, xhr.response, xhr.responseType);
+      }
+    };
+    xhr.send(data);
+  }
+  ;
+
+  /*grecaptcha.ready(function() {
+    grecaptcha.execute('6LcN8QojAAAAAO1PL61cpNSsvIGf0HxUgbPazq5h', {action: 'submit'}).then(function(token) {
+      form.querySelector('.g-recaptcha-response').value = token;
+       const data = new FormData(form);
+      ajax(form.method, form.action, data, success, error);
+       function ajax(method, url, data, success, error) {
+        const xhr = new XMLHttpRequest();
+        xhr.open(method, url);
+        xhr.setRequestHeader("Accept", "application/json");
+        xhr.onreadystatechange = function() {
+          if (xhr.readyState !== XMLHttpRequest.DONE) return;
+          if (xhr.status === 200) {
+            if(xhr.response.indexOf('SUCCESS') > -1) {
+              success(xhr.response, xhr.responseType);
+            } else {
+              error(xhr.status, xhr.response, xhr.responseType);
+            }
+          } else {
+            error(xhr.status, xhr.response, xhr.responseType);
+          }
+        };
+        xhr.send(data);
+      };
+     });
+  });*/
+}
+
+/***/ }),
+
+/***/ "./src/scripts/modules/imask.js":
+/*!**************************************!*\
+  !*** ./src/scripts/modules/imask.js ***!
+  \**************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var imask__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! imask */ "./node_modules/imask/esm/index.js");
+
+const phoneFields = document.querySelectorAll('input[type="tel"');
+if (phoneFields) {
+  phoneFields.forEach(field => {
+    (0,imask__WEBPACK_IMPORTED_MODULE_0__["default"])(field, {
+      mask: '+{7}(000)000-00-00'
+    });
+  });
+}
+
+/***/ }),
+
+/***/ "./src/scripts/modules/modal.js":
+/*!**************************************!*\
+  !*** ./src/scripts/modules/modal.js ***!
+  \**************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _classes_Modal__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../classes/Modal */ "./src/scripts/classes/Modal.js");
+
+const modals = document.querySelectorAll('.modal');
+if (modals) {
+  modals.forEach(modal => {
+    new _classes_Modal__WEBPACK_IMPORTED_MODULE_0__.Modal(modal);
+  });
+}
+
+/***/ }),
+
+/***/ "./src/scripts/modules/nav.js":
+/*!************************************!*\
+  !*** ./src/scripts/modules/nav.js ***!
+  \************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _utils_nodes_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utils/nodes.js */ "./src/scripts/utils/nodes.js");
+/* harmony import */ var gsap__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! gsap */ "./node_modules/gsap/index.js");
+
+
+if (_utils_nodes_js__WEBPACK_IMPORTED_MODULE_0__.nav) {
+  const onClickHandler = () => {
+    if (!_utils_nodes_js__WEBPACK_IMPORTED_MODULE_0__.nav.classList.contains('active')) {
+      openNav();
+    } else {
+      closeNav();
+    }
+  };
+  const tl = gsap__WEBPACK_IMPORTED_MODULE_1__.gsap.timeline().pause();
+  tl.fromTo(_utils_nodes_js__WEBPACK_IMPORTED_MODULE_0__.nav, {
+    display: 'none',
+    opacity: 0,
+    classList: 'header__nav'
+  }, {
+    display: 'flex',
+    opacity: 1,
+    duration: .4,
+    classList: 'header__nav active'
+  }).to(_utils_nodes_js__WEBPACK_IMPORTED_MODULE_0__.burger, {
+    rotate: '45deg',
+    duration: .3
+  }, "-=.5").fromTo('.header__nav .nav', {
+    opacity: 0,
+    right: '-100vw'
+  }, {
+    opacity: 1,
+    right: '0',
+    duration: .2,
+    ease: 'ease-in'
+  }, "-=.4");
+  function openNav() {
+    _utils_nodes_js__WEBPACK_IMPORTED_MODULE_0__.burger.removeEventListener('click', onClickHandler);
+    tl.play();
+    setTimeout(() => {
+      addListener();
+    }, 1000);
+  }
+  ;
+  function closeNav() {
+    _utils_nodes_js__WEBPACK_IMPORTED_MODULE_0__.burger.removeEventListener('click', closeNav);
+    removeListener();
+    tl.reverse();
+    setTimeout(() => {
+      _utils_nodes_js__WEBPACK_IMPORTED_MODULE_0__.burger.addEventListener('click', onClickHandler);
+    }, 1000);
+  }
+  ;
+  const addListener = () => {
+    _utils_nodes_js__WEBPACK_IMPORTED_MODULE_0__.burger.addEventListener('click', closeNav);
+    document.addEventListener('click', onOverlayClickCloseNav);
+    document.addEventListener('keydown', onEscClickCloseNav);
+  };
+  const removeListener = () => {
+    document.removeEventListener('click', onOverlayClickCloseNav);
+    document.removeEventListener('keydown', onEscClickCloseNav);
+  };
+  const onOverlayClickCloseNav = evt => {
+    if (evt.target === _utils_nodes_js__WEBPACK_IMPORTED_MODULE_0__.nav) {
+      closeNav();
+    }
+  };
+  const onEscClickCloseNav = evt => {
+    if (evt.key === "Escape" || evt.key === "Esc") {
+      closeNav();
+    }
+  };
+  _utils_nodes_js__WEBPACK_IMPORTED_MODULE_0__.burger.addEventListener('click', onClickHandler);
+}
+
+/***/ }),
+
+/***/ "./src/scripts/modules/quiz/quiz.js":
+/*!******************************************!*\
+  !*** ./src/scripts/modules/quiz/quiz.js ***!
+  \******************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var gsap__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! gsap */ "./node_modules/gsap/index.js");
+/* harmony import */ var _utils_nodes__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../utils/nodes */ "./src/scripts/utils/nodes.js");
+/* harmony import */ var _quizValidation_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./quizValidation.js */ "./src/scripts/modules/quiz/quizValidation.js");
+/* harmony import */ var _form_sendForm__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../form/sendForm */ "./src/scripts/modules/form/sendForm.js");
+
+
+
+
+console.log(_utils_nodes__WEBPACK_IMPORTED_MODULE_0__.loader);
+const quiz = document.querySelector('.quiz');
+if (quiz) {
+  const nextBtn = quiz.querySelector('.quiz__btn--next');
+  const prevBtn = quiz.querySelector('.quiz__btn--prev');
+  const submitBtn = quiz.querySelector('.quiz__btn--submit');
+  const quizFields = quiz.querySelectorAll('.quiz__content-part');
+  let current = 0;
+  const onClickSlideNextStep = () => {
+    if (!!(0,_quizValidation_js__WEBPACK_IMPORTED_MODULE_1__.quizValidation)(quizFields[current])) {
+      quizFields[current].classList.remove('active');
+      quizFields[current + 1].classList.add('active');
+      gsap__WEBPACK_IMPORTED_MODULE_3__.gsap.fromTo(quizFields[current + 1], {
+        opacity: 0
+      }, {
+        opacity: 1,
+        duration: .8,
+        ease: 'ease-in'
+      });
+      current++;
+      if (current - (quizFields.length - 1) === 0) {
+        nextBtn.classList.add('disabled');
+        submitBtn.classList.remove('disabled');
+      } else {
+        if (current >= 1 && prevBtn.classList.contains('disabled')) {
+          console.log('prevBtn remove disabled');
+          prevBtn.classList.remove('disabled');
+        }
+      }
+    }
+  };
+  const onClickSlidePrevStep = () => {
+    quizFields[current].classList.remove('active');
+    quizFields[current - 1].classList.add('active');
+    gsap__WEBPACK_IMPORTED_MODULE_3__.gsap.fromTo(quizFields[current - 1], {
+      opacity: 0
+    }, {
+      opacity: 1,
+      duration: .8,
+      ease: 'ease-in'
+    });
+    current--;
+    if (current === 0) {
+      prevBtn.classList.add('disabled');
+    }
+    if (current - (quizFields.length - 1) !== 0 && !submitBtn.classList.contains('disabled')) {
+      submitBtn.classList.add('disabled');
+      nextBtn.classList.remove('disabled');
+    }
+  };
+  nextBtn.addEventListener('click', onClickSlideNextStep);
+  prevBtn.addEventListener('click', onClickSlidePrevStep);
+  submitBtn.addEventListener('click', evt => {
+    evt.preventDefault();
+    console.log('send form');
+    gsap__WEBPACK_IMPORTED_MODULE_3__.gsap.to(_utils_nodes__WEBPACK_IMPORTED_MODULE_0__.loader, {
+      opacity: 1,
+      visibility: 'visible'
+    });
+    (0,_form_sendForm__WEBPACK_IMPORTED_MODULE_2__.sendForm)(quiz);
+  });
+}
+
+/***/ }),
+
+/***/ "./src/scripts/modules/quiz/quizValidation.js":
+/*!****************************************************!*\
+  !*** ./src/scripts/modules/quiz/quizValidation.js ***!
+  \****************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   quizValidation: () => (/* binding */ quizValidation)
+/* harmony export */ });
+/* harmony import */ var _form_controlValidationState__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../form/controlValidationState */ "./src/scripts/modules/form/controlValidationState.js");
+
+function quizValidation(controlField) {
+  let invalidControls = [];
+  let controls = controlField.querySelectorAll('[data-required]');
+  controls.forEach(control => {
+    (0,_form_controlValidationState__WEBPACK_IMPORTED_MODULE_0__.setValidStatus)(control);
+  });
+  controls.forEach(control => {
+    if (control.value.trim().length < 2) {
+      invalidControls.push(control);
+    }
+    if (control.type === 'tel') {
+      if (control.value.length !== 16) {
+        invalidControls.push(control);
+      }
+    }
+    if (control.type === 'checkbox') {
+      if (!control.checked) {
+        invalidControls.push(control);
+      }
+    }
+  });
+  if (!invalidControls.length) {
+    return true;
+  } else {
+    invalidControls.forEach(control => {
+      (0,_form_controlValidationState__WEBPACK_IMPORTED_MODULE_0__.setInvalidStatus)(control);
+    });
+  }
+}
+
+/***/ }),
+
+/***/ "./src/scripts/modules/quiz/translate-control.js":
+/*!*******************************************************!*\
+  !*** ./src/scripts/modules/quiz/translate-control.js ***!
+  \*******************************************************/
+/***/ (() => {
+
+const required = document.querySelector('#translate_required');
+if (required) {
+  const langField = document.querySelector('.quiz__content-part-field--lang input');
+  const disableBtn = document.querySelector('#translate_not_required');
+  if (!required.checked) {
+    langField.disabled = true;
+  }
+  required.addEventListener('change', () => {
+    if (required.checked) {
+      langField.disabled = false;
+      langField.focus();
+    }
+  });
+  disableBtn.addEventListener('change', () => {
+    if (!required.checked) {
+      langField.disabled = true;
+    }
+  });
+}
+
+/***/ }),
+
+/***/ "./src/scripts/modules/search.js":
+/*!***************************************!*\
+  !*** ./src/scripts/modules/search.js ***!
+  \***************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var gsap__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! gsap */ "./node_modules/gsap/index.js");
+
+const search = document.querySelector('.search');
+if (search) {
+  const opener = document.querySelector('.search-opener');
+  const closer = search.querySelector('.search-closer');
+  const onClickOpenSearchField = () => {
+    gsap__WEBPACK_IMPORTED_MODULE_0__.gsap.to(search, {
+      opacity: 1,
+      top: 0,
+      duration: .7,
+      ease: 'ease-in',
+      onComplete: () => {
+        opener.removeEventListener('click', onClickOpenSearchField);
+        closer.addEventListener('click', closeSearchHandler);
+      }
+    });
+  };
+  const closeSearchHandler = () => {
+    gsap__WEBPACK_IMPORTED_MODULE_0__.gsap.to(search, {
+      opacity: 0,
+      top: '-110%',
+      duration: .7,
+      ease: 'ease-out',
+      onComplete: () => {
+        opener.addEventListener('click', onClickOpenSearchField);
+        closer.removeEventListener('click', closeSearchHandler);
+      }
+    });
+  };
+  opener.addEventListener('click', onClickOpenSearchField);
+}
+
+/***/ }),
+
+/***/ "./src/scripts/modules/swiper.js":
+/*!***************************************!*\
+  !*** ./src/scripts/modules/swiper.js ***!
+  \***************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var swiper__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! swiper */ "./node_modules/swiper/swiper.esm.js");
+
+swiper__WEBPACK_IMPORTED_MODULE_0__["default"].use([swiper__WEBPACK_IMPORTED_MODULE_0__.Thumbs, swiper__WEBPACK_IMPORTED_MODULE_0__.EffectFade, swiper__WEBPACK_IMPORTED_MODULE_0__.Navigation, swiper__WEBPACK_IMPORTED_MODULE_0__.Pagination, swiper__WEBPACK_IMPORTED_MODULE_0__.Autoplay]);
+const topBannerSlider = document.querySelector(".top-banner .swiper");
+if (topBannerSlider) {
+  new swiper__WEBPACK_IMPORTED_MODULE_0__["default"](topBannerSlider, {
+    slidesPerView: 1,
+    spaceBetween: 40,
+    pagination: {
+      el: ".top-banner .swiper-pagination",
+      clickable: true
+    }
+  });
+}
+const sliders = document.querySelectorAll(".main-slider");
+if (sliders) {
+  sliders.forEach(slider => {
+    let isAutoplayEnabled = false;
+    slider.classList.contains("autoplay") ? isAutoplayEnabled = true : isAutoplayEnabled = false;
+    let btnNext = slider.parentNode.querySelector(".slider-section-button-next");
+    let btnPrev = slider.parentNode.querySelector(".slider-section-button-prev");
+    let speed = 300;
+    isAutoplayEnabled ? speed = 3000 : speed = 300;
+    new swiper__WEBPACK_IMPORTED_MODULE_0__["default"](slider, {
+      slidesPerView: "auto",
+      spaceBetween: 0,
+      centerInsufficientSlides: true,
+      speed,
+      navigation: {
+        nextEl: btnNext,
+        prevEl: btnPrev
+      },
+      autoplay: {
+        delay: 2000,
+        disableOnInteraction: false
+      },
+      autoplay: isAutoplayEnabled
+    });
+  });
+}
+
+/***/ }),
+
+/***/ "./src/scripts/utils/functions.js":
+/*!****************************************!*\
+  !*** ./src/scripts/utils/functions.js ***!
+  \****************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   addClass: () => (/* binding */ addClass),
+/* harmony export */   bodyLocker: () => (/* binding */ bodyLocker),
+/* harmony export */   checkClass: () => (/* binding */ checkClass),
+/* harmony export */   getBoundingClientRect: () => (/* binding */ getBoundingClientRect),
+/* harmony export */   getCssPropertyValue: () => (/* binding */ getCssPropertyValue),
+/* harmony export */   getMousePos: () => (/* binding */ getMousePos),
+/* harmony export */   getRadians: () => (/* binding */ getRadians),
+/* harmony export */   lerp: () => (/* binding */ lerp),
+/* harmony export */   limitStr: () => (/* binding */ limitStr),
+/* harmony export */   removeClass: () => (/* binding */ removeClass),
+/* harmony export */   setCssProperty: () => (/* binding */ setCssProperty),
+/* harmony export */   toggleClass: () => (/* binding */ toggleClass)
+/* harmony export */ });
+// работа с классами эл-та
+
+const root = document.querySelector(':root');
+function getCssPropertyValue(name) {
+  return getComputedStyle(root).getPropertyValue(name);
+}
+function setCssProperty(name, value) {
+  root.style.setProperty(name, value);
+}
+function addClass(el, cl) {
+  el.classList.add(cl);
+}
+function removeClass(el, cl) {
+  el.classList.remove(cl);
+}
+function checkClass(el, cl) {
+  return el.classList.contains(cl);
+}
+function toggleClass(el, cl) {
+  el.classList.toggle(cl);
+}
+
+// Linear interpolation
+const lerp = (a, b, n) => (1 - n) * a + n * b;
+
+// Позиция мыши
+const getMousePos = evt => {
+  return {
+    x: evt.clientX,
+    y: evt.clientY
+  };
+};
+
+//получение радиан из градусов(для канваса)
+function getRadians(degrees) {
+  return Math.PI / 180 * degrees;
+}
+
+// Ограничение длины текста по кол-ву символов
+function limitStr(str, n) {
+  if (str.length > n) {
+    return str.slice(0, n) + '...';
+  } else {
+    return str;
+  }
+}
+// запрет скролла у body
+function bodyLocker(bool) {
+  let body = document.querySelector('body');
+  let paddingOffset = window.innerWidth - document.body.offsetWidth + 'px';
+  if (bool) {
+    body.style.overflow = 'hidden';
+    body.style.paddingRight = paddingOffset;
+  } else {
+    body.style.overflow = 'auto';
+    body.style.paddingRight = '0px';
+  }
+}
+
+// вычисление поз-и/размеров эл-та
+function getBoundingClientRect(elem, side) {
+  if (side === 'height') {
+    return elem.getBoundingClientRect().height;
+  }
+  if (side === 'width') {
+    return elem.getBoundingClientRect().width;
+  }
+  if (side === 'top') {
+    return elem.getBoundingClientRect().top;
+  }
+  if (side === 'bottom') {
+    return elem.getBoundingClientRect().bottom;
+  }
+  if (side === 'left') {
+    return elem.getBoundingClientRect().left;
+  }
+  if (side === 'right') {
+    return elem.getBoundingClientRect().right;
+  }
+  if (side === 'x') {
+    return elem.getBoundingClientRect().x;
+  }
+  if (side === 'y') {
+    return elem.getBoundingClientRect().y;
+  }
+}
+
+
+/***/ }),
+
+/***/ "./src/scripts/utils/nodes.js":
+/*!************************************!*\
+  !*** ./src/scripts/utils/nodes.js ***!
+  \************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   burger: () => (/* binding */ burger),
+/* harmony export */   header: () => (/* binding */ header),
+/* harmony export */   loader: () => (/* binding */ loader),
+/* harmony export */   nav: () => (/* binding */ nav)
+/* harmony export */ });
+const burger = document.querySelector('.burger');
+const header = document.querySelector('header');
+const nav = document.querySelector('.header__nav');
+const loader = document.querySelector('.loader');
 
 
 /***/ })
@@ -21532,7 +22172,7 @@ __webpack_require__.r(__webpack_exports__);
 /******/ 	
 /************************************************************************/
 var __webpack_exports__ = {};
-// This entry need to be wrapped in an IIFE because it need to be in strict mode.
+// This entry needs to be wrapped in an IIFE because it needs to be in strict mode.
 (() => {
 "use strict";
 /*!*****************************!*\
@@ -21553,9 +22193,9 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
- //import './modules/svg-map';
-//import './modules/svg-map-chooser';
 
+//import './modules/svg-map';
+//import './modules/svg-map-chooser';
 
 
 

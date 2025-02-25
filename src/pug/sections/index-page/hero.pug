@@ -1,10 +1,24 @@
 include ../../mixins/logo
 section.hero
-  .container.hero__container
-    .svg-map-container.hero__map
-      include ../../components/svg-map
+  .container-fluid
+    .top-banner
+      .swiper
+        .swiper-wrapper
+          .swiper-slide
+            .swiper-slide__content
+              +logo('hero__logo')
+              h1.main-title Центр легализации документов
+              span.main-text Ваш надежный партнер в легализации документов для международного использования!
+              a(href="#").main-link  Подробнее
+          .swiper-slide
+            .swiper-slide__content
+              +logo('hero__logo')
+              h2.main-title Title
+              span.main-text Ваш надежный партнер в легализации документов для международного использования!
+              a(href="#").main-link  Подробнее
+        .swiper-pagination
 
-    .hero__content-wrapper
+    //- .hero__content-wrapper
       .hero__content.hero__content--side
 
         svg(width="50" height="50")
@@ -29,10 +43,6 @@ section.hero
         p.hero__content-title <span>Легализация документов&nbsp;-</span><br/> это действие, направленное на придание законности документу на территории другого государства. Существует два типа легализации документов: консульская и упрощенная форма – апостиль.
 
         +logo('hero__logo')
-        //button(data-modal="map-modal").outline-btn.svg-map-opener
-          span Поиск по карте
-          svg(width="18" height="18")
-            use(xlink:href="./assets/sprite.svg#icon-search")
 
         span.hero__content-text В случае если страна назначения является участником Гаагской конвенции, проведенной 5 октября 1961 года, консульская легализация документов не требуется, — достаточно проставления штампа «Апостиль».
 
