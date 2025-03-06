@@ -1,20 +1,38 @@
 mixin info-card(data)
-  .info-card(class= data.modifier ? `info-card--${data.modifier}` : null)
-    .info-card__header      
-      if data.icon
-        svg(width="40" height="40")
-          use(xlink:href=`./assets/sprite.svg#icon-${data.icon}`)
-      span.info-card-title!= data.title
-    .info-card__content
-      span.info-card-text!= data.text
+  if data.link && data.link !== ''
+    a.info-card(href=data.link class=data.modifier ? `info-card--${data.modifier}` : null)
+      .info-card__header      
+        if data.icon
+          svg(width="40" height="40")
+            use(xlink:href=`./assets/sprite.svg#icon-${data.icon}`)
+        span.info-card-title!= data.title
+      .info-card__content
+        span.info-card-text!= data.text
 
-      if data.note
-        small!= data.note
+        if data.note
+          small!= data.note
 
-      if data.list 
-       .info-card__list
-          each item in data.list
-            span.info-card__list-item!= item.text
+        if data.list 
+          .info-card__list
+            each item in data.list
+              span.info-card__list-item!= item.text
 
-    if data.link
-      a(href= data.link).info-card-bottom-link!= data.linkText
+      if data.link
+        .info-card-bottom-link!= data.linkText
+  else
+    .info-card(class=data.modifier ? `info-card--${data.modifier}` : null)
+      .info-card__header      
+        if data.icon
+          svg(width="40" height="40")
+            use(xlink:href=`./assets/sprite.svg#icon-${data.icon}`)
+        span.info-card-title!= data.title
+      .info-card__content
+        span.info-card-text!= data.text
+
+        if data.note
+          small!= data.note
+
+        if data.list 
+          .info-card__list
+            each item in data.list
+              span.info-card__list-item!= item.text

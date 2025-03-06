@@ -1313,7 +1313,7 @@ h1, h2, h3, h4, h5, h6, p {
   flex-wrap: wrap;
 }
 
-.flex-column, .status-modal__content, .status-modal, .map-modal-controls, .modal__body, .modal__content, .request form, .features__container, .payments__container, .services__container, .about__container, .footer__grid-item--logo, .contact__grid-side, .contact__field, .info-card__list, .info-card, .svg-map-container, .quiz__content-part, .quiz {
+.flex-column, .status-modal__content, .status-modal, .map-modal-controls, .modal__body, .modal__content, .request form, .documents__container, .features__container, .payments__container, .services__container, .about__container, .footer__grid-item--logo, .contact__grid-side, .contact__field, .info-card__list, .info-card, .svg-map-container, .quiz__content-part, .quiz {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -1563,31 +1563,31 @@ h1, h2, h3, h4, h5, h6, p {
   transform: translateY(-50%);
 }
 
-.section-inner-offset, .request, .features, .payments, .review, .client, .services, .about {
+.section-inner-offset, .request, .documents, .features, .payments, .review, .client, .services, .about {
   padding: 120px 0;
 }
 @media (max-width: 1720px) {
-  .section-inner-offset, .request, .features, .payments, .review, .client, .services, .about {
+  .section-inner-offset, .request, .documents, .features, .payments, .review, .client, .services, .about {
     padding: 80px 0;
   }
 }
 @media (max-width: 1440px) {
-  .section-inner-offset, .request, .features, .payments, .review, .client, .services, .about {
+  .section-inner-offset, .request, .documents, .features, .payments, .review, .client, .services, .about {
     padding: 60px 0;
   }
 }
 @media (max-width: 1024px) {
-  .section-inner-offset, .request, .features, .payments, .review, .client, .services, .about {
+  .section-inner-offset, .request, .documents, .features, .payments, .review, .client, .services, .about {
     padding: 40px 0;
   }
 }
 @media (max-width: 960px) {
-  .section-inner-offset, .request, .features, .payments, .review, .client, .services, .about {
+  .section-inner-offset, .request, .documents, .features, .payments, .review, .client, .services, .about {
     padding: 30px 0;
   }
 }
 @media (max-width: 768px) {
-  .section-inner-offset, .request, .features, .payments, .review, .client, .services, .about {
+  .section-inner-offset, .request, .documents, .features, .payments, .review, .client, .services, .about {
     padding: 25px 0;
   }
 }
@@ -1596,7 +1596,7 @@ h1, h2, h3, h4, h5, h6, p {
   margin-bottom: 60px;
 }
 
-.base-section-list, .features__list, .payments__list, .services__list {
+.base-section-list, .documents__list, .features__list, .payments__list, .services__list {
   width: 100%;
   display: -ms-grid;
   display: grid;
@@ -1605,13 +1605,13 @@ h1, h2, h3, h4, h5, h6, p {
   grid-gap: 40px;
 }
 @media (max-width: 1024px) {
-  .base-section-list, .features__list, .payments__list, .services__list {
+  .base-section-list, .documents__list, .features__list, .payments__list, .services__list {
     -ms-grid-columns: (1fr)[2];
     grid-template-columns: repeat(2, 1fr);
   }
 }
 @media (max-width: 768px) {
-  .base-section-list, .features__list, .payments__list, .services__list {
+  .base-section-list, .documents__list, .features__list, .payments__list, .services__list {
     -ms-grid-columns: 1fr;
     grid-template-columns: 1fr;
     grid-gap: 20px;
@@ -3056,6 +3056,31 @@ h1, h2, h3, h4, h5, h6, p {
   font-size: 24px;
   color: var(--text);
 }
+.documents__container {
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  max-width: 1440px;
+}
+.documents__text {
+  text-align: center;
+  margin-bottom: 40px;
+  font-size: 24px;
+  color: var(--text);
+}
+.documents__list li:last-child {
+  background-color: var(--accent);
+}
+.documents__list li:last-child .info-card-title {
+  color: var(--white);
+}
+.documents__list li:last-child .info-card-title::before {
+  background-color: var(--white);
+}
+.documents__list li:last-child .info-card-text {
+  color: var(--white);
+}
+
 .request {
   padding-bottom: 0;
 }
