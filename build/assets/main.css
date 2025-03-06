@@ -1313,7 +1313,7 @@ h1, h2, h3, h4, h5, h6, p {
   flex-wrap: wrap;
 }
 
-.flex-column, .status-modal__content, .status-modal, .map-modal-controls, .modal__body, .modal__content, .request form, .about__container, .footer__grid-item--logo, .contact__grid-side, .contact__field, .svg-map-container, .quiz__content-part, .quiz {
+.flex-column, .status-modal__content, .status-modal, .map-modal-controls, .modal__body, .modal__content, .request form, .services__container, .about__container, .footer__grid-item--logo, .contact__grid-side, .contact__field, .info-card__list, .info-card, .svg-map-container, .quiz__content-part, .quiz {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -1563,37 +1563,77 @@ h1, h2, h3, h4, h5, h6, p {
   transform: translateY(-50%);
 }
 
-.section-inner-offset, .request, .review, .client, .about {
+.section-inner-offset, .request, .review, .client, .services, .about {
   padding: 120px 0;
 }
 @media (max-width: 1720px) {
-  .section-inner-offset, .request, .review, .client, .about {
+  .section-inner-offset, .request, .review, .client, .services, .about {
     padding: 80px 0;
   }
 }
 @media (max-width: 1440px) {
-  .section-inner-offset, .request, .review, .client, .about {
+  .section-inner-offset, .request, .review, .client, .services, .about {
     padding: 60px 0;
   }
 }
 @media (max-width: 1024px) {
-  .section-inner-offset, .request, .review, .client, .about {
+  .section-inner-offset, .request, .review, .client, .services, .about {
     padding: 40px 0;
   }
 }
 @media (max-width: 960px) {
-  .section-inner-offset, .request, .review, .client, .about {
+  .section-inner-offset, .request, .review, .client, .services, .about {
     padding: 30px 0;
   }
 }
 @media (max-width: 768px) {
-  .section-inner-offset, .request, .review, .client, .about {
+  .section-inner-offset, .request, .review, .client, .services, .about {
     padding: 25px 0;
   }
 }
 
 .section-bottom-offset, .request, .client {
   margin-bottom: 60px;
+}
+
+.base-section-list, .services__list {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: (1fr)[3];
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 40px;
+}
+@media (max-width: 1024px) {
+  .base-section-list, .services__list {
+    -ms-grid-columns: (1fr)[2];
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (max-width: 768px) {
+  .base-section-list, .services__list {
+    -ms-grid-columns: 1fr;
+    grid-template-columns: 1fr;
+    grid-gap: 20px;
+  }
+}
+
+/*title*/
+.card-title, .info-card-title {
+  position: relative;
+  font-weight: 400;
+  font-size: 26px;
+  line-height: 1;
+  padding-bottom: 15px;
+  color: var(--dark);
+}
+.card-title::before, .info-card-title::before {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  content: "";
+  width: 100px;
+  height: 4px;
+  background-color: var(--accent);
 }
 
 /*text*/
@@ -2416,6 +2456,64 @@ h1, h2, h3, h4, h5, h6, p {
   }*/
 }
 
+.info-card {
+  padding: 40px;
+  gap: 20px;
+  height: 100%;
+  min-height: 330px;
+  border: 1px solid #dadada;
+  -webkit-box-shadow: 0px 0px 4px #3d3f42;
+  box-shadow: 0px 0px 4px #3d3f42;
+}
+.info-card__header {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  gap: 20px;
+}
+.info-card-text {
+  font-weight: 400;
+  font-size: 16px;
+  color: var(--text);
+}
+.info-card-bottom-link {
+  font-weight: 400;
+  font-size: 18px;
+  color: var(--accent);
+  margin-top: auto;
+}
+.info-card__list {
+  gap: 5px;
+  padding-left: 20px;
+}
+.info-card__list-item {
+  position: relative;
+  font-weight: 400;
+  font-size: 16px;
+  color: var(--text);
+}
+.info-card__list-item::before {
+  position: absolute;
+  top: 10px;
+  left: -15px;
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: var(--text);
+}
+.info-card svg {
+  fill: var(--accent);
+  height: 100%;
+  width: 100%;
+  max-width: 40px;
+  max-height: 40px;
+  aspect-ratio: 1/1;
+}
+
 .social__list {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -2840,6 +2938,18 @@ h1, h2, h3, h4, h5, h6, p {
   color: var(--brown);
 }
 
+.services__container {
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  max-width: 1440px;
+}
+.services__text {
+  text-align: center;
+  margin-bottom: 40px;
+  font-size: 24px;
+  color: var(--text);
+}
 .request {
   padding-bottom: 0;
 }
