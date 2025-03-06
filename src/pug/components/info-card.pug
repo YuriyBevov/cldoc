@@ -1,5 +1,41 @@
 mixin info-card(data)
-  if data.link && data.link !== ''
+
+  #{data.tag ? data.tag : 'div'}(href= data.tag == 'a' ? '#' : null class= data.cls ? data.cls : null).info-card
+    if data.num
+      span(aria-hidden="true").info-card__num!= data.num
+    .info-card__header
+      if data.icon
+        img(src="./assets/img/icon-services.svg" alt="" width="40" height="")
+      span.info-card-title!= data.title
+    .info-card__content.content-block!= data.content
+
+    if data.small
+      small!= data.small
+
+
+
+
+
+          //- {
+  //-     icon: "services-2",
+  //-     title: 'Консульская легализация',
+  //-     text: '',
+  //-     list: [
+  //-       {text: 'Легализация личных документов граждан'},
+  //-       {text: 'Легализация документов компаний, в т.ч. касающихся внешнеэкономической деятельности'},
+  //-     ],
+  //-     link: '#',
+  //-     linkText: 'Подробнее'
+  //-   },
+  //-   {
+  //-     icon: "services-3",
+  //-     title: 'Переводы документов',
+  //-     text: 'Точность и скорость в каждом переводе. Мы делаем документы понятными по всему миру.Ваш надежный мост в международное пространство. Переводы и легализация документов с гарантией качества.',
+  //-     list: [ ],
+  //-     link: '#',
+  //-     linkText: 'Подробнее'
+  //-   }
+  //if data.link && data.link !== ''
     a.info-card(href=data.link class=data.modifier ? `info-card--${data.modifier}` : null)
       .info-card__header
         if data.icon
@@ -19,7 +55,7 @@ mixin info-card(data)
 
       if data.link
         small!= data.linkText
-  else
+  //else
     .info-card(class=data.modifier ? `info-card--${data.modifier}` : null)
       .info-card__header
         if data.icon
@@ -38,3 +74,4 @@ mixin info-card(data)
           .info-card__list
             each item in data.list
               span.info-card__list-item!= item.text
+

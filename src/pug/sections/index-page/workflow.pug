@@ -2,11 +2,11 @@ include ../../mixins/section-title
 include ../../components/info-card
 include ../../content/works-list
 
-section.works
-  .container.works__container(id="container" class="container")
+section.workflow
+  .container.workflow__container(id="container" class="container")
     +section-title('Как мы работаем')
-       
-    ul.works__list.base-section-list--2cols
+
+    ul.workflow__list.base-section-list--2cols
       each item in worksList
         li
           +info-card(item)
