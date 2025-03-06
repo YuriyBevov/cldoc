@@ -269,6 +269,7 @@
 }
 
 .base-section-list {
+  width: 100%;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-gap: 40px;
@@ -283,12 +284,57 @@
   }
 }
 
+.base-section-list--4cols {
+  @include m-b-tablet-down {
+    grid-template-columns: 1fr;
+  }
+  @include m-b-tablet-up {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  @include m-b-laptop-up {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  @include m-b-desktop-up {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  @include m-b-desktop-lg-up {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.base-section-list--3cols {
+  @include m-b-tablet-down {
+    grid-template-columns: 1fr;
+  }
+  @include m-b-tablet-up {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  @include m-b-laptop-up {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  @include m-b-desktop-up {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  @include m-b-desktop-lg-up {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.base-section-list--2cols {
+  @include m-b-tablet-down {
+    grid-template-columns: 1fr;
+  }
+  @include m-b-tablet-lg-down {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
 /*title*/
 
 .card-title {
   position: relative;
   font-weight: 400;
-  font-size: 26px;
+  font-size: 24px;
   line-height: 1;
   padding-bottom: 15px;
   color: var(--dark);
