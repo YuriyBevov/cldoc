@@ -7,8 +7,6 @@
 @import "extends";
 @import "common";
 
-
-
 /* Компоненты */
 @import "./components/loader";
 @import "./components/quiz";
@@ -21,6 +19,7 @@
 @import "./components/burger";
 @import "./components/slider-section";
 @import "./components/svg-map";
+@import "./components/info-card";
 @import "./components/social";
 @import "./components/section-tabs";
 @import "./components/contact-card";
@@ -31,8 +30,13 @@
 /* Секции */
 @import "./sections/index-page/hero";
 @import "./sections/index-page/about";
+@import "./sections/index-page/services";
 @import "./sections/index-page/client";
 @import "./sections/index-page/review";
+@import "./sections/index-page/payments";
+@import "./sections/index-page/features";
+@import "./sections/index-page/documents";
+@import "./sections/index-page/works";
 @import "./sections/index-page/request";
 @import "./sections/prices-page/prices";
 @import "./sections/common/info-section";
