@@ -214,7 +214,7 @@
   padding: 5px 130px;
   text-align: center;
   margin: 0 auto;
-  margin-bottom: 60px;
+  margin-bottom: 40px;
 
   @include m-b-mobile-lg-down {
     padding: 5px 10px;
@@ -271,17 +271,7 @@
 .base-section-list {
   width: 100%;
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
   grid-gap: 40px;
-
-  @include m-b-laptop-down {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  @include m-b-tablet-down {
-    grid-template-columns: 1fr;
-    grid-gap: 20px;
-  }
 }
 
 .base-section-list--4cols {
@@ -324,7 +314,7 @@
   @include m-b-tablet-down {
     grid-template-columns: 1fr;
   }
-  @include m-b-tablet-lg-down {
+  @include m-b-tablet-up {
     grid-template-columns: repeat(2, 1fr);
   }
 }

@@ -1536,7 +1536,7 @@ h1, h2, h3, h4, h5, h6, p {
   padding: 5px 130px;
   text-align: center;
   margin: 0 auto;
-  margin-bottom: 60px;
+  margin-bottom: 40px;
 }
 @media (max-width: 534px) {
   .section-title {
@@ -1563,31 +1563,31 @@ h1, h2, h3, h4, h5, h6, p {
   transform: translateY(-50%);
 }
 
-.section-inner-offset, .request, .documents, .features, .payments, .review, .client, .services, .about {
+.section-inner-offset, .request, .works, .documents, .features, .payments, .review, .client, .services, .about {
   padding: 120px 0;
 }
 @media (max-width: 1720px) {
-  .section-inner-offset, .request, .documents, .features, .payments, .review, .client, .services, .about {
+  .section-inner-offset, .request, .works, .documents, .features, .payments, .review, .client, .services, .about {
     padding: 80px 0;
   }
 }
 @media (max-width: 1440px) {
-  .section-inner-offset, .request, .documents, .features, .payments, .review, .client, .services, .about {
+  .section-inner-offset, .request, .works, .documents, .features, .payments, .review, .client, .services, .about {
     padding: 60px 0;
   }
 }
 @media (max-width: 1024px) {
-  .section-inner-offset, .request, .documents, .features, .payments, .review, .client, .services, .about {
+  .section-inner-offset, .request, .works, .documents, .features, .payments, .review, .client, .services, .about {
     padding: 40px 0;
   }
 }
 @media (max-width: 960px) {
-  .section-inner-offset, .request, .documents, .features, .payments, .review, .client, .services, .about {
+  .section-inner-offset, .request, .works, .documents, .features, .payments, .review, .client, .services, .about {
     padding: 30px 0;
   }
 }
 @media (max-width: 768px) {
-  .section-inner-offset, .request, .documents, .features, .payments, .review, .client, .services, .about {
+  .section-inner-offset, .request, .works, .documents, .features, .payments, .review, .client, .services, .about {
     padding: 25px 0;
   }
 }
@@ -1596,26 +1596,11 @@ h1, h2, h3, h4, h5, h6, p {
   margin-bottom: 60px;
 }
 
-.base-section-list, .documents__list, .features__list, .payments__list, .services__list {
+.base-section-list, .works__list, .documents__list, .features__list, .payments__list, .services__list {
   width: 100%;
   display: -ms-grid;
   display: grid;
-  -ms-grid-columns: (1fr)[3];
-  grid-template-columns: repeat(3, 1fr);
   grid-gap: 40px;
-}
-@media (max-width: 1024px) {
-  .base-section-list, .documents__list, .features__list, .payments__list, .services__list {
-    -ms-grid-columns: (1fr)[2];
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-@media (max-width: 768px) {
-  .base-section-list, .documents__list, .features__list, .payments__list, .services__list {
-    -ms-grid-columns: 1fr;
-    grid-template-columns: 1fr;
-    grid-gap: 20px;
-  }
 }
 
 @media (max-width: 768px) {
@@ -1686,7 +1671,7 @@ h1, h2, h3, h4, h5, h6, p {
     grid-template-columns: 1fr;
   }
 }
-@media (max-width: 960px) {
+@media (min-width: 767px) {
   .base-section-list--2cols {
     -ms-grid-columns: (1fr)[2];
     grid-template-columns: repeat(2, 1fr);
@@ -3081,6 +3066,42 @@ h1, h2, h3, h4, h5, h6, p {
   color: var(--white);
 }
 
+.works .info-card {
+  background-image: url("../assets/img/works.svg");
+  background-position: center;
+  background-size: 90px 140px;
+  background-position: left 20px top 20px;
+  background-repeat: no-repeat;
+}
+.works__container {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 3fr 6fr;
+  grid-template-columns: 3fr 6fr;
+  gap: 20px;
+  max-width: 1440px;
+}
+@media (max-width: 1200px) {
+  .works__container {
+    -ms-grid-columns: 1fr;
+    grid-template-columns: 1fr;
+  }
+}
+.works .section-title {
+  padding: 0;
+  text-align: start;
+}
+@media (max-width: 1200px) {
+  .works .section-title {
+    text-align: center;
+  }
+}
+.works__text {
+  text-align: center;
+  margin-bottom: 40px;
+  font-size: 24px;
+  color: var(--text);
+}
 .request {
   padding-bottom: 0;
 }
