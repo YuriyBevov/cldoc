@@ -1,6 +1,11 @@
-mixin section-title(title, isControlsExist)
-  .section-title
-    span!= title
+mixin section-header(data, isControlsExist)
+  .section-header
+    if data.title
+      .section-title
+        span!= data.title
+    if data.text
+      .section-text
+        span!= data.text
     if isControlsExist
       .slider-section-controls
         button.swiper-button-prev.slider-section-button-prev

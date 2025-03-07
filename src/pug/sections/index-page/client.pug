@@ -1,4 +1,4 @@
-include ../../mixins/section-title
+include ../../mixins/section-header
 
 -
   const clientList = [
@@ -102,7 +102,7 @@ include ../../mixins/section-title
 
 section.slider-section.client
   .container
-    +section-title('Наши клиенты', true)
+    +section-header({title: "Наши клиенты"}, true)
 
     .main-slider.main-slider--client.autoplay
       .swiper-wrapper

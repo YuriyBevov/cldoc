@@ -1,10 +1,10 @@
-include ../../mixins/section-title
+include ../../mixins/section-header
 include ../../components/info-card
 include ../../content/payments-list
 
 section.payments
   .container.payments__container(id="container" class="container")
-    +section-title('Способы оплаты')
+    +section-header({title: "Способы оплаты"})
 
     ul.base-section-list.base-section-list--4cols
       each item in paymentsList
