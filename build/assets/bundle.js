@@ -21420,10 +21420,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 const collapsedItems = document.querySelectorAll("[data-collapsed-text]");
-console.log("collapsedItems", collapsedItems);
 if (collapsedItems.length) {
   const reviewModal = document.querySelector(".expanded-text-modal");
-  console.log("reviewModal", reviewModal);
   collapsedItems.forEach(item => {
     const originalText = item.innerHTML;
     item.innerHTML = (0,_utils_limitStr__WEBPACK_IMPORTED_MODULE_1__.limitStr)(originalText, item.dataset.collapsedText);

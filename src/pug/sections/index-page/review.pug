@@ -8,6 +8,13 @@ section.review.slider-section
   .container
     +section-header({title: "Отзывы"}, true)
     +section-tabs(tabsList)
+    .section-tabs
+      .section-tabs__container
+        each item in tabsList
+          span(tabindex="0")!= item.title 
+
+      script.
+        console.log("tabsList from Pug:", !{JSON.stringify(tabsList)});
 
     .main-slider.main-slider--review
       .swiper-wrapper
@@ -15,4 +22,4 @@ section.review.slider-section
           .swiper-slide
             +review-card(item)
 
-      .swiper-pagination   
+      .swiper-pagination

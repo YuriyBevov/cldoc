@@ -3,11 +3,8 @@ import { limitStr } from "../utils/limitStr";
 
 const collapsedItems = document.querySelectorAll("[data-collapsed-text]");
 
-console.log("collapsedItems", collapsedItems);
-
 if (collapsedItems.length) {
   const reviewModal = document.querySelector(".expanded-text-modal");
-  console.log("reviewModal", reviewModal);
 
   collapsedItems.forEach((item) => {
     const originalText = item.innerHTML;

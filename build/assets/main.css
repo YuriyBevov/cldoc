@@ -1305,7 +1305,7 @@ h1, h2, h3, h4, h5, h6, p {
 }
 
 /* flex*/
-.flex-wrap, .tabs, .quiz-modal__footer, .section-tabs__container, .review-card__header-content-footer, .review-card__header, .nav__list, .breadcrumbs__list, .header__action, .header__contacts, .header__container, .quiz__footer-container, .main-input-file-container label {
+.flex-wrap, .tabs, .quiz-modal__footer, .review .section-tabs__container, .section-tabs__container, .review-card__header-content-footer, .review-card__header, .nav__list, .breadcrumbs__list, .header__action, .header__contacts, .header__container, .quiz__footer-container, .main-input-file-container label {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -2638,6 +2638,7 @@ h1, h2, h3, h4, h5, h6, p {
   background-color: transparent;
   border: none;
   margin-top: 20px;
+  cursor: pointer;
 }
 .review-card__header {
   gap: 20px;
@@ -3116,6 +3117,26 @@ h1, h2, h3, h4, h5, h6, p {
   font-size: 24px;
   color: var(--text);
 }
+.review .section-tabs__container {
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  gap: 30px;
+}
+.review .section-tabs__container span {
+  font-weight: 600;
+  font-size: 26px;
+  -webkit-transition: color var(--main-transition);
+  transition: color var(--main-transition);
+  cursor: pointer;
+}
+.review .section-tabs__container span::before {
+  content: none;
+}
+.review .section-tabs__container span:hover, .review .section-tabs__container span:focus {
+  color: var(--accent);
+}
+
 .payments__container {
   -webkit-box-align: center;
   -ms-flex-align: center;
