@@ -21407,6 +21407,41 @@ if (container) {
 
 /***/ }),
 
+/***/ "./src/scripts/modules/collapsed-text.js":
+/*!***********************************************!*\
+  !*** ./src/scripts/modules/collapsed-text.js ***!
+  \***********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _classes_Modal__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../classes/Modal */ "./src/scripts/classes/Modal.js");
+/* harmony import */ var _utils_limitStr__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../utils/limitStr */ "./src/scripts/utils/limitStr.js");
+
+
+const collapsedItems = document.querySelectorAll("[data-collapsed-text]");
+console.log("collapsedItems", collapsedItems);
+if (collapsedItems.length) {
+  const reviewModal = document.querySelector(".expanded-text-modal");
+  console.log("reviewModal", reviewModal);
+  collapsedItems.forEach(item => {
+    const originalText = item.innerHTML;
+    item.innerHTML = (0,_utils_limitStr__WEBPACK_IMPORTED_MODULE_1__.limitStr)(originalText, item.dataset.collapsedText);
+    const length = originalText.length;
+    if (length > item.dataset.collapsedText) {
+      const showBtn = document.createElement("button");
+      showBtn.innerHTML = item.dataset.collapsedBtnText;
+      item.append(showBtn);
+      showBtn.addEventListener("click", () => {
+        reviewModal.querySelector(".modal-text").innerHTML = item.dataset.expandedText;
+        new _classes_Modal__WEBPACK_IMPORTED_MODULE_0__.Modal(reviewModal).show();
+      });
+    }
+  });
+}
+
+/***/ }),
+
 /***/ "./src/scripts/modules/form/controlValidationState.js":
 /*!************************************************************!*\
   !*** ./src/scripts/modules/form/controlValidationState.js ***!
@@ -21950,9 +21985,17 @@ if (sliders) {
     let speed = 300;
     isAutoplayEnabled ? speed = 3000 : speed = 300;
     new swiper__WEBPACK_IMPORTED_MODULE_0__["default"](slider, {
-      slidesPerView: "auto",
+      slidesPerView: 1,
+      breakpoints: {
+        767: {
+          slidesPerView: 2
+        },
+        1139: {
+          slidesPerView: 3
+        }
+      },
       spaceBetween: 0,
-      centerInsufficientSlides: true,
+      centerInsufficientSlides: false,
       speed,
       navigation: {
         nextEl: btnNext,
@@ -21962,7 +22005,12 @@ if (sliders) {
         delay: 2000,
         disableOnInteraction: false
       },
-      autoplay: isAutoplayEnabled
+      autoplay: isAutoplayEnabled,
+      pagination: {
+        el: ".main-slider .swiper-pagination",
+        dynamicBullets: true,
+        clickable: true
+      }
     });
   });
 }
@@ -22081,6 +22129,27 @@ function getBoundingClientRect(elem, side) {
 
 /***/ }),
 
+/***/ "./src/scripts/utils/limitStr.js":
+/*!***************************************!*\
+  !*** ./src/scripts/utils/limitStr.js ***!
+  \***************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   limitStr: () => (/* binding */ limitStr)
+/* harmony export */ });
+function limitStr(str, n) {
+  if (str.length > n) {
+    return str.slice(0, n) + '...';
+  } else {
+    return str;
+  }
+}
+
+/***/ }),
+
 /***/ "./src/scripts/utils/nodes.js":
 /*!************************************!*\
   !*** ./src/scripts/utils/nodes.js ***!
@@ -22183,19 +22252,23 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _modules_swiper__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./modules/swiper */ "./src/scripts/modules/swiper.js");
 /* harmony import */ var _modules_imask__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./modules/imask */ "./src/scripts/modules/imask.js");
 /* harmony import */ var _modules_modal__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./modules/modal */ "./src/scripts/modules/modal.js");
-/* harmony import */ var _modules_search__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./modules/search */ "./src/scripts/modules/search.js");
-/* harmony import */ var _modules_add_file_control__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./modules/add-file-control */ "./src/scripts/modules/add-file-control.js");
-/* harmony import */ var _modules_quiz_quiz__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./modules/quiz/quiz */ "./src/scripts/modules/quiz/quiz.js");
-/* harmony import */ var _modules_quiz_translate_control__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./modules/quiz/translate-control */ "./src/scripts/modules/quiz/translate-control.js");
-/* harmony import */ var _modules_quiz_translate_control__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(_modules_quiz_translate_control__WEBPACK_IMPORTED_MODULE_7__);
-/* harmony import */ var _modules_form_form_submit__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./modules/form/form-submit */ "./src/scripts/modules/form/form-submit.js");
+/* harmony import */ var _modules_collapsed_text__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./modules/collapsed-text */ "./src/scripts/modules/collapsed-text.js");
+/* harmony import */ var _modules_search__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./modules/search */ "./src/scripts/modules/search.js");
+/* harmony import */ var _modules_add_file_control__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./modules/add-file-control */ "./src/scripts/modules/add-file-control.js");
+/* harmony import */ var _modules_quiz_quiz__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./modules/quiz/quiz */ "./src/scripts/modules/quiz/quiz.js");
+/* harmony import */ var _modules_quiz_translate_control__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./modules/quiz/translate-control */ "./src/scripts/modules/quiz/translate-control.js");
+/* harmony import */ var _modules_quiz_translate_control__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(_modules_quiz_translate_control__WEBPACK_IMPORTED_MODULE_8__);
+/* harmony import */ var _modules_form_form_submit__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./modules/form/form-submit */ "./src/scripts/modules/form/form-submit.js");
+/* harmony import */ var _utils_limitStr__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./utils/limitStr */ "./src/scripts/utils/limitStr.js");
 //import "./modules/burger";
+
 
 
 
 
 //import './modules/svg-map';
 //import './modules/svg-map-chooser';
+
 
 
 

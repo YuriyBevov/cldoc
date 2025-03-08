@@ -20,6 +20,7 @@
 @import "./components/slider-section";
 @import "./components/svg-map";
 @import "./components/info-card";
+@import "./components/review-card";
 @import "./components/social";
 @import "./components/section-tabs";
 @import "./components/contact-card";
@@ -46,3 +47,7 @@
 @import "./modals/map-modal";
 @import "./modals/quiz-modal";
 @import "./modals/status-modal";
+@import "./modals/expanded-text-modal";
+
+/*mixins*/
+@import "./mixins/tabs-list";

@@ -1,0 +1,28 @@
+.expanded-text-modal {
+  @extend .flex-column;
+
+  .modal__content {
+    padding: 25px;
+  }
+
+  .modal__body {
+    margin-top: auto;
+    padding-top: 60px;
+
+    .modal-text {
+      font-weight: 400;
+      font-size: 16px;
+      color: var(--dark);
+    }
+  }
+
+  .modal-closer {
+    top: 20px;
+    right: 20px;
+  }
+
+  .logo {
+    top: 10px;
+    left: 15px;
+  }
+}
