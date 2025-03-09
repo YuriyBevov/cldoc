@@ -101,13 +101,14 @@ include ../../mixins/section-header
   ]
 
 section.slider-section.client
-  .container
+  .container-fluid
     +section-header({title: "Наши клиенты"}, true)
 
-    .main-slider.main-slider--client.autoplay
+    .infinity-slider
       .swiper-wrapper
         each client in clientList
           .swiper-slide
             svg(width= client.icon.width height= client.icon.height aria-label= client.name)
               use(xlink:href=`./assets/sprite.svg#icon-client-${client.icon.name}`)
+      .swiper-pagination
 

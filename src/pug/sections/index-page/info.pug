@@ -3,33 +3,36 @@ include ../../mixins/main-btn
 include ../../mixins/custom-select
 
 section.info
-  .container.info__container(id="container" class="container")
-    .info__content
-      +section-header({title: "Легализация или Апостиль? <br> Узнайте за секунду!"})
-      .section-text 
-        p Выберите страну, и мы подскажем, какая услуга вам нужна. Всё просто и быстро!
-      .info__content-form  
-          +custom-select({
-            id: 'country_type',
-            options: [
-              { value: '', name: 'Выберите страну', isSelected: true},
-              { value: 'russia', name: 'Россия'},
-              { value: 'usa', name: 'США'},
-              { value: 'germany', name: 'Германия'},
-              { value: 'france', name: 'Франция'},
-              { value: 'france', name: 'Франция'},
-              { value: 'france', name: 'Франция'},
-              { value: 'france', name: 'Франция'},
-              { value: 'france', name: 'Франция'},
-            ]
-          })
-          +main-btn({
-            type: "submit",
-            title: 'Узнать какая услуга нужна',
-          })
-    .info__img--map 
+  .container
+    // info__content
+
+    .info-wrapper
+      .info__header
+        h2.info__title Легализация или Апостиль? <br> Узнайте за секунду!
+        p.info__text Выберите страну, и мы подскажем, какая услуга вам нужна. Всё просто и быстро!
+        //.info__content-form
+      .info__content
+        +custom-select({
+          id: 'country_type',
+          options: [
+            { value: '', name: 'Выберите страну', isSelected: true},
+            { value: 'russia', name: 'Россия'},
+            { value: 'usa', name: 'США'},
+            { value: 'germany', name: 'Германия'},
+            { value: 'france', name: 'Франция'},
+            { value: 'france', name: 'Франция'},
+            { value: 'france', name: 'Франция'},
+            { value: 'france', name: 'Франция'},
+            { value: 'france', name: 'Франция'},
+          ]
+        })
+        +main-btn({
+          type: "submit",
+          title: 'Узнать какая услуга нужна',
+        })
+    //.info__img--map
        img(src="./assets/img/decor_map.png" alt="decor_map.png" width="660" height="450")
-    .info__img--book 
+    //.info__img--book
        img(src="./assets/img/decor_book.svg" alt="decor_book.svg" width="450" height="660")
 
 

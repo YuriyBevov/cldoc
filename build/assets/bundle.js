@@ -22655,6 +22655,72 @@ if (topBannerSlider) {
     }
   });
 }
+const infSliders = document.querySelectorAll(".infinity-slider");
+if (infSliders.length) {
+  infSliders.forEach(slider => {
+    new swiper__WEBPACK_IMPORTED_MODULE_0__["default"](slider, {
+      modules: [swiper__WEBPACK_IMPORTED_MODULE_0__.Autoplay],
+      autoplay: {
+        enabled: true,
+        delay: 0,
+        pauseOnMouseEnter: false,
+        disableOnInteraction: false
+      },
+      loop: true,
+      noSwipingClass: "swiper-slide",
+      allowTouchMove: false,
+      slidesPerView: "auto",
+      spaceBetween: 60,
+      speed: 5000,
+      freeMode: true
+    });
+  });
+}
+const reviewSlider = document.querySelector(".review-slider");
+if (reviewSlider) {
+  const reviewSwiper = new swiper__WEBPACK_IMPORTED_MODULE_0__["default"](reviewSlider, {
+    slidesPerView: 1,
+    breakpoints: {
+      767: {
+        slidesPerView: 2
+      },
+      1139: {
+        slidesPerView: 3
+      }
+    },
+    spaceBetween: 20,
+    pagination: {
+      el: ".review-slider-slider .swiper-pagination",
+      dynamicBullets: true,
+      clickable: true
+    }
+  });
+  const tabs = document.querySelectorAll(".review-tabs button");
+  if (tabs) {
+    const reviewCards = document.querySelectorAll(".review-card");
+    const onClickFillSwiper = evt => {
+      const target = evt.target;
+      const type = target.dataset.type;
+      const active = document.querySelector(".review-tabs button.active");
+      if (active === target) return;
+      active.classList.remove("active");
+      target.classList.add("active");
+      if (type !== "all") {
+        reviewCards.forEach(card => {
+          card.dataset.type === type ? card.classList.remove("hidden") : card.classList.add("hidden");
+        });
+      } else {
+        reviewCards.forEach(card => {
+          card.classList.contains("hidden") ? card.classList.remove("hidden") : null;
+        });
+      }
+      reviewSwiper.update();
+    };
+    tabs.forEach(tab => {
+      tab.addEventListener("click", onClickFillSwiper);
+    });
+  }
+}
 const sliders = document.querySelectorAll(".main-slider");
 if (sliders) {
   sliders.forEach(slider => {
@@ -22958,14 +23024,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _modules_form_form_submit__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./modules/form/form-submit */ "./src/scripts/modules/form/form-submit.js");
 /* harmony import */ var _utils_limitStr__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./utils/limitStr */ "./src/scripts/utils/limitStr.js");
 /* harmony import */ var _utils_custom_select__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./utils/custom-select */ "./src/scripts/utils/custom-select.js");
-//import "./modules/burger";
 
 
 
 
 
-//import './modules/svg-map';
-//import './modules/svg-map-chooser';
 
 
 

@@ -1,17 +1,6 @@
 mixin section-header(data, isControlsExist)
   .section-header
-    if data.title
-      .section-title
-        span!= data.title
+    span!= data.title
     if data.text
-      .section-text
-        span!= data.text
-    if isControlsExist
-      .slider-section-controls
-        button.swiper-button-prev.slider-section-button-prev
-          svg(width="18" height="18")
-            use(xlink:href="./assets/sprite.svg#icon-slider-arrow")
+      span!= data.text
 
-        button.swiper-button-next.slider-section-button-next
-          svg(width="18" height="18")
-            use(xlink:href="./assets/sprite.svg#icon-slider-arrow")

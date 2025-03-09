@@ -1,18 +1,18 @@
 mixin review-card(review)
-  .review-card
+  .review-card(data-type= review.type ? review.type : null)
     .review-card__header
-      if review.icon 
+      if review.icon
         img(src=`./assets/img/${review.img.name}` alt= review.img.alt width="60" height="60")
-      .review-card__header-content  
+      .review-card__header-content
         if review.name
           span.review-card__user-name!= review.name
-        .review-card__header-content-footer  
-          if review.date 
+        .review-card__header-content-footer
+          if review.date
             span!= review.date
-          if review.link 
+          if review.link
               a(href= review.link)!= review.linkText
-            
-    .review-card__ratings 
+
+    .review-card__ratings
       .review-card__ratings-item
         img(src='./assets/img/icon-star.svg' alt="rating" width="20" height="20")
       .review-card__ratings-item
@@ -26,6 +26,6 @@ mixin review-card(review)
 
     if review.text
       .review-card__text(data-collapsed-text="140" data-expanded-text!=review.text data-collapsed-btn-text="Смотреть весь отзыв")!= review.text
-    //- .review-card__btn(data-collapsed-text="120" data-expanded-text!= review.text data-collapsed-btn-text="Смотреть весь отзыв")!= review.text    
+    //- .review-card__btn(data-collapsed-text="120" data-expanded-text!= review.text data-collapsed-btn-text="Смотреть весь отзыв")!= review.text
 
 
