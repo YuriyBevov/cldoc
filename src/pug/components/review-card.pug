@@ -2,7 +2,7 @@ mixin review-card(review)
   .review-card
     .review-card__header
       if review.icon 
-        img(src="./assets/img/icon-services.svg" alt="" width="60" height="60")
+        img(src=`./assets/img/${review.img.name}` alt= review.img.alt width="60" height="60")
       .review-card__header-content  
         if review.name
           span.review-card__user-name!= review.name
@@ -25,7 +25,7 @@ mixin review-card(review)
         img(src='./assets/img/icon-star.svg' alt="rating" width="20" height="20")
 
     if review.text
-      small.review-card__text(data-collapsed-text="120" data-expanded-text!=review.text data-collapsed-btn-text="Смотреть весь отзыв")!= review.text
+      .review-card__text(data-collapsed-text="140" data-expanded-text!=review.text data-collapsed-btn-text="Смотреть весь отзыв")!= review.text
     //- .review-card__btn(data-collapsed-text="120" data-expanded-text!= review.text data-collapsed-btn-text="Смотреть весь отзыв")!= review.text    
 
 

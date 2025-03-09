@@ -13,3 +13,4 @@ import "./modules/quiz/translate-control";
 import "./modules/form/form-submit";
 
 import "./utils/limitStr";
+import "./utils/custom-select";

@@ -200,6 +200,34 @@
           </ul>
         </div>
       </section>
+      <section class="info">
+        <div class="container info__container container" id="container">
+          <div class="info__content">
+                  <div class="section-header">
+                    <div class="section-title"><span>Легализация или Апостиль? <br> Узнайте за секунду!</span></div>
+                  </div>
+            <div class="section-text"> 
+              <p>Выберите страну, и мы подскажем, какая услуга вам нужна. Всё просто и быстро!</p>
+            </div>
+            <div class="info__content-form"> 
+                    <select class="custom-select" id="country_type">
+                      <option selected>Выберите страну</option>
+                      <option value="russia">Россия</option>
+                      <option value="usa">США</option>
+                      <option value="germany">Германия</option>
+                      <option value="france">Франция</option>
+                      <option value="france">Франция</option>
+                      <option value="france">Франция</option>
+                      <option value="france">Франция</option>
+                      <option value="france">Франция</option>
+                    </select>
+                    <button class="main-btn" type="submit">Узнать какая услуга нужна</button>
+            </div>
+          </div>
+          <div class="info__img--map"> <img src="./assets/img/decor_map.png" alt="decor_map.png" width="660" height="450"></div>
+          <div class="info__img--book"> <img src="./assets/img/decor_book.svg" alt="decor_book.svg" width="450" height="660"></div>
+        </div>
+      </section>
       <section class="workflow">
         <div class="container workflow__container container" id="container">
                 <div class="section-header">
@@ -474,9 +502,10 @@
                   </li>
                 </ul>
           <div class="section-tabs">
-            <div class="section-tabs__container"><span tabindex="0">Все отзывы</span><span tabindex="0">Яндекс</span><span tabindex="0">Google</span><span tabindex="0">2GIS</span>
+            <div class="section-tabs__container"><span tabindex="0" data-filter="все отзывы">Все отзывы</span><span tabindex="0" data-filter="яндекс">Яндекс</span><span tabindex="0" data-filter="google">Google</span><span tabindex="0" data-filter="2gis">2GIS</span>
             </div>
             <script>console.log("tabsList from Pug:", [{"title":"Все отзывы"},{"title":"Яндекс"},{"title":"Google"},{"title":"2GIS"}]);
+              console.log("reviewsList from Pug:", [{"icon":true,"img":{"alt":"card-img","name":"icon-services.svg"},"name":"Елена Козлова","text":"Хочу поблагодарить за отличную работу по легализации документов. Всё сделали вовремя и очень эффективно. Особенно хочу отметить высочайшую клиентоориантированность и супер гибкость. Всегда на связи, быстро отвечали на вопросы и спокойно объясняли все нюансы. Благодаря этому весь процесс прошёл без лишних переживаний.","date":"20 января","link":"#","linkText":"Яндекс","btnText":"Читать далее..."},{"icon":true,"img":{"alt":"card-img","name":"icon-services.svg"},"name":"Елена Козлова","text":"Хочу поблагодарить за отличную работу по легализации документов. Всё сделали вовремя и очень эффективно. Особенно хочу отметить высочайшую клиентоориантированность и супер гибкость. Всегда на связи, быстро отвечали на вопросы и спокойно объясняли все нюансы. Благодаря этому весь процесс прошёл без лишних переживаний.","date":"20 января","link":"#","linkText":"Google","btnText":"Читать далее..."},{"icon":true,"img":{"alt":"card-img","name":"icon-services.svg"},"name":"Елена Козлова","text":"Хочу поблагодарить за отличную работу по легализации документов. Всё сделали вовремя и очень эффективно. Особенно хочу отметить высочайшую клиентоориантированность и супер гибкость. Всегда на связи, быстро отвечали на вопросы и спокойно объясняли все нюансы. Благодаря этому весь процесс прошёл без лишних переживаний.","date":"20 января","link":"#","linkText":"2GIS","btnText":"Читать далее..."},{"icon":true,"img":{"alt":"card-img","name":"icon-services.svg"},"name":"Елена Козлова","text":"Хочу поблагодарить за отличную работу по легализации документов. Всё сделали вовремя и очень эффективно. Особенно хочу отметить высочайшую клиентоориантированность и супер гибкость. Всегда на связи, быстро отвечали на вопросы и спокойно объясняли все нюансы. Благодаря этому весь процесс прошёл без лишних переживаний.","date":"20 января","link":"#","linkText":"Яндекс","btnText":"Читать далее..."},{"icon":true,"img":{"alt":"card-img","name":"icon-services.svg"},"name":"Елена Козлова","text":"Хочу поблагодарить за отличную работу по легализации документов. Всё сделали вовремя и очень эффективно. Особенно хочу отметить высочайшую клиентоориантированность и супер гибкость. Всегда на связи, быстро отвечали на вопросы и спокойно объясняли все нюансы. Благодаря этому весь процесс прошёл без лишних переживаний.","date":"20 января","link":"#","linkText":"Яндекс","btnText":"Читать далее..."}]);
               
             </script>
           </div>
@@ -484,7 +513,7 @@
             <div class="swiper-wrapper">
               <div class="swiper-slide">
                       <div class="review-card">
-                        <div class="review-card__header"><img src="./assets/img/icon-services.svg" alt="" width="60" height="60">
+                        <div class="review-card__header"><img src="./assets/img/icon-services.svg" alt="card-img" width="60" height="60">
                           <div class="review-card__header-content"> <span class="review-card__user-name">Елена Козлова</span>
                             <div class="review-card__header-content-footer"> <span>20 января</span><a href="#">Яндекс</a>
                             </div>
@@ -496,12 +525,13 @@
                           <div class="review-card__ratings-item"><img src="./assets/img/icon-star.svg" alt="rating" width="20" height="20"></div>
                           <div class="review-card__ratings-item"><img src="./assets/img/icon-star.svg" alt="rating" width="20" height="20"></div>
                           <div class="review-card__ratings-item"><img src="./assets/img/icon-star.svg" alt="rating" width="20" height="20"></div>
-                        </div><small class="review-card__text" data-collapsed-text="120" data-expanded-text="Хочу поблагодарить за отличную работу по легализации документов. Всё сделали вовремя и очень эффективно. Особенно хочу отметить высочайшую клиентоориантированность и супер гибкость. Всегда на связи, быстро отвечали на вопросы и спокойно объясняли все нюансы. Благодаря этому весь процесс прошёл без лишних переживаний." data-collapsed-btn-text="Смотреть весь отзыв">Хочу поблагодарить за отличную работу по легализации документов. Всё сделали вовремя и очень эффективно. Особенно хочу отметить высочайшую клиентоориантированность и супер гибкость. Всегда на связи, быстро отвечали на вопросы и спокойно объясняли все нюансы. Благодаря этому весь процесс прошёл без лишних переживаний.</small>
+                        </div>
+                        <div class="review-card__text" data-collapsed-text="140" data-expanded-text="Хочу поблагодарить за отличную работу по легализации документов. Всё сделали вовремя и очень эффективно. Особенно хочу отметить высочайшую клиентоориантированность и супер гибкость. Всегда на связи, быстро отвечали на вопросы и спокойно объясняли все нюансы. Благодаря этому весь процесс прошёл без лишних переживаний." data-collapsed-btn-text="Смотреть весь отзыв">Хочу поблагодарить за отличную работу по легализации документов. Всё сделали вовремя и очень эффективно. Особенно хочу отметить высочайшую клиентоориантированность и супер гибкость. Всегда на связи, быстро отвечали на вопросы и спокойно объясняли все нюансы. Благодаря этому весь процесс прошёл без лишних переживаний.</div>
                       </div>
               </div>
               <div class="swiper-slide">
                       <div class="review-card">
-                        <div class="review-card__header"><img src="./assets/img/icon-services.svg" alt="" width="60" height="60">
+                        <div class="review-card__header"><img src="./assets/img/icon-services.svg" alt="card-img" width="60" height="60">
                           <div class="review-card__header-content"> <span class="review-card__user-name">Елена Козлова</span>
                             <div class="review-card__header-content-footer"> <span>20 января</span><a href="#">Google</a>
                             </div>
@@ -513,12 +543,13 @@
                           <div class="review-card__ratings-item"><img src="./assets/img/icon-star.svg" alt="rating" width="20" height="20"></div>
                           <div class="review-card__ratings-item"><img src="./assets/img/icon-star.svg" alt="rating" width="20" height="20"></div>
                           <div class="review-card__ratings-item"><img src="./assets/img/icon-star.svg" alt="rating" width="20" height="20"></div>
-                        </div><small class="review-card__text" data-collapsed-text="120" data-expanded-text="Хочу поблагодарить за отличную работу по легализации документов. Всё сделали вовремя и очень эффективно. Особенно хочу отметить высочайшую клиентоориантированность и супер гибкость. Всегда на связи, быстро отвечали на вопросы и спокойно объясняли все нюансы. Благодаря этому весь процесс прошёл без лишних переживаний." data-collapsed-btn-text="Смотреть весь отзыв">Хочу поблагодарить за отличную работу по легализации документов. Всё сделали вовремя и очень эффективно. Особенно хочу отметить высочайшую клиентоориантированность и супер гибкость. Всегда на связи, быстро отвечали на вопросы и спокойно объясняли все нюансы. Благодаря этому весь процесс прошёл без лишних переживаний.</small>
+                        </div>
+                        <div class="review-card__text" data-collapsed-text="140" data-expanded-text="Хочу поблагодарить за отличную работу по легализации документов. Всё сделали вовремя и очень эффективно. Особенно хочу отметить высочайшую клиентоориантированность и супер гибкость. Всегда на связи, быстро отвечали на вопросы и спокойно объясняли все нюансы. Благодаря этому весь процесс прошёл без лишних переживаний." data-collapsed-btn-text="Смотреть весь отзыв">Хочу поблагодарить за отличную работу по легализации документов. Всё сделали вовремя и очень эффективно. Особенно хочу отметить высочайшую клиентоориантированность и супер гибкость. Всегда на связи, быстро отвечали на вопросы и спокойно объясняли все нюансы. Благодаря этому весь процесс прошёл без лишних переживаний.</div>
                       </div>
               </div>
               <div class="swiper-slide">
                       <div class="review-card">
-                        <div class="review-card__header"><img src="./assets/img/icon-services.svg" alt="" width="60" height="60">
+                        <div class="review-card__header"><img src="./assets/img/icon-services.svg" alt="card-img" width="60" height="60">
                           <div class="review-card__header-content"> <span class="review-card__user-name">Елена Козлова</span>
                             <div class="review-card__header-content-footer"> <span>20 января</span><a href="#">2GIS</a>
                             </div>
@@ -530,12 +561,13 @@
                           <div class="review-card__ratings-item"><img src="./assets/img/icon-star.svg" alt="rating" width="20" height="20"></div>
                           <div class="review-card__ratings-item"><img src="./assets/img/icon-star.svg" alt="rating" width="20" height="20"></div>
                           <div class="review-card__ratings-item"><img src="./assets/img/icon-star.svg" alt="rating" width="20" height="20"></div>
-                        </div><small class="review-card__text" data-collapsed-text="120" data-expanded-text="Хочу поблагодарить за отличную работу по легализации документов. Всё сделали вовремя и очень эффективно. Особенно хочу отметить высочайшую клиентоориантированность и супер гибкость. Всегда на связи, быстро отвечали на вопросы и спокойно объясняли все нюансы. Благодаря этому весь процесс прошёл без лишних переживаний." data-collapsed-btn-text="Смотреть весь отзыв">Хочу поблагодарить за отличную работу по легализации документов. Всё сделали вовремя и очень эффективно. Особенно хочу отметить высочайшую клиентоориантированность и супер гибкость. Всегда на связи, быстро отвечали на вопросы и спокойно объясняли все нюансы. Благодаря этому весь процесс прошёл без лишних переживаний.</small>
+                        </div>
+                        <div class="review-card__text" data-collapsed-text="140" data-expanded-text="Хочу поблагодарить за отличную работу по легализации документов. Всё сделали вовремя и очень эффективно. Особенно хочу отметить высочайшую клиентоориантированность и супер гибкость. Всегда на связи, быстро отвечали на вопросы и спокойно объясняли все нюансы. Благодаря этому весь процесс прошёл без лишних переживаний." data-collapsed-btn-text="Смотреть весь отзыв">Хочу поблагодарить за отличную работу по легализации документов. Всё сделали вовремя и очень эффективно. Особенно хочу отметить высочайшую клиентоориантированность и супер гибкость. Всегда на связи, быстро отвечали на вопросы и спокойно объясняли все нюансы. Благодаря этому весь процесс прошёл без лишних переживаний.</div>
                       </div>
               </div>
               <div class="swiper-slide">
                       <div class="review-card">
-                        <div class="review-card__header"><img src="./assets/img/icon-services.svg" alt="" width="60" height="60">
+                        <div class="review-card__header"><img src="./assets/img/icon-services.svg" alt="card-img" width="60" height="60">
                           <div class="review-card__header-content"> <span class="review-card__user-name">Елена Козлова</span>
                             <div class="review-card__header-content-footer"> <span>20 января</span><a href="#">Яндекс</a>
                             </div>
@@ -547,12 +579,13 @@
                           <div class="review-card__ratings-item"><img src="./assets/img/icon-star.svg" alt="rating" width="20" height="20"></div>
                           <div class="review-card__ratings-item"><img src="./assets/img/icon-star.svg" alt="rating" width="20" height="20"></div>
                           <div class="review-card__ratings-item"><img src="./assets/img/icon-star.svg" alt="rating" width="20" height="20"></div>
-                        </div><small class="review-card__text" data-collapsed-text="120" data-expanded-text="Хочу поблагодарить за отличную работу по легализации документов. Всё сделали вовремя и очень эффективно. Особенно хочу отметить высочайшую клиентоориантированность и супер гибкость. Всегда на связи, быстро отвечали на вопросы и спокойно объясняли все нюансы. Благодаря этому весь процесс прошёл без лишних переживаний." data-collapsed-btn-text="Смотреть весь отзыв">Хочу поблагодарить за отличную работу по легализации документов. Всё сделали вовремя и очень эффективно. Особенно хочу отметить высочайшую клиентоориантированность и супер гибкость. Всегда на связи, быстро отвечали на вопросы и спокойно объясняли все нюансы. Благодаря этому весь процесс прошёл без лишних переживаний.</small>
+                        </div>
+                        <div class="review-card__text" data-collapsed-text="140" data-expanded-text="Хочу поблагодарить за отличную работу по легализации документов. Всё сделали вовремя и очень эффективно. Особенно хочу отметить высочайшую клиентоориантированность и супер гибкость. Всегда на связи, быстро отвечали на вопросы и спокойно объясняли все нюансы. Благодаря этому весь процесс прошёл без лишних переживаний." data-collapsed-btn-text="Смотреть весь отзыв">Хочу поблагодарить за отличную работу по легализации документов. Всё сделали вовремя и очень эффективно. Особенно хочу отметить высочайшую клиентоориантированность и супер гибкость. Всегда на связи, быстро отвечали на вопросы и спокойно объясняли все нюансы. Благодаря этому весь процесс прошёл без лишних переживаний.</div>
                       </div>
               </div>
               <div class="swiper-slide">
                       <div class="review-card">
-                        <div class="review-card__header"><img src="./assets/img/icon-services.svg" alt="" width="60" height="60">
+                        <div class="review-card__header"><img src="./assets/img/icon-services.svg" alt="card-img" width="60" height="60">
                           <div class="review-card__header-content"> <span class="review-card__user-name">Елена Козлова</span>
                             <div class="review-card__header-content-footer"> <span>20 января</span><a href="#">Яндекс</a>
                             </div>
@@ -564,7 +597,8 @@
                           <div class="review-card__ratings-item"><img src="./assets/img/icon-star.svg" alt="rating" width="20" height="20"></div>
                           <div class="review-card__ratings-item"><img src="./assets/img/icon-star.svg" alt="rating" width="20" height="20"></div>
                           <div class="review-card__ratings-item"><img src="./assets/img/icon-star.svg" alt="rating" width="20" height="20"></div>
-                        </div><small class="review-card__text" data-collapsed-text="120" data-expanded-text="Хочу поблагодарить за отличную работу по легализации документов. Всё сделали вовремя и очень эффективно. Особенно хочу отметить высочайшую клиентоориантированность и супер гибкость. Всегда на связи, быстро отвечали на вопросы и спокойно объясняли все нюансы. Благодаря этому весь процесс прошёл без лишних переживаний." data-collapsed-btn-text="Смотреть весь отзыв">Хочу поблагодарить за отличную работу по легализации документов. Всё сделали вовремя и очень эффективно. Особенно хочу отметить высочайшую клиентоориантированность и супер гибкость. Всегда на связи, быстро отвечали на вопросы и спокойно объясняли все нюансы. Благодаря этому весь процесс прошёл без лишних переживаний.</small>
+                        </div>
+                        <div class="review-card__text" data-collapsed-text="140" data-expanded-text="Хочу поблагодарить за отличную работу по легализации документов. Всё сделали вовремя и очень эффективно. Особенно хочу отметить высочайшую клиентоориантированность и супер гибкость. Всегда на связи, быстро отвечали на вопросы и спокойно объясняли все нюансы. Благодаря этому весь процесс прошёл без лишних переживаний." data-collapsed-btn-text="Смотреть весь отзыв">Хочу поблагодарить за отличную работу по легализации документов. Всё сделали вовремя и очень эффективно. Особенно хочу отметить высочайшую клиентоориантированность и супер гибкость. Всегда на связи, быстро отвечали на вопросы и спокойно объясняли все нюансы. Благодаря этому весь процесс прошёл без лишних переживаний.</div>
                       </div>
               </div>
             </div>

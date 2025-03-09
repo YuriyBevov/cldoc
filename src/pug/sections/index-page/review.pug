@@ -11,10 +11,11 @@ section.review.slider-section
     .section-tabs
       .section-tabs__container
         each item in tabsList
-          span(tabindex="0")!= item.title 
+          span(tabindex="0" data-filter=item.title.toLowerCase())!= item.title
 
       script.
         console.log("tabsList from Pug:", !{JSON.stringify(tabsList)});
+        console.log("reviewsList from Pug:", !{JSON.stringify(reviewsList)});
 
     .main-slider.main-slider--review
       .swiper-wrapper
