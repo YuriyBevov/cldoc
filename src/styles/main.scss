@@ -20,9 +20,11 @@
 @import "./components/slider-section";
 @import "./components/svg-map";
 @import "./components/info-card";
+@import "./components/review-card";
 @import "./components/social";
 @import "./components/section-tabs";
 @import "./components/contact-card";
+@import "./components/custom-select";
 @import "./components/accordeon";
 @import "./components/developer";
 @import "./components/footer";
@@ -36,6 +38,7 @@
 @import "./sections/index-page/payments";
 @import "./sections/index-page/features";
 @import "./sections/index-page/documents";
+@import "./sections/index-page/info";
 @import "./sections/index-page/workflow";
 @import "./sections/index-page/request";
 @import "./sections/prices-page/prices";
@@ -46,3 +49,7 @@
 @import "./modals/map-modal";
 @import "./modals/quiz-modal";
 @import "./modals/status-modal";
+@import "./modals/expanded-text-modal";
+
+/*mixins*/
+@import "./mixins/tabs-list";
