@@ -1,13 +1,11 @@
 include ../../mixins/section-header
-include ../../mixins/section-tabs
 include ../../components/review-card
 include ../../content/reviews-list
 include ../../content/tabs-list
 
 section.review.slider-section
   .container
-    +section-header({title: "Отзывы"}, true)
-    +section-tabs(tabsList)
+    +section-header({title: "Отзывы наших клиентов"}, true)
     .review-tabs
       button(type="button" data-type='all' tabindex="0").active Все отзывы
       each item in tabsList

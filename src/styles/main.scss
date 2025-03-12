@@ -24,6 +24,7 @@
 @import "./components/social";
 @import "./components/section-tabs";
 @import "./components/contact-card";
+@import "./components/main-accordeon";
 @import "./components/custom-select";
 @import "./components/accordeon";
 @import "./components/developer";
@@ -35,10 +36,13 @@
 @import "./sections/index-page/services";
 @import "./sections/index-page/client";
 @import "./sections/index-page/review";
+@import "./sections/index-page/review_2";
 @import "./sections/index-page/payments";
 @import "./sections/index-page/features";
 @import "./sections/index-page/documents";
 @import "./sections/index-page/info";
+@import "./sections/index-page/questions";
+@import "./sections/index-page/countrys";
 @import "./sections/index-page/workflow";
 @import "./sections/index-page/request";
 @import "./sections/prices-page/prices";
@@ -50,6 +54,6 @@
 @import "./modals/quiz-modal";
 @import "./modals/status-modal";
 @import "./modals/expanded-text-modal";
+@import "./modals/callback-form";
 
 /*mixins*/
-@import "./mixins/tabs-list";

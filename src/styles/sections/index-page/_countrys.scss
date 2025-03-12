@@ -1,0 +1,80 @@
+.countrys {
+  @extend .section-inner-offset;
+
+  &__container {
+    @extend .flex-column;
+    align-items: center;
+    max-width: 1440px;
+  }
+
+  .section-text {
+    text-align: start;
+  }
+
+  .countrys-wrapper {
+    width: 100%;
+    background-image: url("../assets/img/decor_map.png");
+    background-position: right;
+    background-size: contain;
+    background-repeat: no-repeat;
+  }
+
+  &__header {
+    @extend .flex-column;
+    gap: 20px;
+  }
+
+  &__title {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--accent);
+
+    @include m-b-mobile-lg-down {
+      text-align: center;
+    }
+  }
+
+  &__text {
+    font-weight: 400;
+    font-size: 16px;
+    color: var(--dark);
+
+    @include m-b-mobile-lg-down {
+      text-align: center;
+    }
+  }
+
+  &__content {
+    display: grid;
+    width: 100%;
+    max-width: 900px;
+    column-gap: 20px;
+    row-gap: 40px;
+    margin-top: 60px;
+
+    @include m-b-tablet-down {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    @include m-b-mobile-lg-down {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  li {
+    @extend .flex-wrap;
+    align-items: center;
+    gap: 16px;
+
+    span {
+      font-weight: 600;
+      font-size: 18px;
+      line-height: 1;
+      color: var(--dark);
+    }
+
+    img {
+      max-width: 40px;
+      max-height: 40px;
+    }
+  }
+}

@@ -22114,6 +22114,24 @@ if (collapsedItems.length) {
       item.append(showBtn);
       showBtn.addEventListener("click", () => {
         reviewModal.querySelector(".modal-text").innerHTML = item.dataset.expandedText;
+        // Передаём name в модалку
+        const modalName = reviewModal.querySelector(".modal-name");
+        if (item.dataset.name && modalName) {
+          modalName.innerHTML = item.dataset.name;
+        }
+
+        // Передаём date в модалку
+        const modalDate = reviewModal.querySelector(".modal-date");
+        if (item.dataset.date && modalDate) {
+          modalDate.innerHTML = item.dataset.date;
+        }
+
+        // Передаём link в модалку
+        const modalLink = reviewModal.querySelector(".expanded-text-modal__header-footer a");
+        if (item.dataset.link && modalLink) {
+          modalLink.href = item.dataset.link;
+          modalLink.innerHTML = item.dataset.linktext;
+        }
         new _classes_Modal__WEBPACK_IMPORTED_MODULE_0__.Modal(reviewModal).show();
       });
     }
@@ -22690,7 +22708,7 @@ if (reviewSlider) {
     },
     spaceBetween: 20,
     pagination: {
-      el: ".review-slider-slider .swiper-pagination",
+      el: ".swiper-pagination",
       dynamicBullets: true,
       clickable: true
     }
@@ -22722,38 +22740,59 @@ if (reviewSlider) {
   }
 }
 const sliders = document.querySelectorAll(".main-slider");
+
+// if (sliders.length) {
+//   sliders.forEach((slider) => {
+//     new Swiper(slider, {
+//       modules: [Autoplay],
+//       autoplay: {
+//         enabled: true,
+//         delay: 0,
+//         pauseOnMouseEnter: false,
+//         disableOnInteraction: false,
+//       },
+//       loop: true,
+//       noSwipingClass: "swiper-slide",
+//       allowTouchMove: false,
+//       slidesPerView: "auto",
+//       spaceBetween: 60,
+//       speed: 5000,
+//       freeMode: true,
+
+//       pagination: {
+//         el: ".swiper-pagination",
+//         dynamicBullets: true,
+//         clickable: true,
+//       },
+//     });
+//   });
+// }
+
 if (sliders) {
   sliders.forEach(slider => {
-    let isAutoplayEnabled = false;
-    slider.classList.contains("autoplay") ? isAutoplayEnabled = true : isAutoplayEnabled = false;
-    let btnNext = slider.parentNode.querySelector(".slider-section-button-next");
-    let btnPrev = slider.parentNode.querySelector(".slider-section-button-prev");
-    let speed = 300;
-    isAutoplayEnabled ? speed = 3000 : speed = 300;
     new swiper__WEBPACK_IMPORTED_MODULE_0__["default"](slider, {
       slidesPerView: 1,
       breakpoints: {
-        767: {
+        543: {
           slidesPerView: 2
         },
-        1139: {
+        767: {
           slidesPerView: 3
+        },
+        1139: {
+          slidesPerView: 6
         }
       },
-      spaceBetween: 0,
-      centerInsufficientSlides: false,
-      speed,
-      navigation: {
-        nextEl: btnNext,
-        prevEl: btnPrev
-      },
-      autoplay: {
-        delay: 2000,
-        disableOnInteraction: false
-      },
-      autoplay: isAutoplayEnabled,
+      spaceBetween: 30,
+      // modules: [Autoplay],
+      // autoplay: {
+      //   enabled: true, // Включает автопрокрутку
+      //   delay: 300, // Нет задержки между сменой слайдов
+      // },
+      speed: 2000,
+      loop: true,
       pagination: {
-        el: ".main-slider .swiper-pagination",
+        el: ".swiper-pagination",
         dynamicBullets: true,
         clickable: true
       }
@@ -22913,6 +22952,27 @@ function limitStr(str, n) {
 
 /***/ }),
 
+/***/ "./src/scripts/utils/main-accordeon.js":
+/*!*********************************************!*\
+  !*** ./src/scripts/utils/main-accordeon.js ***!
+  \*********************************************/
+/***/ (() => {
+
+const acc = document.querySelector('.accordeon');
+if (acc) {
+  const items = acc.querySelectorAll('.accordeon__item-header');
+  const onClickExpandContent = evt => {
+    const target = evt.target;
+    const content = target.parentNode;
+    content.classList.toggle('expanded');
+  };
+  items.forEach(item => {
+    item.addEventListener('click', onClickExpandContent);
+  });
+}
+
+/***/ }),
+
 /***/ "./src/scripts/utils/nodes.js":
 /*!************************************!*\
   !*** ./src/scripts/utils/nodes.js ***!
@@ -23024,6 +23084,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _modules_form_form_submit__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./modules/form/form-submit */ "./src/scripts/modules/form/form-submit.js");
 /* harmony import */ var _utils_limitStr__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./utils/limitStr */ "./src/scripts/utils/limitStr.js");
 /* harmony import */ var _utils_custom_select__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./utils/custom-select */ "./src/scripts/utils/custom-select.js");
+/* harmony import */ var _utils_main_accordeon__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./utils/main-accordeon */ "./src/scripts/utils/main-accordeon.js");
+/* harmony import */ var _utils_main_accordeon__WEBPACK_IMPORTED_MODULE_12___default = /*#__PURE__*/__webpack_require__.n(_utils_main_accordeon__WEBPACK_IMPORTED_MODULE_12__);
+
 
 
 

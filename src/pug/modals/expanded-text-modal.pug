@@ -1,9 +1,15 @@
+
 .modal.expanded-text-modal#expanded-text-modal
   .modal__overlay
     .modal__content
-      .modal__header
+      .expanded-text-modal__header
         include ./modal-components/modal-closer
-        +logo('map-modal-logo')
+        span.modal-name
+
+        .expanded-text-modal__header-footer
+          span.modal-date
+          a
+
       .modal__body
         span.modal-text
 

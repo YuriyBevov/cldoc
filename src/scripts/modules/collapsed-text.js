@@ -20,6 +20,27 @@ if (collapsedItems.length) {
       showBtn.addEventListener("click", () => {
         reviewModal.querySelector(".modal-text").innerHTML =
           item.dataset.expandedText;
+        // Передаём name в модалку
+        const modalName = reviewModal.querySelector(".modal-name");
+        if (item.dataset.name && modalName) {
+          modalName.innerHTML = item.dataset.name;
+        }
+
+        // Передаём date в модалку
+        const modalDate = reviewModal.querySelector(".modal-date");
+        if (item.dataset.date && modalDate) {
+          modalDate.innerHTML = item.dataset.date;
+        }
+
+        // Передаём link в модалку
+        const modalLink = reviewModal.querySelector(
+          ".expanded-text-modal__header-footer a"
+        );
+        if (item.dataset.link && modalLink) {
+          modalLink.href = item.dataset.link;
+          modalLink.innerHTML = item.dataset.linktext;
+        }
+
         new Modal(reviewModal).show();
       });
     }
