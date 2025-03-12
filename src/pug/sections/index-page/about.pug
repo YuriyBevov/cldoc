@@ -1,8 +1,9 @@
-include ../../mixins/section-title
+include ../../mixins/section-header
+include ../../mixins/main-btn
 
 section.about
   .container.about__container(id="container" class="container")
-    +section-title('О нас')
+    +section-header({title: "О нас"})
 
     .about__text
       p <strong>Центр легализации</strong> - компания, предоставляющая услуги по апостилированию и консульской легализации различных типов документов, выданных на территории России, на профессиональном уровне. Благодаря опыту, приобретенному за годы работы, мы уверенно можем гарантировать качество предоставляемых нами услуг, точные сроки исполнения.

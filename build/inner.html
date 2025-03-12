@@ -65,10 +65,9 @@
       <section class="info-section">
         <div class="container">
           <h1 class="info-section__title">Консульская легализация документов</h1>
-          <div class="section-tabs">
-            <div class="section-tabs__container"><a href="#">для Экваториальной Гвинеи</a><a href="#">для Чили</a><a href="#">для Уругвая</a><a href="#">для Экваториальной Гвинеи</a><a href="#">для Чили</a><a href="#">для Уругвая</a><a href="#">для Экваториальной Гвинеи</a><a href="#">для Чили</a><a href="#">для Уругвая</a><a href="#">для Экваториальной Гвинеи</a><a href="#">для Чили</a><a href="#">для Уругвая</a><a href="#">для Экваториальной Гвинеи</a><a href="#">для Чили</a><a href="#">для Уругвая</a><a href="#">для Экваториальной Гвинеи</a><a href="#">для Чили</a><a href="#">для Уругвая</a><a href="#">для Экваториальной Гвинеи</a><a href="#">для Чили</a><a href="#">для Уругвая</a><a href="#">для Экваториальной Гвинеи</a><a href="#">для Чили</a><a href="#">для Уругвая</a><a href="#">для Экваториальной Гвинеи</a><a href="#">для Чили</a><a href="#">для Уругвая</a>
+          <div class="section-menu">
+            <div class="section-menu__container"><a href="#">для Экваториальной Гвинеи</a><a href="#">для Чили</a><a href="#">для Уругвая</a><a href="#">для Экваториальной Гвинеи</a><a href="#">для Чили</a><a href="#">для Уругвая</a><a href="#">для Экваториальной Гвинеи</a><a href="#">для Чили</a><a href="#">для Уругвая</a><a href="#">для Экваториальной Гвинеи</a><a href="#">для Чили</a><a href="#">для Уругвая</a><a href="#">для Экваториальной Гвинеи</a><a href="#">для Чили</a><a href="#">для Уругвая</a><a href="#">для Экваториальной Гвинеи</a><a href="#">для Чили</a><a href="#">для Уругвая</a><a href="#">для Экваториальной Гвинеи</a><a href="#">для Чили</a><a href="#">для Уругвая</a><a href="#">для Экваториальной Гвинеи</a><a href="#">для Чили</a><a href="#">для Уругвая</a><a href="#">для Экваториальной Гвинеи</a><a href="#">для Чили</a><a href="#">для Уругвая</a>
             </div>
-            <!--button(type="button").main-btn.section-tabs__load-more-btn Показать еще-->
           </div>
           <div class="info-section__content"><span class="info-section__subtitle">В каких случаях необходимо делать перевод документов с&nbsp;нотариальным заверением?</span>
             <p>Согласно статье 10 Закона «Основы законодательства Российской Федерации о нотариате» делопроизводство в Российской Федерации ведется на русском. Любой документ, предназначенный для использования на территории РФ, выполненный полностью на иностранном языке или имеющий отдельные надписи на иностранном языке, должен быть переведён на русский язык, если иностранный текст не дублируется на русском языке. Перевод документов выполняется дипломированным переводчиком и, как правило, подпись переводчика на переводе должна быть заверена нотариусом</p>
@@ -253,6 +252,48 @@
             <button class="modal-closer"><img src="./assets/img/icon-close.svg" alt="Закрыть" width="24" height="24"></button><a class="map-modal-logo logo" href="index.html" aria-label="Логотип"><img src="./assets/img/logo.svg" alt="" width="120" height="40"></a>
           </div>
           <div class="modal__body"><span class="status-modal__title">К сожалению, что то пошло не так..</span><span class="status-modal__desc">Попробуйте снова или свяжитесь с нами любым удобным для Вас способом из раздела <a href="#">контакты</a></span></div>
+        </div>
+      </div>
+    </div>
+    <div class="modal callback-modal" id="callback">
+      <div class="modal__overlay">
+        <div class="modal__content">    
+          <button class="modal-closer"><img src="./assets/img/icon-close.svg" alt="Закрыть" width="24" height="24"></button>
+          <div class="callback-modal__header"><span class="callback-modal__title">Оставить заявку</span>
+            <p class="callback-modal__desc">Заполните необходимые поля формы и мы обязательно свяжемся c Вами!</p>
+          </div>
+          <form class="callback" action="#">
+            <div class="callback-modal__content callback__content">
+              <fieldset class="callback__content-part">
+                <div class="callback__content-part-field">
+                  <input type="text" id="user_name" name="Имя" placeholder="Ваше имя" data-required="true">
+                </div>
+                <div class="callback__content-part-field">
+                  <input type="tel" id="user_phone" name="Телефон" placeholder="Телефон" data-required="true">
+                </div>
+                <div class="callback__content-part-field">
+                  <input type="text" id="user_mail" placeholder="E-mail" name="Электронная почта">
+                </div>
+                <div class="callback__content-part-field">
+                  <textarea id="user_message" name="Сообщение" placeholder="Сообщение..."></textarea>
+                </div>
+              </fieldset>
+            </div>
+            <div class="callback-modal__footer callback__footer">
+              <button class="main-btn callback-modal__btn callback-modal__btn--submit" type="submit">Отправить</button><span class="form-undertext">* Отправляя форму Вы автоматически соглашаетесь с условиями на обработку персональных данных.</span>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="modal expanded-text-modal" id="expanded-text-modal">
+      <div class="modal__overlay">
+        <div class="modal__content">
+          <div class="expanded-text-modal__header">
+            <button class="modal-closer"><img src="./assets/img/icon-close.svg" alt="Закрыть" width="24" height="24"></button><span class="modal-name"></span>
+            <div class="expanded-text-modal__header-footer"><span class="modal-date"></span><a></a></div>
+          </div>
+          <div class="modal__body"><span class="modal-text"></span></div>
         </div>
       </div>
     </div>

@@ -14,7 +14,7 @@
 
 	&-title {
 		position: relative;
-		font-weight: 400;
+		font-weight: 600;
 		font-size: 18px;
 		line-height: 1;
 		padding-bottom: 6px;
@@ -44,31 +44,6 @@
 		margin-top: auto;
 	}
 
-	&__list {
-		@extend .flex-column;
-		gap: 5px;
-		padding-left: 20px;
-
-		&-item {
-			position: relative;
-			font-weight: 400;
-			font-size: 16px;
-			color: var(--text);
-
-			&::before {
-				position: absolute;
-				top: 10px;
-				left: -15px;
-				// transform: translateY(-50%);
-				content: "";
-				width: 6px;
-				height: 6px;
-				border-radius: 50%;
-				background-color: var(--text);
-			}
-		}
-	}
-
 	svg {
 		fill: var(--accent);
 		height: 100%;
@@ -76,5 +51,14 @@
 		max-width: 40px;
 		max-height: 40px;
 		aspect-ratio: 1 / 1;
+	}
+
+	.content-block ul {
+		margin-bottom: 0;
+
+		& li {
+			margin-bottom: 5px;
+			color: var(--dark);
+		}
 	}
 }

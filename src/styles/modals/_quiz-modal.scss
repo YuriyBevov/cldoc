@@ -28,7 +28,7 @@ $inner-offset-mobile: 15px;
       left: 0;
       width: calc(100% / 3);
 
-      content: '';
+      content: "";
       height: 6px;
       background-color: var(--accent);
     }
@@ -62,7 +62,7 @@ $inner-offset-mobile: 15px;
 
   &__footer {
     @extend .flex-wrap;
-    padding:  0 $inner-offset;
+    padding: 0 $inner-offset;
     padding-bottom: 20px;
 
     @include m-b-mobile-lg-down {

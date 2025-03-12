@@ -627,6 +627,48 @@
         </div>
       </div>
     </div>
+    <div class="modal callback-modal" id="callback">
+      <div class="modal__overlay">
+        <div class="modal__content">    
+          <button class="modal-closer"><img src="./assets/img/icon-close.svg" alt="Закрыть" width="24" height="24"></button>
+          <div class="callback-modal__header"><span class="callback-modal__title">Оставить заявку</span>
+            <p class="callback-modal__desc">Заполните необходимые поля формы и мы обязательно свяжемся c Вами!</p>
+          </div>
+          <form class="callback" action="#">
+            <div class="callback-modal__content callback__content">
+              <fieldset class="callback__content-part">
+                <div class="callback__content-part-field">
+                  <input type="text" id="user_name" name="Имя" placeholder="Ваше имя" data-required="true">
+                </div>
+                <div class="callback__content-part-field">
+                  <input type="tel" id="user_phone" name="Телефон" placeholder="Телефон" data-required="true">
+                </div>
+                <div class="callback__content-part-field">
+                  <input type="text" id="user_mail" placeholder="E-mail" name="Электронная почта">
+                </div>
+                <div class="callback__content-part-field">
+                  <textarea id="user_message" name="Сообщение" placeholder="Сообщение..."></textarea>
+                </div>
+              </fieldset>
+            </div>
+            <div class="callback-modal__footer callback__footer">
+              <button class="main-btn callback-modal__btn callback-modal__btn--submit" type="submit">Отправить</button><span class="form-undertext">* Отправляя форму Вы автоматически соглашаетесь с условиями на обработку персональных данных.</span>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="modal expanded-text-modal" id="expanded-text-modal">
+      <div class="modal__overlay">
+        <div class="modal__content">
+          <div class="expanded-text-modal__header">
+            <button class="modal-closer"><img src="./assets/img/icon-close.svg" alt="Закрыть" width="24" height="24"></button><span class="modal-name"></span>
+            <div class="expanded-text-modal__header-footer"><span class="modal-date"></span><a></a></div>
+          </div>
+          <div class="modal__body"><span class="modal-text"></span></div>
+        </div>
+      </div>
+    </div>
     <!--script(src="./js/bundle.js")-->
   </body>
 </html>
