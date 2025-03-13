@@ -38,6 +38,16 @@
     }
   }
 
+  .section-header {
+    span {
+      text-align: start;
+
+      @include m-b-down(1200px) {
+        text-align: center;
+      }
+    }
+  }
+
   &__text {
     text-align: center;
     margin-bottom: 40px;

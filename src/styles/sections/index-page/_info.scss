@@ -15,10 +15,20 @@
     background: rgba(255, 255, 255, 0.8);
     border-radius: 10px;
     margin: 0 auto;
-    background-image: url("../assets/img/decor_map.png");
-    background-position: right;
-    background-size: contain;
-    background-repeat: no-repeat;
+
+    &::after {
+      content: "";
+      position: absolute;
+      top: 10px; /* Отступ сверху */
+      bottom: 10px; /* Отступ снизу */
+      right: 0; /* Позиция справа */
+      width: 50%; /* Регулируйте ширину фона */
+      background-image: url(../assets/img/decor_map.png);
+      background-position: right;
+      background-size: contain;
+      background-repeat: no-repeat;
+      z-index: 1; /* Чтобы фон был под содержимым */
+    }
 
     &::before {
       content: "";
@@ -40,8 +50,10 @@
   }
 
   &__header {
+    position: relative;
     @extend .flex-column;
     gap: 20px;
+    z-index: 5;
   }
 
   &__title {
@@ -65,10 +77,12 @@
   }
 
   &__content {
+    position: relative;
     display: flex;
     align-items: center;
     gap: 20px;
     margin-top: 40px;
+    z-index: 5;
 
     @include m-b-mobile-lg-down {
       flex-direction: column;

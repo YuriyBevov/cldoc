@@ -108,33 +108,6 @@ if (reviewSlider) {
 
 const sliders = document.querySelectorAll(".main-slider");
 
-// if (sliders.length) {
-//   sliders.forEach((slider) => {
-//     new Swiper(slider, {
-//       modules: [Autoplay],
-//       autoplay: {
-//         enabled: true,
-//         delay: 0,
-//         pauseOnMouseEnter: false,
-//         disableOnInteraction: false,
-//       },
-//       loop: true,
-//       noSwipingClass: "swiper-slide",
-//       allowTouchMove: false,
-//       slidesPerView: "auto",
-//       spaceBetween: 60,
-//       speed: 5000,
-//       freeMode: true,
-
-//       pagination: {
-//         el: ".swiper-pagination",
-//         dynamicBullets: true,
-//         clickable: true,
-//       },
-//     });
-//   });
-// }
-
 if (sliders) {
   sliders.forEach((slider) => {
     new Swiper(slider, {
@@ -151,6 +124,7 @@ if (sliders) {
           slidesPerView: 6,
         },
       },
+      autoHeight: true,
       spaceBetween: 30,
       // modules: [Autoplay],
       // autoplay: {
@@ -158,7 +132,6 @@ if (sliders) {
       //   delay: 300, // Нет задержки между сменой слайдов
       // },
       speed: 2000,
-      loop: true,
       pagination: {
         el: ".swiper-pagination",
         dynamicBullets: true,
