@@ -119,8 +119,14 @@ if (sliders) {
         767: {
           slidesPerView: 3,
         },
+        1200: {
+          slidesPerView: 4,
+        },
+        1400: {
+          slidesPerView: 5,
+        },
 
-        1139: {
+        1640: {
           slidesPerView: 6,
         },
       },

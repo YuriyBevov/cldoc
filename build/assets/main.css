@@ -2536,6 +2536,9 @@ h1, h2, h3, h4, h5, h6, p {
   -ms-user-select: none;
   user-select: none;
 }
+.main-slider .swiper-slide img {
+  min-height: 381px;
+}
 .main-slider .swiper-wrapper {
   -webkit-transition-timing-function: linear;
   transition-timing-function: linear;
