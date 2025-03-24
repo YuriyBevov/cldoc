@@ -1,60 +1,64 @@
 .accordeon {
-  @extend .flex-column;
+	@extend .flex-column;
 
-  &__item {
-    border-bottom: 1px solid var(--light);
-    padding: 20px;
+	&__item {
+		border-bottom: 1px solid var(--light);
 
-    &-header {
-      position: relative;
-      cursor: pointer;
-      // padding-right: 40px;
-      display: flex;
-      align-items: center;
-      z-index: 2;
+		&-header {
+			position: relative;
+			cursor: pointer;
+			padding: 20px;
+			padding-right: 42px;
+			display: flex;
+			align-items: center;
+			z-index: 2;
 
-      &::after {
-        position: absolute;
-        top: -4px;
-        right: 12px;
-        content: "";
-        width: 24px;
-        height: 24px;
-        background-image: url("../assets/img/icon-accordeon-arrow-alt.svg");
-        background-size: 16px;
-        background-position: center;
-        background-repeat: no-repeat;
-        transition: transform var(--base-transition);
-      }
-    }
+			&::after,
+			&::before {
+				position: absolute;
+				top: 50%;
+				right: 12px;
+				transform: translateY(-50%);
+				content: "";
+				width: 12px;
+				height: 2px;
+				background-color: var(--dark);
+				transition: transform var(--main-transition);
+			}
 
-    &-content {
-      visibility: hidden;
-      opacity: 0;
-      height: 0;
-      font-style: italic;
-      font-size: 14px;
-      font-weight: 400;
-      transition: opacity var(--base-transition);
+			&::after {
+				transform-origin: center;
+				transform: translateY(-50%) rotate(-90deg);
+			}
+		}
 
-      a {
-        color: var(--accent);
-      }
-    }
+		&-content {
+			visibility: hidden;
+			opacity: 0;
+			height: 0;
+			font-style: italic;
+			font-size: 14px;
+			font-weight: 400;
+			transition: opacity var(--base-transition);
 
-    &.expanded {
-      .accordeon__item-header::after {
-        background-image: url("../assets/img/icon-accordeon-arrow.svg");
-        transform: rotate(45deg);
-      }
+			a {
+				color: var(--accent);
+			}
+		}
 
-      .accordeon__item-content {
-        visibility: visible;
-        height: auto;
-        opacity: 1;
-        margin-top: 0;
-        padding-top: 20px;
-      }
-    }
-  }
+		&.expanded {
+			.accordeon__item-header::after {
+				transform: rotate(0);
+			}
+
+			.accordeon__item-content {
+				visibility: visible;
+				height: auto;
+				opacity: 1;
+				margin-top: 0;
+				padding: 20px;
+				padding-top: 10px;
+			}
+		}
+	}
 }
