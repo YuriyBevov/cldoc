@@ -4,8 +4,10 @@ include ../../content/services-list
 
 section.services
   .container.services__container(id="container" class="container")
-    +section-header({title: "Наши услуги", text: "Центр легализации документов — это ваш надежный партнер в подтверждении юридической силы официальных документов за рубежом. "})
+    +section-header({title: "Наши услуги", text: "Центр легализации документов — это ваш надежный партнер в подтверждении юридической силы официальных документов за рубежом."})
 
-    .base-section-list.base-section-list--3cols
+    - var listClass = (serviceList.length === 2) ? "base-section-list--2cols" : "base-section-list--3cols"
+
+    .base-section-list(class=listClass)
       each item in serviceList
-          +info-card(item)
+        +info-card(item)
