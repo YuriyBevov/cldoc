@@ -1,0 +1,11 @@
+include ../../mixins/section-header
+include ../../components/info-card
+include ../../content/features-list
+
+section.features-inner
+  .container
+  
+    ul.features__list.base-section-list--4cols
+      each item in featuresList
+        li
+          +info-card(item)

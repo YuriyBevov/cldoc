@@ -1,0 +1,15 @@
+mixin main-accordeon-sidebar(data)
+  if data
+    .accordeon.main-accordeon-sidebar
+      each item in data
+        .accordeon__item
+          .accordeon__item-header!= item.title
+          .accordeon__item-content
+            if Array.isArray(item.content)
+              ul
+                each link in item.content
+                  li
+                    a(href=link.href)= link.text
+            else
+              != item.content
+

@@ -1,0 +1,22 @@
+.main-accordeon-sidebar {
+  margin-bottom: clamp(40px, 3vw, 60px);
+  .accordeon__item-header {
+    font-weight: 700;
+  }
+
+  .accordeon__item-content.accordeon__item-content {
+    padding-top: 0;
+
+    ul {
+      padding-left: 10px;
+    }
+
+    li {
+      margin-bottom: 10px;
+
+      a {
+        color: var(--dark);
+      }
+    }
+  }
+}
