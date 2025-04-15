@@ -7,44 +7,42 @@ import Swiper, {
 } from "swiper";
 Swiper.use([Thumbs, EffectFade, Navigation, Pagination, Autoplay]);
 
-const topBannerSlider = document.querySelector(".top-banner .swiper");
-
-if (topBannerSlider) {
-  new Swiper(topBannerSlider, {
-    slidesPerView: 1,
-    spaceBetween: 40,
-
-    pagination: {
-      el: ".top-banner .swiper-pagination",
-      clickable: true,
-    },
-  });
-}
-
-const infSliders = document.querySelectorAll(".infinity-slider");
-
-if (infSliders.length) {
-  infSliders.forEach((slider) => {
-    new Swiper(slider, {
-      modules: [Autoplay],
-      autoplay: {
-        enabled: true,
-        delay: 0,
-        pauseOnMouseEnter: false,
-        disableOnInteraction: false,
-      },
-      loop: true,
-      noSwipingClass: "swiper-slide",
-      allowTouchMove: false,
-      slidesPerView: "auto",
-      spaceBetween: 60,
-      speed: 5000,
-      freeMode: true,
-    });
-  });
-}
-
 document.addEventListener("DOMContentLoaded", () => {
+  const topBannerSlider = document.querySelector(".top-banner .swiper");
+
+  if (topBannerSlider) {
+    new Swiper(topBannerSlider, {
+      slidesPerView: 1,
+      spaceBetween: 40,
+
+      pagination: {
+        el: ".top-banner .swiper-pagination",
+        clickable: true,
+      },
+    });
+  }
+
+  // if (infSliders.length) {
+  //   infSliders.forEach((slider) => {
+  //     new Swiper(slider, {
+  //       modules: [Autoplay],
+  //       autoplay: {
+  //         enabled: true,
+  //         delay: 0,
+  //         pauseOnMouseEnter: false,
+  //         disableOnInteraction: false,
+  //       },
+  //       loop: true,
+  //       noSwipingClass: "swiper-slide",
+  //       allowTouchMove: false,
+  //       slidesPerView: "auto",
+  //       spaceBetween: 60,
+  //       speed: 5000,
+  //       freeMode: true,
+  //     });
+  //   });
+  // }
+
   const reviewSlider = document.querySelector(".review-clients-slider");
 
   if (reviewSlider) {
@@ -113,31 +111,62 @@ document.addEventListener("DOMContentLoaded", () => {
       reviewSwiper.update(); // Обновляем размеры и пагинацию
     }
   }
+
+  const sliders = document.querySelectorAll(".main-slider");
+
+  if (sliders) {
+    sliders.forEach((slider) => {
+      new Swiper(slider, {
+        slidesPerView: "auto",
+        autoHeight: true,
+        spaceBetween: 30,
+        pagination: {
+          el: ".swiper-pagination",
+          dynamicBullets: true,
+          clickable: true,
+        },
+      });
+    });
+  }
+
+  const tabsSliders = document.querySelectorAll(".review-clients-tabs-slider");
+
+  if (tabsSliders) {
+    tabsSliders.forEach((slider) => {
+      new Swiper(slider, {
+        slidesPerView: "auto",
+      });
+    });
+  }
 });
 
-const sliders = document.querySelectorAll(".main-slider");
+document.addEventListener(
+  "DOMContentLoaded",
+  () => {
+    // Функция для инициализации слайдеров
 
-if (sliders) {
-  sliders.forEach((slider) => {
-    new Swiper(slider, {
-      slidesPerView: "auto",
-      autoHeight: true,
-      spaceBetween: 30,
-      pagination: {
-        el: ".swiper-pagination",
-        dynamicBullets: true,
-        clickable: true,
-      },
+    const infSliders = document.querySelectorAll(".infinity-slider");
+
+    setTimeout(() => {
+      infSliders.forEach((slider) => {
+        new Swiper(slider, {
+          modules: [Autoplay],
+          autoplay: {
+            enabled: true,
+            delay: 1,
+            pauseOnMouseEnter: false,
+            disableOnInteraction: false,
+          },
+          loop: true,
+          noSwipingClass: "swiper-slide",
+          allowTouchMove: false,
+          slidesPerView: "auto",
+          spaceBetween: 60,
+          speed: 5000,
+          freeMode: true,
+        });
+      });
     });
-  });
-}
-
-const tabsSliders = document.querySelectorAll(".review-clients-tabs-slider");
-
-if (tabsSliders) {
-  tabsSliders.forEach((slider) => {
-    new Swiper(slider, {
-      slidesPerView: "auto",
-    });
-  });
-}
+  },
+  1000
+);

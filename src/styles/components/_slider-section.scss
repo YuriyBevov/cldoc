@@ -96,4 +96,13 @@
 .review-clients-slider {
   height: 100%;
   min-height: 270px;
+
+  .swiper-wrapper {
+    height: auto;
+  }
+
+  .swiper-slide {
+    display: flex;
+    height: auto;
+  }
 }

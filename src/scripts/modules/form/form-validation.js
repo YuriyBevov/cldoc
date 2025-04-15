@@ -1,38 +1,41 @@
-import { gsap } from 'gsap';
+import { gsap } from "gsap";
 import { sendForm } from "./sendForm";
 import { loader } from "../../utils/nodes";
-import { setInvalidStatus, setValidStatus } from './controlValidationState';
+import { setInvalidStatus, setValidStatus } from "./controlValidationState";
 
 export const formValidation = (form) => {
+  if (!form) {
+    console.error("Форма не найдена");
+    return;
+  }
+
   const fields = form.querySelectorAll("[data-required]");
 
-  fields.forEach(field => {
-    field.addEventListener('change', () => {
+  fields.forEach((field) => {
+    field.addEventListener("change", () => {
       setValidStatus(field);
     });
 
-    if(field["type"] === 'text') {
-      if(field.value.trim().length < 2) {
+    if (field["type"] === "text") {
+      if (field.value.trim().length < 2) {
         setInvalidStatus(field);
       } else {
         setValidStatus(field);
       }
-    }
-
-    else if(field.value.length !== 16) {
+    } else if (field.value.length !== 16) {
       setInvalidStatus(field);
     } else {
       setValidStatus(field);
     }
   });
 
-  const isInvalid = document.querySelector('.invalid-control');
+  const isInvalid = document.querySelector(".invalid-control");
 
-  if(!isInvalid) {
+  if (!isInvalid) {
     gsap.to(loader, {
       opacity: 1,
-      visibility: 'visible'
+      visibility: "visible",
     });
     sendForm(form);
   }
-}
+};

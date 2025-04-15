@@ -1,0 +1,30 @@
+.modal.services-modal#services
+  .modal__overlay
+    .modal__content     
+      include ./modal-components/modal-closer
+      .services-modal__header
+        span.services-modal__title Оставить заявку
+        p.services-modal__desc Заполните необходимые поля формы и мы обязательно свяжемся c Вами!
+      
+      form(action="#").services-form
+        input(type="hidden" name="country_name" id="country_name")
+        .services-modal__content.services__content
+          fieldset.services__content-part
+            .services__content-part-field
+              input(type="text" id="country_name_display" name="COUNTRY_NAME_DISPLAY" disabled)
+
+            .services__content-part-field
+              input(type="text" id="user_name" name="Имя" placeholder="Ваше имя" data-required="true")
+
+            .services__content-part-field
+              input(type="tel" id="user_phone" name="Телефон" placeholder="Телефон" data-required="true")
+
+            .services__content-part-field
+              input(type="text" id="user_mail" placeholder="E-mail" name="Электронная почта")
+              
+            .services__content-part-field
+              textarea(id="user_message" name="Сообщение" placeholder="Сообщение...")
+
+        .services-modal__footer.services__footer
+          button(type="submit").main-btn.services-modal__btn.services-modal__btn--submit Отправить
+          span.form-undertext * Отправляя форму Вы автоматически соглашаетесь с условиями на обработку персональных данных.
