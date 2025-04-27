@@ -7,7 +7,7 @@ section.countrys
         span.countrys__title Популярные страны для легализации
       ul.countrys__content.base-section-list--3cols
         each item in countrysList
-          li
+          li(style='background-image: url(../assets/img/country-card-bg.png)')
             if item.href
               a(href=item.href class="country-link")
                 if item.img

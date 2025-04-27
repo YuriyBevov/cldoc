@@ -1,38 +1,27 @@
 .section-menu {
-  margin-bottom: 30px;
+	margin-bottom: 30px;
 
-  &__container {
-    @extend .flex-wrap;
-    margin-bottom: 30px;
+	&__container {
+		@extend .flex-wrap;
+		margin-bottom: 30px;
+		gap: 3px;
 
-    a {
-      display: flex;
+		a {
+			display: flex;
+			padding: 3px 6px;
+			transition: color var(--main-transition);
+			border: 1px solid var(--light);
+			border-radius: 4px;
+			font-size: 14px;
 
-      position: relative;
-      margin-right: 5px;
-      padding: 5px;
-      transition: color var(--main-transition);
+			&:hover,
+			&:focus {
+				color: var(--accent);
+			}
+		}
+	}
 
-      &::before {
-        position: relative;
-        top: 9px;
-        left: 0;
-        margin-right: 5px;
-        width: 4px;
-        height: 4px;
-        content: "";
-        background-color: var(--accent);
-        border-radius: 50%;
-      }
-
-      &:hover,
-      &:focus {
-        color: var(--accent);
-      }
-    }
-  }
-
-  /*&__load-more-btn {
+	/*&__load-more-btn {
     display: none;
     @extend .button-default;
 
