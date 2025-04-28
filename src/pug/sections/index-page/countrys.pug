@@ -1,11 +1,11 @@
 include ../../content/countrys-list
 
 section.countrys
-  .container.documents__container#container
+  .container
     .countrys-wrapper
       .section-header
         span.countrys__title Популярные страны для легализации
-      ul.countrys__content.base-section-list--3cols
+      ul.base-section-list.base-section-list--3cols
         each item in countrysList
           li(style='background-image: url(../assets/img/country-card-bg.png)')
             if item.href
